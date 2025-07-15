@@ -1,4 +1,5 @@
-@import "@fontsource-variable/instrument-sans";
+@import "@fontsource-variable/inter";
+@import "@fontsource/prata";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -6,9 +7,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-base:
-    "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Inter Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Prata" serif;
 
   --background: hsl(223.8136 0.0005% 98.6829%);
   --foreground: hsl(0 0% 0%);
@@ -82,7 +84,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-base);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 

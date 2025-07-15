@@ -1,10 +1,8 @@
-import { Suspense } from "react";
-import { Await, Link, NavLink, Outlet, useNavigation } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
-import { ShoppingBag } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { AppHeader } from "@/components/app-header";
 
 import { retrieveCart } from "@/lib/data/cart";
 
@@ -20,40 +18,16 @@ export function loader({ request }: Route.LoaderArgs) {
 export default function MainLayout({ loaderData }: Route.ComponentProps) {
   const { state } = useNavigation();
   const isNavigating = state === "loading";
-  const { cart } = loaderData;
+  const cart = loaderData.cart as Promise<HttpTypes.StoreCart | null>;
 
   return (
-    <div className="container py-10">
+    <div className="container">
       {isNavigating && (
         <div className="bg-background/60 fixed inset-0 z-50 h-dvh cursor-progress" />
       )}
 
-      <header className="flex justify-between">
-        <NavLink to="/">Home</NavLink>
-
-        <Button asChild className="relative" variant="secondary" size="icon">
-          <Link to="/cart">
-            <ShoppingBag />
-            <Suspense fallback={null}>
-              <Await resolve={cart}>
-                {(value) => <CartCount cart={value as HttpTypes.StoreCart} />}
-              </Await>
-            </Suspense>
-          </Link>
-        </Button>
-      </header>
+      <AppHeader cart={cart} />
       <Outlet />
-    </div>
-  );
-}
-
-function CartCount({ cart }: { cart: HttpTypes.StoreCart | null }) {
-  const itemsLength = cart?.items?.length;
-  if (!itemsLength) return;
-
-  return (
-    <div className="bg-primary text-primary-foreground pointer-events-none absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full">
-      <span className="text-xs">{itemsLength}</span>
     </div>
   );
 }

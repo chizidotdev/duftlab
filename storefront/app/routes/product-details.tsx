@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-
 import type { HttpTypes } from "@medusajs/types";
 
 import { Heading, Paragraph } from "@/components/ui/text";
@@ -19,6 +17,14 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   return { product };
 }
 
+export function meta({ data }: Route.MetaArgs): Route.MetaDescriptors {
+  return [
+    { title: data.product.title },
+    { name: "description", content: data.product.description },
+    { name: "og:image", content: data.product.thumbnail },
+  ];
+}
+
 export function headers() {
   return CACHE_HEADERS;
 }
@@ -28,10 +34,6 @@ export default function ProductDetails({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link to="/">Go back</Link>
-      </div>
-
       <ProductInfo product={product} />
     </div>
   );
