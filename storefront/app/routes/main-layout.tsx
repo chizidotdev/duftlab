@@ -25,7 +25,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
         <div className="bg-background/60 fixed inset-0 z-50 h-dvh cursor-progress" />
       )}
 
-      <AppHeader cart={loaderData.cart} />
+      <AppHeader cart={loaderData.cart as HttpTypes.StoreCart} />
       <Outlet />
     </div>
   );
