@@ -4,10 +4,11 @@ import type { HttpTypes } from "@medusajs/types";
 import lodash from "lodash";
 
 import { Button } from "@/components/ui/button";
-import { Paragraph } from "@/components/ui/text";
+import { Heading, Paragraph } from "@/components/ui/text";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 import { useAddtoCart } from "@/hooks/data";
+import { ProductPrice } from "@/modules/products/product-price";
 
 const { isEqual } = lodash;
 
@@ -48,7 +49,7 @@ export function ProductActions({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
       <div className="space-y-2">
         {options.map((option) => (
           <div key={option.id}>
@@ -70,6 +71,10 @@ export function ProductActions({
           </div>
         ))}
       </div>
+
+      <Heading variant="h4">
+        <ProductPrice product={product} />
+      </Heading>
 
       <Button isLoading={isPending} onClick={addToCart}>
         Add to cart

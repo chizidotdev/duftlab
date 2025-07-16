@@ -5,7 +5,7 @@ import { Heading, Paragraph } from "@/components/ui/text";
 import { CACHE_HEADERS } from "@/lib/constants";
 import { listProducts } from "@/lib/data/products";
 import { ProductActions } from "@/modules/products/product-actions";
-import { ProductPrice } from "@/modules/products/product-price";
+import { ProductThumbnail } from "@/modules/products/product-thumbnail";
 
 import type { Route } from "./+types/product-details";
 
@@ -43,18 +43,15 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
   if (!product) return <>{/*404 product component*/}Not found</>;
 
   return (
-    <div className="flex w-fit flex-col gap-2">
-      <img
-        src={product.thumbnail ?? "/placeholder.svg"}
-        className="size-20 rounded-md object-cover"
-      />
-      <Heading variant="h4">{product.title}</Heading>
-      <Paragraph>{product.description}</Paragraph>
-      <Heading variant="h4">
-        <ProductPrice product={product} />
-      </Heading>
+    <div className="flex gap-4">
+      <ProductThumbnail product={product} />
 
-      <ProductActions product={product} />
+      <div className="flex w-fit flex-col justify-center gap-2">
+        <Heading variant="h3">{product.title}</Heading>
+        <Paragraph>{product.description}</Paragraph>
+
+        <ProductActions product={product} />
+      </div>
     </div>
   );
 }
