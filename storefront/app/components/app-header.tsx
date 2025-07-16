@@ -2,17 +2,17 @@ import { NavLink } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
 
-import { CartButton } from "@/modules/cart/cart-button";
+import { CartSheet } from "@/modules/cart/cart-sheet";
 
 import { AppLogo } from "./app-logo";
 import { Search } from "./search";
 
-export function AppHeader({ cart }: { cart: Promise<HttpTypes.StoreCart | null> }) {
+export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
   return (
     <header className="flex items-center justify-between py-6">
-      <nav className="flex items-center gap-6">
+      <nav className="flex items-center gap-6 font-medium">
         {navItems.map((item) => (
-          <NavLink key={item.title} to={item.href} className="text-xs uppercase">
+          <NavLink key={item.title} to={item.href} className="text-sm uppercase">
             {item.title}
           </NavLink>
         ))}
@@ -22,12 +22,12 @@ export function AppHeader({ cart }: { cart: Promise<HttpTypes.StoreCart | null> 
         <AppLogo />
       </NavLink>
 
-      <div className="flex items-center gap-6">
-        <Search className="text-xs uppercase" />
-        <NavLink className="text-xs uppercase" to="/account">
+      <div className="flex items-center gap-6 font-medium">
+        <Search className="text-sm uppercase" />
+        <NavLink className="text-sm uppercase" to="/account">
           Account
         </NavLink>
-        <CartButton cart={cart} />
+        <CartSheet cart={cart} />
       </div>
     </header>
   );

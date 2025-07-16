@@ -1,4 +1,4 @@
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/dm-sans";
 @import "@fontsource/prata";
 
 @import "tailwindcss";
@@ -8,7 +8,7 @@
 
 :root {
   --font-sans:
-    "Inter Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Prata" serif;
 
@@ -44,7 +44,7 @@
   --sidebar-accent-foreground: hsl(0 0% 0%);
   --sidebar-border: hsl(223.8136 0.0001% 92.1478%);
   --sidebar-ring: hsl(0 0% 0%);
-  --radius: 0.5rem;
+  --radius: 1.5rem;
 }
 
 .dark {
@@ -80,7 +80,6 @@
   --sidebar-accent-foreground: hsl(223.8136 -172.5242% 100%);
   --sidebar-border: hsl(223.8136 0% 19.8916%);
   --sidebar-ring: hsl(223.8136 0% 64.471%);
-  --radius: 0.5rem;
 }
 
 @theme inline {
@@ -127,15 +126,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground tracking-tight;
+    @apply bg-background text-foreground;
   }
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 0.75rem;
-  @media (width >= 1280px) {
-    max-width: 1280px;
+  @media (width >= 80rem) {
+    max-width: 95vw;
   }
 }
 
