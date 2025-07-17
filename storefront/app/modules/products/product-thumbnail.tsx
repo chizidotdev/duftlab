@@ -8,8 +8,18 @@ export function ProductThumbnail({
   ...props
 }: React.ComponentProps<"div"> & { product?: HttpTypes.StoreProduct }) {
   return (
-    <div className={cn("aspect-[9/11] w-full rounded-md object-cover", className)} {...props}>
-      <img src={product?.thumbnail ?? "/placeholder.svg"} className="size-full rounded-md" />
+    <div
+      className={cn("bg-muted group relative aspect-[9/10] w-full rounded-md p-[10%]", className)}
+      {...props}
+    >
+      <img
+        src={product?.thumbnail ?? "/placeholder.svg"}
+        className="size-full rounded-md object-contain transition-opacity group-hover:opacity-0"
+      />
+      <img
+        src={product?.images?.[1].url ?? "/placeholder.svg"}
+        className="absolute inset-[20%] size-[60%] rounded-md object-cover opacity-0 transition-opacity group-hover:opacity-100"
+      />
     </div>
   );
 }

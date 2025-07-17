@@ -1,4 +1,4 @@
-import { Outlet, useNavigation } from "react-router";
+import { Outlet, data, useNavigation } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
 
@@ -9,10 +9,11 @@ import { getOrSetCart } from "@/lib/data/cart";
 import type { Route } from "./+types/main-layout";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const cart = await getOrSetCart(request);
+  const headers = new Headers();
+  const cart = await getOrSetCart(request, headers);
   // const customer = await retrieveCustomer(request);
 
-  return { cart };
+  return data({ cart }, { headers });
 }
 
 export default function MainLayout({ loaderData }: Route.ComponentProps) {
@@ -22,7 +23,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
   return (
     <div className="container">
       {isNavigating && (
-        <div className="bg-background/60 fixed inset-0 z-50 h-dvh cursor-progress" />
+        <div className="bg-background/60 fixed inset-0 z-[999] h-dvh cursor-progress" />
       )}
 
       <AppHeader cart={loaderData.cart as HttpTypes.StoreCart} />

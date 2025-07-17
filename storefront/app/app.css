@@ -130,14 +130,20 @@
   }
 }
 
-@utility container {
-  margin-inline: auto;
-  padding-inline: 0.75rem;
-  @media (width >= 80rem) {
-    max-width: 95vw;
+@layer utilities {
+  .container {
+    margin-inline: auto;
+    padding-inline: 0.75rem;
+    @media (width >= 80rem) {
+      max-width: 95vw;
+    }
   }
-}
 
-@utility link {
-  @apply text-primary inline-flex items-center gap-1 text-sm underline-offset-2 transition-all hover:underline;
+  .link {
+    @apply text-primary inline-flex items-center gap-1 text-sm underline-offset-2 transition-all hover:underline;
+  }
+
+  .box-reflect {
+    /* -webkit-box-reflect: below -200px linear-gradient(rgba(0, 3, 0, 0.1)); */
+  }
 }

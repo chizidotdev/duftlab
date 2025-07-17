@@ -22,7 +22,14 @@ export async function retrieveCart(request?: Request, cartId?: string) {
     ...getAuthHeaders(request),
   };
 
-  return await sdk.client
+  return await sdk.store.cart
+    .retrieve(id, {}, headers)
+    .then(({ cart }) => cart)
+    .catch(() => {
+      return null;
+    });
+
+  /* return await sdk.client
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
       query: {
@@ -32,13 +39,13 @@ export async function retrieveCart(request?: Request, cartId?: string) {
       headers,
     })
     .then(({ cart }) => cart)
-    .catch(() => null);
+    .catch(() => null); */
 }
 
 export async function getOrSetCart(
   request: Request,
-  countryCode?: string,
-  responseHeaders?: Headers
+  responseHeaders: Headers,
+  countryCode?: string
 ) {
   const region = await getRegion(countryCode);
 
@@ -53,6 +60,7 @@ export async function getOrSetCart(
   };
 
   if (!cart) {
+    console.log(">>>>>>>>>>>>>> cart not found");
     const cartResp = await sdk.store.cart.create({ region_id: region.id }, {}, headers);
     cart = cartResp.cart;
 
@@ -95,15 +103,15 @@ export async function addToCart(
   }: {
     variantId: string;
     quantity: number;
+    responseHeaders: Headers;
     countryCode?: string;
-    responseHeaders?: Headers;
   }
 ) {
   if (!variantId) {
     throw new Error("Missing variant ID when adding to cart");
   }
 
-  const cart = await getOrSetCart(request, countryCode, responseHeaders);
+  const cart = await getOrSetCart(request, responseHeaders, countryCode);
 
   if (!cart) {
     throw new Error("Error retrieving or creating cart");
@@ -114,28 +122,14 @@ export async function addToCart(
   };
 
   await sdk.store.cart
-    .createLineItem(
-      cart.id,
-      {
-        variant_id: variantId,
-        quantity,
-      },
-      {},
-      headers
-    )
+    .createLineItem(cart.id, { variant_id: variantId, quantity }, {}, headers)
     .then(() => {})
     .catch(medusaError);
 }
 
-export async function updateLineItem({
-  lineId,
-  quantity,
-  request,
-}: {
-  lineId: string;
-  quantity: number;
-  request?: Request;
-}) {
+export async function updateLineItem(request: Request, data: { lineId: string; quantity: number }) {
+  const { lineId, quantity } = data;
+
   if (!lineId) {
     throw new Error("Missing lineItem ID when updating line item");
   }
@@ -156,7 +150,7 @@ export async function updateLineItem({
     .catch(medusaError);
 }
 
-export async function deleteLineItem(lineId: string, request?: Request) {
+export async function deleteLineItem(request: Request, lineId: string) {
   if (!lineId) {
     throw new Error("Missing lineItem ID when deleting line item");
   }

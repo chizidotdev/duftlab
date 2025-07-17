@@ -35,7 +35,7 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
 
 const navItems = [
   { title: "Shop", href: "/collections/all" },
-  { title: "Deodorant", href: "/collections/deodorant" },
+  { title: "Unboxed", href: "/collections/unboxed" },
   { title: "By Scent", href: "/collections/by-scent" },
   { title: "Sets", href: "/collections/sets" },
 ];

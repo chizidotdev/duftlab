@@ -5,6 +5,6 @@ let MEDUSA_BACKEND_URL = import.meta.env.VITE_MEDUSA_BACKEND_URL || "https://loc
 
 export const sdk = new Medusa({
   baseUrl: MEDUSA_BACKEND_URL,
-  debug: import.meta.env.MODE === "development",
+  // debug: import.meta.env.MODE === "development",
   publishableKey: import.meta.env.VITE_MEDUSA_PUBLISHABLE_KEY,
 });

@@ -43,6 +43,35 @@ export function ProductActions({
     }
   }, [product.variants]);
 
+  //check if the selected options produce a valid variant
+  const isValidVariant = useMemo(() => {
+    return product.variants?.some((v) => {
+      const variantOptions = optionsAsKeymap(v.options);
+      return isEqual(variantOptions, selectedOptions);
+    });
+  }, [product.variants, selectedOptions]);
+
+  // check if the selected variant is in stock
+  const inStock = useMemo(() => {
+    // If we don't manage inventory, we can always add to cart
+    if (selectedVariant && !selectedVariant.manage_inventory) {
+      return true;
+    }
+
+    // If we allow back orders on the variant, we can add to cart
+    if (selectedVariant?.allow_backorder) {
+      return true;
+    }
+
+    // If there is inventory available, we can add to cart
+    if (selectedVariant?.manage_inventory && (selectedVariant?.inventory_quantity || 0) > 0) {
+      return true;
+    }
+
+    // Otherwise, we can't add to cart
+    return false;
+  }, [selectedVariant]);
+
   function addToCart() {
     if (!selectedVariant) return;
     mutate({ variantId: selectedVariant.id, quantity: 1 });
@@ -51,33 +80,34 @@ export function ProductActions({
   return (
     <div className="flex flex-col gap-4">
       <div className="space-y-2">
-        {options.map((option) => (
-          <div key={option.id}>
-            <Paragraph>{option.title}</Paragraph>
-            <ToggleGroup
-              type="single"
-              variant="outline"
-              value={selectedOptions[option.id]}
-              onValueChange={(value) =>
-                setSelectedOptions((prev) => ({ ...prev, [option.id]: value }))
-              }
-            >
-              {option.values?.map((v) => (
-                <ToggleGroupItem key={v.id} value={v.value}>
-                  {v.value}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </div>
-        ))}
+        {(product.variants?.length || 0) > 1 &&
+          options.map((option) => (
+            <div key={option.id}>
+              <Paragraph>{option.title}</Paragraph>
+              <ToggleGroup
+                type="single"
+                variant="outline"
+                value={selectedOptions[option.id]}
+                onValueChange={(value) =>
+                  setSelectedOptions((prev) => ({ ...prev, [option.id]: value }))
+                }
+              >
+                {option.values?.map((v) => (
+                  <ToggleGroupItem key={v.id} value={v.value}>
+                    {v.value}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </div>
+          ))}
       </div>
 
       <Heading variant="h4">
         <ProductPrice product={product} />
       </Heading>
 
-      <Button isLoading={isPending} onClick={addToCart}>
-        Add to cart
+      <Button disabled={!inStock || !isValidVariant} isLoading={isPending} onClick={addToCart}>
+        {!inStock ? "Out of stock" : "Add to cart"}
       </Button>
     </div>
   );

@@ -43,10 +43,15 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
   if (!product) return <>{/*404 product component*/}Not found</>;
 
   return (
-    <div className="flex gap-4">
-      <ProductThumbnail product={product} />
+    <div className="flex flex-col gap-10 lg:flex-row">
+      <div className="bg-muted relative h-[calc(100dvh-6rem)] flex-1 rounded-md">
+        <img
+          src={product?.thumbnail ?? "/placeholder.svg"}
+          className="size-full rounded-md object-cover transition-opacity"
+        />
+      </div>
 
-      <div className="flex w-fit flex-col justify-center gap-2">
+      <div className="flex flex-col justify-center gap-2 lg:w-1/3">
         <Heading variant="h3">{product.title}</Heading>
         <Paragraph>{product.description}</Paragraph>
 

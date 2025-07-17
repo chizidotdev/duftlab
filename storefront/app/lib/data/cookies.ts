@@ -4,7 +4,7 @@ const MEDUSA_CART_ID_COOKIE = "_medusa_cart_id";
 
 // Cookie settings
 const WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
-const COOKIE_BASE_OPTIONS = "HttpOnly; SameSite=Strict";
+const COOKIE_BASE_OPTIONS = "HttpOnly; SameSite=Strict; Path=/";
 const SECURE_SUFFIX = import.meta.env.MODE === "production" ? "; Secure" : "";
 const COOKIE_OPTIONS = `${COOKIE_BASE_OPTIONS}${SECURE_SUFFIX}`;
 

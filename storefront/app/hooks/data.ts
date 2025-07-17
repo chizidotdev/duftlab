@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import ky from "ky";
 import { toast } from "sonner";
 
 function successToast(description: string) {
@@ -13,8 +14,17 @@ function errorToast(err: any) {
 export function useAddtoCart() {
   return useMutation({
     mutationFn: async (data: { variantId: string; quantity: number }) =>
-      fetch("/cart", { method: "POST", body: JSON.stringify(data) }),
+      ky.post("/cart", { json: data, timeout: 1000 * 60 }),
     onSuccess: () => successToast("Item added successfully"),
+    onError: (err) => errorToast(err),
+  });
+}
+
+export function useRemoveCartItem() {
+  return useMutation({
+    mutationFn: async (data: { lineId: string }) =>
+      ky.delete("/cart", { json: data, timeout: 1000 * 60 }),
+    onSuccess: () => successToast("Item removed successfully"),
     onError: (err) => errorToast(err),
   });
 }
