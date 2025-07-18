@@ -3,8 +3,8 @@ import { CreditCard, type LucideIcon } from "lucide-react";
 export const DEFAULT_COUNTRY_CODE = "ng";
 
 export const CACHE_HEADERS = {
-  "Cache-Control": "public, max-age=1800, s-maxage=24400, stale-while-revalidate=604800",
-  "Cloudflare-CDN-Cache-Control": "max-age=24400, stale-while-revalidate=604800",
+  "Cache-Control": "public, max-age=1, stale-while-revalidate=604800",
+  "Cloudflare-CDN-Cache-Control": "max-age=1, stale-while-revalidate=604800",
 };
 
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */

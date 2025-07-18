@@ -22,24 +22,17 @@ export async function retrieveCart(request?: Request, cartId?: string) {
     ...getAuthHeaders(request),
   };
 
-  return await sdk.store.cart
-    .retrieve(id, {}, headers)
-    .then(({ cart }) => cart)
-    .catch(() => {
-      return null;
-    });
-
-  /* return await sdk.client
+  return await sdk.client
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
       query: {
         fields:
-          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+          "*items, *region, *items.product, *items.variant, *items.variant.inventory_quantity, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
       },
       headers,
     })
     .then(({ cart }) => cart)
-    .catch(() => null); */
+    .catch(() => null);
 }
 
 export async function getOrSetCart(

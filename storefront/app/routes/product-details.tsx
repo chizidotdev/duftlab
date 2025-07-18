@@ -5,7 +5,6 @@ import { Heading, Paragraph } from "@/components/ui/text";
 import { CACHE_HEADERS } from "@/lib/constants";
 import { listProducts } from "@/lib/data/products";
 import { ProductActions } from "@/modules/products/product-actions";
-import { ProductThumbnail } from "@/modules/products/product-thumbnail";
 
 import type { Route } from "./+types/product-details";
 
@@ -51,7 +50,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
         />
       </div>
 
-      <div className="flex flex-col justify-center gap-2 lg:w-1/3">
+      <div className="flex flex-col justify-center gap-2 lg:w-1/3 lg:max-w-md">
         <Heading variant="h3">{product.title}</Heading>
         <Paragraph>{product.description}</Paragraph>
 

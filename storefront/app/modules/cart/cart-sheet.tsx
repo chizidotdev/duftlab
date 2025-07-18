@@ -16,19 +16,22 @@ import {
 } from "@/components/ui/sheet";
 import { Heading } from "@/components/ui/text";
 
+import { useGetCart } from "@/hooks/data";
 import { convertToLocale } from "@/lib/utils/money";
 
 import { CartItem } from "./cart-item";
 
 export function CartSheet({ cart }: { cart: HttpTypes.StoreCart | null }) {
+  const { data } = useGetCart(cart);
+
   return (
     <Sheet>
       <SheetTrigger className="text-sm uppercase">
         Cart
-        <CartCount cart={cart} />
+        <CartCount cart={data} />
       </SheetTrigger>
 
-      <CartContent cart={cart} />
+      <CartContent cart={data} />
     </Sheet>
   );
 }

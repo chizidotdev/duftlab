@@ -3,10 +3,9 @@ import { XIcon } from "lucide-react";
 
 import { Paragraph } from "@/components/ui/text";
 
-import { useRemoveCartItem } from "@/hooks/data";
+import { useRemoveCartItem, useUpdateCartItem } from "@/hooks/data";
 import { cn } from "@/lib/utils";
 import { convertToLocale } from "@/lib/utils/money";
-import { ProductThumbnail } from "@/modules/products/product-thumbnail";
 
 import { QuantitySelect } from "./quantity-select";
 
@@ -17,19 +16,26 @@ export function CartItem({
   cart: HttpTypes.StoreCart;
   item: HttpTypes.StoreCartLineItem;
 }) {
-  const { mutate, isPending } = useRemoveCartItem();
+  const { mutate: removeItem, isPending: isRemoving } = useRemoveCartItem();
+  const { mutate: updateItem, isPending: isUpdating } = useUpdateCartItem();
+  const isLoading = isRemoving || isUpdating;
 
-  function onQuantityChange(qty: number) {
-    console.log(qty);
+  console.log("cart item", item);
+
+  function onQuantityChange(quantity: number) {
+    if (quantity < 1) return;
+    // const maxQuantity = item.variant?.manage_inventory ? 10 : maxQtyFromInventory;
+
+    updateItem({ lineId: item.id, quantity });
   }
 
   function onRemove() {
-    mutate({ lineId: item.id });
+    removeItem({ lineId: item.id });
   }
 
   return (
     <div
-      className={cn("flex gap-3", isPending && "pointer-events-none cursor-progress opacity-80")}
+      className={cn("flex gap-3", isLoading && "pointer-events-none animate-pulse cursor-progress")}
     >
       <div className="relative w-1/4">
         <button
@@ -38,7 +44,12 @@ export function CartItem({
         >
           <XIcon className="size-3.5" />
         </button>
-        <ProductThumbnail product={item.product} />
+        <div className="bg-muted rounded">
+          <img
+            src={item?.thumbnail ?? "/placeholder.svg"}
+            className="size-full rounded-md object-cover transition-opacity"
+          />
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col py-2">
