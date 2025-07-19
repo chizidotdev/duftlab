@@ -10,6 +10,22 @@ RUN yarn install
 # Copy source files
 COPY . .
 
+# Set environment variables for server mode (can be overridden at runtime)
+ENV NODE_ENV=production
+ARG COOKIE_SECRET
+ARG JWT_SECRET
+ARG DISABLE_MEDUSA_ADMIN
+ARG MEDUSA_WORKER_MODE
+ARG PORT
+ARG DATABASE_URL
+ARG REDIS_URL
+ARG S3_FILE_URL
+ARG S3_BUCKET
+ARG S3_ENDPOINT
+ARG S3_REGION
+ARG S3_ACCESS_KEY_ID
+ARG S3_SECRET_ACCESS_KEY
+
 # Build the Medusa application (creates .medusa directory)
 RUN npx medusa build
 
@@ -29,22 +45,6 @@ WORKDIR /app/server
 
 # Expose the default Medusa port
 EXPOSE 9000
-
-# Set environment variables for server mode (can be overridden at runtime)
-ENV NODE_ENV=production
-ARG COOKIE_SECRET
-ARG JWT_SECRET
-ARG DISABLE_MEDUSA_ADMIN
-ARG MEDUSA_WORKER_MODE
-ARG PORT
-ARG DATABASE_URL
-ARG REDIS_URL
-ARG S3_FILE_URL
-ARG S3_BUCKET
-ARG S3_ENDPOINT
-ARG S3_REGION
-ARG S3_ACCESS_KEY_ID
-ARG S3_SECRET_ACCESS_KEY
 
 # Start the Medusa server in production mode
 CMD ["yarn", "start"]
