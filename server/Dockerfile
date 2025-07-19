@@ -27,7 +27,7 @@ ARG S3_ACCESS_KEY_ID
 ARG S3_SECRET_ACCESS_KEY
 
 # Build the Medusa application (creates .medusa directory)
-RUN npx medusa build
+RUN yarn build
 
 # Stage 2: Production
 FROM node:21-alpine AS production
