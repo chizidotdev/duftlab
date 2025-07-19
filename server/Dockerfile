@@ -47,4 +47,4 @@ ARG S3_ACCESS_KEY_ID
 ARG S3_SECRET_ACCESS_KEY
 
 # Start the Medusa server in production mode
-CMD cd .medusa/server && yarn run start
+CMD ["yarn", "start"]
