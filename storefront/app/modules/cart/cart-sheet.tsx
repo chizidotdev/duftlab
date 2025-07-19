@@ -82,7 +82,11 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
           </div>
 
           <SheetFooter>
-            <Button>Checkout</Button>
+            <SheetClose asChild>
+              <Button asChild>
+                <Link to="/checkout">Checkout</Link>
+              </Button>
+            </SheetClose>
           </SheetFooter>
         </>
       )}

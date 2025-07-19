@@ -71,7 +71,7 @@ export async function getOrSetCart(
   return cart;
 }
 
-export async function updateCart(data: HttpTypes.StoreUpdateCart, request?: Request) {
+export async function updateCart(request: Request, data: HttpTypes.StoreUpdateCart) {
   const cartId = getCartId(request);
 
   if (!cartId) {
@@ -266,55 +266,56 @@ export async function submitPromotionForm(formData: FormData, request?: Request)
   }
 }
 
-// TODO: Pass a POJO instead of a form entity here
-export async function setAddresses(formData: FormData, request?: Request) {
+interface AddressData {
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  address_2?: string;
+  company?: string;
+  postal_code: string;
+  city: string;
+  country_code: string;
+  province: string;
+  phone: string;
+}
+
+interface SetAddressesData {
+  shipping_address: AddressData;
+  billing_address?: AddressData;
+  email: string;
+  same_as_billing?: boolean;
+}
+
+export async function setAddresses(request: Request, data: SetAddressesData) {
   try {
-    if (!formData) {
-      throw new Error("No form data found when setting addresses");
-    }
     const cartId = getCartId(request);
     if (!cartId) {
       throw new Error("No existing cart found when setting addresses");
     }
 
-    const data = {
+    const updateData = {
       shipping_address: {
-        first_name: formData.get("shipping_address.first_name"),
-        last_name: formData.get("shipping_address.last_name"),
-        address_1: formData.get("shipping_address.address_1"),
-        address_2: "",
-        company: formData.get("shipping_address.company"),
-        postal_code: formData.get("shipping_address.postal_code"),
-        city: formData.get("shipping_address.city"),
-        country_code: formData.get("shipping_address.country_code"),
-        province: formData.get("shipping_address.province"),
-        phone: formData.get("shipping_address.phone"),
+        ...data.shipping_address,
+        address_2: data.shipping_address.address_2 || "",
       },
-      email: formData.get("email"),
+      email: data.email,
     } as any;
 
-    const sameAsBilling = formData.get("same_as_billing");
-    if (sameAsBilling === "on") data.billing_address = data.shipping_address;
-
-    if (sameAsBilling !== "on")
-      data.billing_address = {
-        first_name: formData.get("billing_address.first_name"),
-        last_name: formData.get("billing_address.last_name"),
-        address_1: formData.get("billing_address.address_1"),
-        address_2: "",
-        company: formData.get("billing_address.company"),
-        postal_code: formData.get("billing_address.postal_code"),
-        city: formData.get("billing_address.city"),
-        country_code: formData.get("billing_address.country_code"),
-        province: formData.get("billing_address.province"),
-        phone: formData.get("billing_address.phone"),
+    if (data.same_as_billing) {
+      updateData.billing_address = updateData.shipping_address;
+    } else if (data.billing_address) {
+      updateData.billing_address = {
+        ...data.billing_address,
+        address_2: data.billing_address.address_2 || "",
       };
-    await updateCart(data);
+    }
+
+    await updateCart(request, updateData);
   } catch (e: any) {
     return e.message;
   }
 
-  return { redirectTo: `/${formData.get("shipping_address.country_code")}/checkout?step=delivery` };
+  return { redirectTo: `/${data.shipping_address.country_code}/checkout?step=delivery` };
 }
 
 /**
@@ -359,7 +360,7 @@ export async function placeOrder(cartId?: string, request?: Request, responseHea
  * @param regionId
  * @param countryCode
  */
-export async function updateRegion(countryCode: string, currentPath: string, request?: Request) {
+export async function updateRegion(request: Request, countryCode: string, currentPath: string) {
   const cartId = getCartId(request);
   const region = await getRegion(countryCode);
 
@@ -368,7 +369,7 @@ export async function updateRegion(countryCode: string, currentPath: string, req
   }
 
   if (cartId) {
-    await updateCart({ region_id: region.id }, request);
+    await updateCart(request, { region_id: region.id });
   }
 
   return { redirectTo: `/${countryCode}${currentPath}` };

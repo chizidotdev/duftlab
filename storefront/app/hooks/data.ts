@@ -12,6 +12,7 @@ function errorToast(err: any) {
   toast.error("Error", { description });
 }
 
+// Cart
 const cartKey = ["cart"];
 export function useGetCart(initialData: HttpTypes.StoreCart | null) {
   return useQuery({
@@ -55,6 +56,21 @@ export function useUpdateCartItem() {
   return useMutation({
     mutationFn: async (data: { lineId: string; quantity: number }) =>
       ky.patch("/cart", { json: data, timeout: 1000 * 60 }),
+    onSuccess: () => {
+      successToast("Item updated successfully");
+      qc.invalidateQueries({ queryKey: cartKey });
+    },
+    onError: (err) => errorToast(err),
+  });
+}
+
+// Checkout
+export function useCheckoutAddress() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Record<string, any>) =>
+      ky.patch("/checkout", { json: data, timeout: 1000 * 60 }),
     onSuccess: () => {
       successToast("Item updated successfully");
       qc.invalidateQueries({ queryKey: cartKey });
