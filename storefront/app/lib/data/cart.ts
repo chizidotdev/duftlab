@@ -27,12 +27,15 @@ export async function retrieveCart(request?: Request, cartId?: string) {
       method: "GET",
       query: {
         fields:
-          "*items, *region, *items.product, *items.variant, *items.variant.inventory_quantity, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
       },
       headers,
     })
     .then(({ cart }) => cart)
-    .catch(() => null);
+    .catch((err) => {
+      console.log("cart with provided id not found", id);
+      return medusaError(err);
+    });
 }
 
 export async function getOrSetCart(
@@ -53,7 +56,6 @@ export async function getOrSetCart(
   };
 
   if (!cart) {
-    console.log(">>>>>>>>>>>>>> cart not found");
     const cartResp = await sdk.store.cart.create({ region_id: region.id }, {}, headers);
     cart = cartResp.cart;
 
