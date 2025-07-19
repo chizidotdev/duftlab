@@ -47,4 +47,4 @@ WORKDIR /app/server
 EXPOSE 9000
 
 # Start the Medusa server in production mode
-CMD ["yarn", "start"]
+CMD ["npx", "medusa", "start"]
