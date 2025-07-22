@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { Heading } from "@/components/ui/text";
+import { Heading, Paragraph } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
 import { listProductsWithSort } from "@/lib/data/products";
@@ -36,14 +36,12 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
             data-testid="product-wrapper"
             key={product.id}
             to={`/products/${product.handle}`}
-            className="flex w-fit flex-col gap-3"
+            className="flex w-full flex-col gap-3"
           >
             <ProductThumbnail product={product} />
             <div>
-              <div className="flex items-center justify-between">
-                <Heading variant="h4" data-testid="product-title">
-                  {product.title}
-                </Heading>
+              <div className="flex flex-col justify-between sm:flex-row sm:items-center">
+                <Paragraph data-testid="product-title">{product.title}</Paragraph>
                 <ProductPrice product={product} />
               </div>
             </div>

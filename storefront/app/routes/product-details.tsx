@@ -43,10 +43,10 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
 
   return (
     <div className="flex flex-col gap-10 lg:flex-row">
-      <div className="bg-muted relative h-[calc(100dvh-6rem)] flex-1 rounded-md">
+      <div className="bg-muted relative h-[calc(100dvh-6rem)] flex-1 rounded">
         <img
           src={product?.thumbnail ?? "/placeholder.svg"}
-          className="size-full rounded-md object-cover transition-opacity"
+          className="size-full object-cover transition-opacity"
         />
       </div>
 

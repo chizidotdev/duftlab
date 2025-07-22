@@ -2,6 +2,7 @@ import { Outlet, data, useNavigation } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
 
+import { AppFooter } from "@/components/app-footer";
 import { AppHeader } from "@/components/app-header";
 
 import { getOrSetCart } from "@/lib/data/cart";
@@ -21,13 +22,16 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
   const isNavigating = state === "loading";
 
   return (
-    <div className="container">
+    <div className="flex min-h-screen flex-col">
       {isNavigating && (
         <div className="bg-background/60 fixed inset-0 z-[999] h-dvh cursor-progress" />
       )}
 
       <AppHeader cart={loaderData.cart as HttpTypes.StoreCart} />
-      <Outlet />
+      <main className="container flex-1">
+        <Outlet />
+      </main>
+      <AppFooter />
     </div>
   );
 }
