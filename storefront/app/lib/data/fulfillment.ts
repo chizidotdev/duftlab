@@ -4,7 +4,7 @@ import { sdk } from "@/lib/config";
 
 import { getAuthHeaders } from "./cookies";
 
-export const listCartShippingMethods = async (cartId: string, request?: Request) => {
+export const listCartShippingMethods = async (request: Request, cartId: string) => {
   const headers = {
     ...getAuthHeaders(request),
   };
@@ -50,7 +50,7 @@ export const calculatePriceForShippingOption = async (
       }
     )
     .then(({ shipping_option }) => shipping_option)
-    .catch((e) => {
+    .catch(() => {
       return null;
     });
 };

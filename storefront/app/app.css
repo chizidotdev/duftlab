@@ -140,7 +140,8 @@
     margin-inline: auto;
     padding-inline: 0.75rem;
     @media (width >= 60rem) {
-      max-width: 95vw;
+      padding-inline: 1.5rem;
+      max-width: 100dvw;
     }
   }
 

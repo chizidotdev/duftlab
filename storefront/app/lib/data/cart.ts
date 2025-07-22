@@ -11,7 +11,7 @@ import { getRegion } from "./regions";
  * @param cartId - optional - The ID of the cart to retrieve.
  * @returns The cart object if found, or null if not found.
  */
-export async function retrieveCart(request?: Request, cartId?: string) {
+export async function retrieveCart(request: Request, cartId?: string) {
   const id = cartId || getCartId(request);
 
   if (!id) {
@@ -166,15 +166,15 @@ export async function deleteLineItem(request: Request, lineId: string) {
     .catch(medusaError);
 }
 
-export async function setShippingMethod({
-  cartId,
-  shippingMethodId,
-  request,
-}: {
-  cartId: string;
-  shippingMethodId: string;
-  request?: Request;
-}) {
+export async function setShippingMethod(
+  request: Request,
+  { shippingMethodId }: { shippingMethodId: string }
+) {
+  const cartId = getCartId(request);
+  if (!cartId) {
+    throw new Error("No existing cart found when setting addresses");
+  }
+
   const headers = {
     ...getAuthHeaders(request),
   };
@@ -279,7 +279,7 @@ interface AddressData {
   phone: string;
 }
 
-interface SetAddressesData {
+export interface SetAddressesData {
   shipping_address: AddressData;
   billing_address?: AddressData;
   email: string;
@@ -288,11 +288,6 @@ interface SetAddressesData {
 
 export async function setAddresses(request: Request, data: SetAddressesData) {
   try {
-    const cartId = getCartId(request);
-    if (!cartId) {
-      throw new Error("No existing cart found when setting addresses");
-    }
-
     const updateData = {
       shipping_address: {
         ...data.shipping_address,

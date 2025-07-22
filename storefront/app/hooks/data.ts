@@ -3,12 +3,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ky from "ky";
 import { toast } from "sonner";
 
+import type { SetAddressesData } from "@/lib/data/cart";
+
+const api = ky.extend({ timeout: 1000 * 30 });
+
 function successToast(description: string) {
   toast.success("Success", { description });
 }
 
 function errorToast(err: any) {
-  const description = err.message ?? "Something went wrong. Please try again";
+  const description = /* err.message ?? */ "Something went wrong. Please try again";
   toast.error("Error", { description });
 }
 
@@ -17,7 +21,7 @@ const cartKey = ["cart"];
 export function useGetCart(initialData: HttpTypes.StoreCart | null) {
   return useQuery({
     queryKey: cartKey,
-    queryFn: () => ky.get<HttpTypes.StoreCart>("/cart", { timeout: 1000 * 60 }).json(),
+    queryFn: () => api.get<HttpTypes.StoreCart>("/api/cart").json(),
     initialData,
   });
 }
@@ -27,7 +31,7 @@ export function useAddtoCart() {
 
   return useMutation({
     mutationFn: async (data: { variantId: string; quantity: number }) =>
-      ky.post("/cart", { json: data, timeout: 1000 * 60 }),
+      api.post("/api/cart", { json: data }),
     onSuccess: () => {
       successToast("Item added successfully");
       qc.invalidateQueries({ queryKey: cartKey });
@@ -40,8 +44,7 @@ export function useRemoveCartItem() {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { lineId: string }) =>
-      ky.delete("/cart", { json: data, timeout: 1000 * 60 }),
+    mutationFn: async (data: { lineId: string }) => api.delete("/api/cart", { json: data }),
     onSuccess: () => {
       successToast("Item removed successfully");
       qc.invalidateQueries({ queryKey: cartKey });
@@ -55,7 +58,7 @@ export function useUpdateCartItem() {
 
   return useMutation({
     mutationFn: async (data: { lineId: string; quantity: number }) =>
-      ky.patch("/cart", { json: data, timeout: 1000 * 60 }),
+      api.patch("/api/cart", { json: data }),
     onSuccess: () => {
       successToast("Item updated successfully");
       qc.invalidateQueries({ queryKey: cartKey });
@@ -65,14 +68,27 @@ export function useUpdateCartItem() {
 }
 
 // Checkout
-export function useCheckoutAddress() {
+export function useShippingAddress() {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: Record<string, any>) =>
-      ky.patch("/checkout", { json: data, timeout: 1000 * 60 }),
+    mutationFn: async (data: SetAddressesData) => api.post("/api/checkout", { json: data }),
     onSuccess: () => {
-      successToast("Item updated successfully");
+      successToast("Address updated successfully");
+      qc.invalidateQueries({ queryKey: cartKey });
+    },
+    onError: (err) => errorToast(err),
+  });
+}
+
+export function useShippingMethod() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (shippingMethodId: string) =>
+      api.patch("/api/checkout", { json: { shippingMethodId } }),
+    onSuccess: () => {
+      successToast("Shipping method updated successfully");
       qc.invalidateQueries({ queryKey: cartKey });
     },
     onError: (err) => errorToast(err),

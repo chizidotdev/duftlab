@@ -29,7 +29,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
         {title}
       </Heading>
 
-      <div className="grid grid-cols-2 gap-8 lg:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 2xl:grid-cols-4">
         {products?.map((product) => (
           <Link
             prefetch="viewport"
