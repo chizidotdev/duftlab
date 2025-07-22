@@ -53,7 +53,7 @@ function SheetContent({
         className={cn(
           "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
           side === "right" &&
-            "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-6 right-6 w-3/4 rounded-md border sm:max-w-lg",
+            "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-4 rounded-md border sm:left-auto sm:w-3/4 sm:max-w-lg",
           side === "left" &&
             "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
           side === "top" &&

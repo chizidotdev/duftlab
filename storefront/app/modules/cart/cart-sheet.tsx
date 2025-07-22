@@ -21,13 +21,19 @@ import { convertToLocale } from "@/lib/utils/money";
 
 import { CartItem } from "./cart-item";
 
-export function CartSheet({ cart }: { cart: HttpTypes.StoreCart | null }) {
+export function CartSheet({
+  cart,
+  children,
+}: {
+  cart: HttpTypes.StoreCart | null;
+  children: React.ReactNode;
+}) {
   const { data } = useGetCart(cart);
 
   return (
     <Sheet>
-      <SheetTrigger className="text-sm uppercase">
-        Cart
+      <SheetTrigger className="inline-flex text-sm uppercase">
+        {children}
         <CartCount cart={data} />
       </SheetTrigger>
 

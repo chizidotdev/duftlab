@@ -20,8 +20,6 @@ export function CartItem({
   const { mutate: updateItem, isPending: isUpdating } = useUpdateCartItem();
   const isLoading = isRemoving || isUpdating;
 
-  console.log("cart item", item);
-
   function onQuantityChange(quantity: number) {
     if (quantity < 1) return;
     // const maxQuantity = item.variant?.manage_inventory ? 10 : maxQtyFromInventory;
@@ -37,7 +35,7 @@ export function CartItem({
     <div
       className={cn("flex gap-3", isLoading && "pointer-events-none animate-pulse cursor-progress")}
     >
-      <div className="relative w-1/4">
+      <div className="relative w-1/3 sm:w-1/4">
         <button
           onClick={onRemove}
           className="bg-muted absolute -top-2 -left-2 z-10 rounded-full p-2"
