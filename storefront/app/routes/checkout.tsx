@@ -2,11 +2,13 @@ import { Link, redirect } from "react-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { HttpTypes } from "@medusajs/types";
+import { LockIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import { AppLogo } from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Heading } from "@/components/ui/text";
+import { Paragraph } from "@/components/ui/text";
 
 import { useGetCart, useShippingAddress } from "@/hooks/data";
 import { DEFAULT_COUNTRY_CODE } from "@/lib/constants";
@@ -21,6 +23,7 @@ import { Payment } from "@/modules/checkout/payment";
 import { PaymentProviders } from "@/modules/checkout/payment-providers";
 import { ShippingAddress } from "@/modules/checkout/shipping-address";
 import { ShippingMethod } from "@/modules/checkout/shipping-method";
+import { Summary } from "@/modules/checkout/summary";
 
 import type { Route } from "./+types/checkout";
 
@@ -71,13 +74,13 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
       <div className="ml-auto w-full max-w-lg py-6">
-        <section className="container">
-          <Button asChild variant="outline">
-            <Link to="/">Back to store</Link>
-          </Button>
+        <section className="container space-y-6">
+          <Link to="/" className="mx-auto block w-fit">
+            <AppLogo className="text-2xl" />
+          </Link>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 py-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
               <ShippingAddress form={form} />
               <ShippingMethod
                 form={form}
@@ -86,19 +89,27 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
               />
               <Payment form={form} />
 
-              <Button isLoading={isPending} className="col-span-2 mt-2 w-full">
-                Continue to payment
-              </Button>
-              <PaymentProviders />
+              <div className="space-y-3">
+                <Button isLoading={isPending} className="col-span-2 mt-2 w-full">
+                  Continue to payment
+                </Button>
+                <div className="flex items-center justify-between gap-3">
+                  <Paragraph className="text-muted-foreground flex items-center gap-1 text-sm">
+                    <LockIcon className="size-3" />
+                    &nbsp;Secured by Paystack
+                  </Paragraph>
+                  <PaymentProviders />
+                </div>
+              </div>
             </form>
           </Form>
         </section>
       </div>
 
-      <div className="bg-muted min-h-60">
-        <div className="container mr-auto w-full max-w-screen-sm py-6">
-          <Heading variant="h2">Summary</Heading>
-        </div>
+      <div className="bg-muted sticky top-0 h-fit min-h-dvh border-l">
+        <section className="container">
+          <Summary cart={data} />
+        </section>
       </div>
     </div>
   );

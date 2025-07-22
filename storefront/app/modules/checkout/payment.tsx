@@ -5,6 +5,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Heading, Paragraph } from "@/components/ui/text";
 
 import type { CheckoutFormSchemaType } from "./checkout-form-schema";
+import { ShippingAddress } from "./shipping-address";
 
 export function Payment({ form }: { form: UseFormReturn<CheckoutFormSchemaType> }) {
   return (
@@ -36,6 +37,8 @@ export function Payment({ form }: { form: UseFormReturn<CheckoutFormSchemaType> 
           );
         }}
       />
+
+      {!form.watch("same_as_billing") && <ShippingAddress form={form} />}
     </div>
   );
 }

@@ -14,7 +14,10 @@ export function AppFooter() {
     <>
       <div className="container mt-20 flex flex-col justify-evenly gap-8 border-t py-20 md:flex-row md:items-center">
         {value.map((v) => (
-          <div className="flex items-center gap-4 md:max-w-sm md:flex-col md:text-center">
+          <div
+            key={v.title}
+            className="flex items-center gap-4 md:max-w-sm md:flex-col md:text-center"
+          >
             <v.icon className="size-6 lg:size-10" />
             <div className="flex-1">
               <Heading variant="h4">{v.title}</Heading>

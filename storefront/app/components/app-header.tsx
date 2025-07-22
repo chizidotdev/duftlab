@@ -21,7 +21,7 @@ import { Search } from "./search";
 
 export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
   return (
-    <header className="container flex items-center justify-between py-6">
+    <header className="container grid grid-cols-3 items-center justify-between py-6">
       <nav className="hidden items-center gap-6 font-medium lg:flex">
         {navItems.map((item) => (
           <NavLink key={item.title} to={item.href} className="text-sm uppercase">
@@ -40,11 +40,11 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
         </Search>
       </div>
 
-      <NavLink to="/">
+      <NavLink to="/" className="flex justify-center">
         <AppLogo />
       </NavLink>
 
-      <div className="flex items-center gap-4 font-medium lg:gap-6 [&_svg]:size-5">
+      <div className="flex items-center justify-end gap-4 font-medium lg:gap-6 [&_svg]:size-5">
         <Search className="hidden text-sm uppercase lg:flex">Search</Search>
         <NavLink className="text-sm uppercase" to="/account">
           <span className="hidden lg:inline">Account</span>

@@ -38,14 +38,14 @@ export function CartItem({
       <div className="relative w-1/3 sm:w-1/4">
         <button
           onClick={onRemove}
-          className="bg-muted absolute -top-2 -left-2 z-10 rounded-full p-2"
+          className="bg-muted absolute -top-2 -left-2 z-10 rounded-full border p-1.5"
         >
           <XIcon className="size-3.5" />
         </button>
-        <div className="bg-muted rounded">
+        <div className="bg-muted-foreground/5 rounded-sm border">
           <img
             src={item?.thumbnail ?? "/placeholder.svg"}
-            className="size-full rounded-md object-cover transition-opacity"
+            className="size-full object-cover transition-opacity"
           />
         </div>
       </div>

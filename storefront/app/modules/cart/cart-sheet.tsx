@@ -19,6 +19,7 @@ import { Heading } from "@/components/ui/text";
 import { useGetCart } from "@/hooks/data";
 import { convertToLocale } from "@/lib/utils/money";
 
+import { PaymentProviders } from "../checkout/payment-providers";
 import { CartItem } from "./cart-item";
 
 export function CartSheet({
@@ -32,7 +33,7 @@ export function CartSheet({
 
   return (
     <Sheet>
-      <SheetTrigger className="inline-flex text-sm uppercase">
+      <SheetTrigger className="inline-flex items-center text-sm uppercase">
         {children}
         <CartCount cart={data} />
       </SheetTrigger>
@@ -46,7 +47,7 @@ function CartCount({ cart }: { cart: HttpTypes.StoreCart | null }) {
   const itemsLength = cart?.items?.length;
   if (!itemsLength) return;
 
-  return <span>&nbsp;({itemsLength})</span>;
+  return <span className="text-xs">&nbsp;({itemsLength})</span>;
 }
 
 function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
@@ -82,7 +83,7 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
             <div className="flex items-center justify-between gap-4">
               <Heading variant="h3">Subtotal</Heading>
               <Heading variant="h3">
-                {convertToLocale({ amount: cart.subtotal, currency_code: cart.currency_code })}
+                {convertToLocale({ amount: cart.item_subtotal, currency_code: cart.currency_code })}
               </Heading>
             </div>
           </div>
@@ -93,6 +94,7 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
                 <Link to="/checkout">Checkout</Link>
               </Button>
             </SheetClose>
+            <PaymentProviders />
           </SheetFooter>
         </>
       )}
