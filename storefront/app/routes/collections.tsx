@@ -1,16 +1,22 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 
-import { Heading, Paragraph } from "@/components/ui/text";
+import { Separator } from "@/components/ui/separator";
+import { Heading } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
+import { listCollections } from "@/lib/data/collections";
 import { listProductsWithSort } from "@/lib/data/products";
-import { ProductPrice } from "@/modules/products/product-price";
-import { ProductThumbnail } from "@/modules/products/product-thumbnail";
+import { cn } from "@/lib/utils";
+import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/collections";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  return await listProductsWithSort(request);
+  const [{ response }, collectionsResponse] = await Promise.all([
+    listProductsWithSort(request),
+    listCollections(),
+  ]);
+  return { productsResponse: response, collectionsResponse };
 }
 
 export function headers() {
@@ -18,34 +24,40 @@ export function headers() {
 }
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
-  const { response } = loaderData;
-  const products = response?.products;
-
-  const title = params.handle === "all" ? "Shop all" : params.handle;
+  const { productsResponse, collectionsResponse } = loaderData;
+  const products = productsResponse?.products ?? [];
+  const collections = collectionsResponse?.collections ?? [];
 
   return (
-    <div className="space-y-10">
-      <Heading className="capitalize" variant="h2">
-        {title}
-      </Heading>
+    <div className="mt-6 space-y-10">
+      <div className="space-y-3">
+        <Heading className="capitalize" variant="h2">
+          Shop {params.handle}
+        </Heading>
 
-      <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 2xl:grid-cols-4">
-        {products?.map((product) => (
-          <Link
-            prefetch="viewport"
-            data-testid="product-wrapper"
-            key={product.id}
-            to={`/products/${product.handle}`}
-            className="flex w-full flex-col gap-3"
+        <Separator />
+
+        <nav className="flex items-center gap-6">
+          <NavLink
+            className={({ isActive }) => cn("link", isActive && "text-foreground")}
+            to={`/collections/all`}
           >
-            <ProductThumbnail product={product} />
-            <div>
-              <div className="flex flex-col justify-between sm:flex-row sm:items-center">
-                <Paragraph data-testid="product-title">{product.title}</Paragraph>
-                <ProductPrice product={product} />
-              </div>
-            </div>
-          </Link>
+            Shop all
+          </NavLink>
+          {collections.map((collection) => (
+            <NavLink
+              className={({ isActive }) => cn("link", isActive && "text-foreground")}
+              to={`/collections/${collection.handle}`}
+            >
+              {collection.title}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(16rem,auto))] md:gap-6 2xl:grid-cols-5">
+        {products.map((product) => (
+          <ProductPreview product={product} />
         ))}
       </div>
     </div>

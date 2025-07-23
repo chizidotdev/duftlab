@@ -83,7 +83,7 @@ const value = [
     icon: RotateCw,
     title: "Curated Selection",
     description:
-      "Hand-picked premium fragrances from the world's most sought-after brands and designers.",
+      "Hand-picked premium fragrances from the world's most sought-after brands and fragrances.",
   },
   {
     icon: BadgeCheck,

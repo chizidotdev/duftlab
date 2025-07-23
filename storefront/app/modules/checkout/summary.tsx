@@ -17,7 +17,7 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
   ];
 
   return (
-    <div className="mr-auto w-full max-w-sm space-y-6 py-8">
+    <div className="mx-auto w-full max-w-sm space-y-6 py-8 lg:ml-0">
       <div className="space-y-4">
         {cartItems.map((item) => (
           <div className="flex gap-3">

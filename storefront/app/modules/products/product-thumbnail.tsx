@@ -9,7 +9,7 @@ export function ProductThumbnail({
 }: React.ComponentProps<"div"> & { product?: HttpTypes.StoreProduct }) {
   return (
     <div
-      className={cn("bg-muted group relative aspect-[9/10] w-full rounded-sm", className)}
+      className={cn("bg-muted group relative aspect-[9/10] w-full rounded border", className)}
       {...props}
     >
       <img

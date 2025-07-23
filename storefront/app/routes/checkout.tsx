@@ -11,7 +11,7 @@ import { Form } from "@/components/ui/form";
 import { Paragraph } from "@/components/ui/text";
 
 import { useGetCart, useShippingAddress } from "@/hooks/data";
-import { DEFAULT_COUNTRY_CODE } from "@/lib/constants";
+import { CACHE_HEADERS, DEFAULT_COUNTRY_CODE } from "@/lib/constants";
 import { retrieveCart } from "@/lib/data/cart";
 import { getCartId } from "@/lib/data/cookies";
 import { listCartShippingMethods } from "@/lib/data/fulfillment";
@@ -45,6 +45,10 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Checkout - Duftlab" }];
 }
 
+export function headers() {
+  return CACHE_HEADERS;
+}
+
 export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
   const { data } = useGetCart(loaderData.cart as HttpTypes.StoreCart);
 
@@ -73,8 +77,8 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
-      <div className="ml-auto w-full max-w-lg py-6">
-        <section className="container space-y-6">
+      <div className="mx-auto w-full max-w-lg py-6 lg:mr-0">
+        <section className="container space-y-6 pb-3">
           <Link to="/" className="mx-auto block w-fit">
             <AppLogo className="text-2xl" />
           </Link>
@@ -106,7 +110,7 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
         </section>
       </div>
 
-      <div className="bg-muted sticky top-0 h-fit min-h-dvh border-l">
+      <div className="bg-muted sticky top-0 h-fit border-l lg:min-h-dvh">
         <section className="container">
           <Summary cart={data} />
         </section>

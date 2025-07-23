@@ -17,7 +17,6 @@ export const listProducts = async (
     queryParams?: QueryParams;
     countryCode?: string;
     regionId?: string;
-    request?: Request;
   }
 ): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number };
@@ -60,7 +59,8 @@ export const listProducts = async (
         limit,
         offset,
         region_id: region?.id,
-        fields: "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags",
+        fields:
+          "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags,*categories",
         ...queryParams,
       },
       headers,
@@ -108,7 +108,6 @@ export const listProductsWithSort = async (
       limit: 100,
     },
     countryCode,
-    request,
   });
 
   const sortedProducts = sortProducts(products, sortBy);

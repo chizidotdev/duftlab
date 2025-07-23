@@ -8,7 +8,6 @@ import {
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -90,7 +89,8 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
 
 const navItems = [
   { title: "Shop", href: "/collections/all" },
+  { title: "Brands", href: "/collections/brands" },
+  { title: "Scents", href: "/collections/scents" },
   { title: "Unboxed", href: "/collections/unboxed" },
-  { title: "By Scent", href: "/collections/by-scent" },
   { title: "Sets", href: "/collections/sets" },
 ];

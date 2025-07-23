@@ -50,7 +50,8 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
         />
       </div>
 
-      <div className="flex flex-col justify-center gap-2 lg:w-1/3 lg:max-w-md">
+      <div className="flex flex-col justify-center gap-2 lg:max-w-lg">
+        <Paragraph className="text-muted-foreground">{product.collection?.title}</Paragraph>
         <Heading variant="h3">{product.title}</Heading>
         <Paragraph>{product.description}</Paragraph>
 

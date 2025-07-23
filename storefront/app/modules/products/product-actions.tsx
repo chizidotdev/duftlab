@@ -50,7 +50,6 @@ export function ProductActions({
       return isEqual(variantOptions, selectedOptions);
     });
   }, [product.variants, selectedOptions]);
-  console.log("variant", selectedVariant);
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {

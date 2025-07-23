@@ -1,6 +1,9 @@
+import { Link } from "react-router";
+
 import type { HttpTypes } from "@medusajs/types";
 import { XIcon } from "lucide-react";
 
+import { SheetClose } from "@/components/ui/sheet";
 import { Paragraph } from "@/components/ui/text";
 
 import { useRemoveCartItem, useUpdateCartItem } from "@/hooks/data";
@@ -42,12 +45,18 @@ export function CartItem({
         >
           <XIcon className="size-3.5" />
         </button>
-        <div className="bg-muted-foreground/5 rounded-sm border">
-          <img
-            src={item?.thumbnail ?? "/placeholder.svg"}
-            className="size-full object-cover transition-opacity"
-          />
-        </div>
+        <SheetClose asChild>
+          <Link
+            to={`/products/${item.product_handle}`}
+            prefetch="viewport"
+            className="bg-muted-foreground/5 flex rounded-sm border"
+          >
+            <img
+              src={item?.thumbnail ?? "/placeholder.svg"}
+              className="size-full object-cover transition-opacity"
+            />
+          </Link>
+        </SheetClose>
       </div>
 
       <div className="flex flex-1 flex-col py-2">
