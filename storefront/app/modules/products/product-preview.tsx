@@ -9,14 +9,12 @@ import { Paragraph } from "@/components/ui/text";
 
 import { ProductPrice } from "./product-price";
 import { ProductThumbnail } from "./product-thumbnail";
+import { useProductActions } from "./use-product-actions";
 
 export function ProductPreview({ product }: { product: HttpTypes.StoreProduct }) {
   const category = product.categories?.[0];
 
-  function addToCart(e: React.MouseEvent) {
-    e.preventDefault();
-    console.log(product);
-  }
+  const { isValidVariant, inStock, addToCart, isPending } = useProductActions(product);
 
   return (
     <Link
@@ -37,7 +35,12 @@ export function ProductPreview({ product }: { product: HttpTypes.StoreProduct })
           className="absolute right-2 bottom-2 z-10 size-8 sm:right-3 sm:bottom-3 lg:size-9"
           variant="outline"
           size="icon"
-          onClick={addToCart}
+          isLoading={isPending}
+          disabled={!inStock || !isValidVariant}
+          onClick={(e) => {
+            e.preventDefault();
+            addToCart();
+          }}
         >
           <PlusIcon />
         </Button>
