@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:21-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ ARG S3_SECRET_ACCESS_KEY
 RUN yarn build
 
 # Stage 2: Production
-FROM node:21-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /app
 
