@@ -1,26 +1,24 @@
-FROM node:24-alpine AS development-dependencies-env
-RUN npm install -g pnpm
-COPY . /app
-WORKDIR /app
-RUN pnpm install
-
-FROM node:24-alpine AS production-dependencies-env
+FROM node:24-alpine AS installer
 RUN npm install -g pnpm
 COPY ./package.json pnpm-lock.yaml /app/
 WORKDIR /app
-RUN pnpm install --prod
+RUN pnpm install
 
-FROM node:24-alpine AS build-env
+FROM node:24-alpine AS builder
 RUN npm install -g pnpm
 COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
+COPY --from=installer /app/node_modules /app/node_modules
 WORKDIR /app
+
+ARG VITE_MEDUSA_PUBLISHABLE_KEY
+ARG VITE_MEDUSA_BACKEND_URL
+
 RUN pnpm run build
 
 FROM node:24-alpine
 RUN npm install -g pnpm
 COPY ./package.json pnpm-lock.yaml /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
+COPY --from=installer /app/node_modules /app/node_modules
+COPY --from=builder /app/build /app/build
 WORKDIR /app
 CMD ["pnpm", "run", "start"]
