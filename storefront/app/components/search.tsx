@@ -1,10 +1,14 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { SearchIcon } from "lucide-react";
 
-export function Search({ ...props }: React.ComponentProps<typeof PopoverTrigger>) {
+export function Search() {
   return (
-    <Popover>
-      <PopoverTrigger {...props} />
-      <PopoverContent>Place content for the popover here.</PopoverContent>
-    </Popover>
+    <div className="container flex items-center gap-4 pb-3">
+      <SearchIcon className="size-5" />
+      <input
+        autoFocus
+        className="w-full text-lg focus-visible:outline-none"
+        placeholder="Search..."
+      />
+    </div>
   );
 }

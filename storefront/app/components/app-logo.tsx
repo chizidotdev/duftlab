@@ -9,11 +9,10 @@ export interface AppLogoProps extends React.HTMLAttributes<HTMLOrSVGElement> {
 
 export function AppLogo({ className, ...props }: AppLogoProps) {
   return (
-    <div
-      className={cn("flex w-fit items-center gap-2 font-serif text-lg font-semibold", className)}
-      {...props}
-    >
-      <span>DUFTLAB</span>
+    <div className={cn("flex w-fit items-center gap-2 text-lg font-bold", className)} {...props}>
+      <span>
+        DUFT<span className="font-light">LAB</span>
+      </span>
     </div>
   );
 }

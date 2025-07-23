@@ -1,5 +1,4 @@
 @import "@fontsource-variable/dm-sans";
-@import "@fontsource/prata";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -10,7 +9,6 @@
   --font-sans:
     "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: "Prata" serif;
 
   --background: hsl(224 0% 99%);
   --foreground: hsl(0 0% 0%);

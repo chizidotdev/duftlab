@@ -46,6 +46,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
           </NavLink>
           {collections.map((collection) => (
             <NavLink
+              key={collection.id}
               className={({ isActive }) => cn("link", isActive && "text-foreground")}
               to={`/collections/${collection.handle}`}
             >
@@ -57,7 +58,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(16rem,auto))] md:gap-6 2xl:grid-cols-5">
         {products.map((product) => (
-          <ProductPreview product={product} />
+          <ProductPreview key={product.id} product={product} />
         ))}
       </div>
     </div>

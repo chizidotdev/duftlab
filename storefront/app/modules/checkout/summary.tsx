@@ -20,7 +20,7 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
     <div className="mx-auto w-full max-w-sm space-y-6 py-8 lg:ml-0">
       <div className="space-y-4">
         {cartItems.map((item) => (
-          <div className="flex gap-3">
+          <div key={item.id} className="flex gap-3">
             <div className="relative w-1/6">
               <div className="bg-muted-foreground text-primary-foreground absolute -top-2 -right-2 z-10 grid size-6 place-content-center rounded-full border text-xs">
                 {item.quantity}

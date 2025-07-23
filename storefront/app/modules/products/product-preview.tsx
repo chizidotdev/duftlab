@@ -20,7 +20,6 @@ export function ProductPreview({ product }: { product: HttpTypes.StoreProduct })
     <Link
       prefetch="viewport"
       data-testid="product-wrapper"
-      key={product.id}
       to={`/products/${product.handle}`}
       className="flex w-full flex-col gap-2"
     >

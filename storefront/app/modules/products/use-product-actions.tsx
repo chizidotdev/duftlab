@@ -82,4 +82,3 @@ export function useProductActions(product: HttpTypes.StoreProduct) {
     isPending,
   };
 }
-
