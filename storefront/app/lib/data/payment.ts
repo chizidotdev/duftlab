@@ -4,7 +4,7 @@ import { sdk } from "@/lib/config";
 
 import { getAuthHeaders } from "./cookies";
 
-export const listCartPaymentMethods = async (regionId: string, request?: Request) => {
+export const listCartPaymentMethods = async (request: Request, regionId: string) => {
   const headers = {
     ...getAuthHeaders(request),
   };

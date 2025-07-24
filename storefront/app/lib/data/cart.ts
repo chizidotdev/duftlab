@@ -4,6 +4,7 @@ import { sdk } from "@/lib/config";
 import medusaError from "@/lib/utils/medusa-error";
 
 import { getAuthHeaders, getCartId, removeCartId, setCartId } from "./cookies";
+import { listCartPaymentMethods } from "./payment";
 import { getRegion } from "./regions";
 
 /**
@@ -186,9 +187,9 @@ export async function setShippingMethod(
 }
 
 export async function initiatePaymentSession(
+  request: Request,
   cart: HttpTypes.StoreCart,
-  data: HttpTypes.StoreInitializePaymentSession,
-  request?: Request
+  data: HttpTypes.StoreInitializePaymentSession
 ) {
   const headers = {
     ...getAuthHeaders(request),
@@ -305,7 +306,18 @@ export async function setAddresses(request: Request, data: SetAddressesData) {
       };
     }
 
-    await updateCart(request, updateData);
+    const cart = await updateCart(request, updateData);
+
+    // initialize payment session after updating the cart with customer email
+    const paymentMethods = await listCartPaymentMethods(request, cart.region?.id ?? "");
+    const pp_paystack = paymentMethods?.find((p) => p.id === "pp_paystack");
+
+    if (!pp_paystack) throw Error("Paystack payment method not found");
+
+    await initiatePaymentSession(request, cart, {
+      provider_id: pp_paystack.id,
+      data: { email: data.email },
+    });
   } catch (e: any) {
     return e.message;
   }

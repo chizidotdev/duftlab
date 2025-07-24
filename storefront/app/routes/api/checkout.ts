@@ -1,4 +1,4 @@
-import { setAddresses, setShippingMethod } from "@/lib/data/cart";
+import { retrieveCart, setAddresses, setShippingMethod } from "@/lib/data/cart";
 
 import type { Route } from "./+types/checkout";
 
@@ -22,7 +22,8 @@ async function postRoute({ request }: Route.ActionArgs) {
 
   await setAddresses(request, data);
 
-  return Response.json({ message: "Success" });
+  const cart = await retrieveCart(request);
+  return Response.json(cart);
 }
 
 async function patchRoute({ request }: Route.ActionArgs) {
