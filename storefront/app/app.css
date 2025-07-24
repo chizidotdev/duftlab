@@ -10,7 +10,7 @@
     "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
 
-  --background: hsl(224 0% 99%);
+  --background: hsl(224 0% 98.6%);
   --foreground: hsl(0 0% 0%);
   --card: hsl(224 0% 100%);
   --card-foreground: hsl(0 0% 0%);
@@ -113,7 +113,7 @@
   }
 
   .link {
-    @apply text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm transition-all;
+    @apply text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm transition-all;
   }
 
   .box-reflect {

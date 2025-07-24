@@ -11,8 +11,9 @@ function successToast(description: string) {
   toast.success("Success", { description });
 }
 
-function errorToast(err: any) {
-  const description = /* err.message ?? */ "Something went wrong. Please try again";
+async function errorToast(err: any) {
+  // const description =  "Something went wrong. Please try again";
+  const description = (await err.response.text()) ?? "Something went wrong. Please try again";
   toast.error("Error", { description });
 }
 
@@ -90,6 +91,35 @@ export function useShippingMethod() {
     onSuccess: () => {
       successToast("Shipping method updated successfully");
       qc.invalidateQueries({ queryKey: cartKey });
+    },
+    onError: (err) => errorToast(err),
+  });
+}
+
+// Auth
+export function useAuthLogin() {
+  return useMutation({
+    mutationFn: async (data: { email: string; password: string }) =>
+      api.post("/api/login", { json: data }),
+    onSuccess: () => {
+      successToast("Login successfully");
+      // window.location.href = "/account";
+    },
+    onError: errorToast,
+  });
+}
+
+export function useAuthRegister() {
+  return useMutation({
+    mutationFn: async (data: {
+      email: string;
+      password: string;
+      first_name?: string;
+      last_name?: string;
+    }) => api.post("/api/register", { json: data }),
+    onSuccess: () => {
+      successToast("Account created successfully");
+      // window.location.href = "/account";
     },
     onError: (err) => errorToast(err),
   });

@@ -29,7 +29,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
   const collections = collectionsResponse?.collections ?? [];
 
   return (
-    <div className="mt-6 space-y-10">
+    <div className="space-y-10">
       <div className="space-y-3">
         <Heading className="capitalize" variant="h2">
           Shop {params.handle}

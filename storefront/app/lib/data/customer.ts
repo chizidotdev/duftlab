@@ -41,14 +41,12 @@ export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer, reques
   return updateRes;
 };
 
-export async function signup(formData: FormData, request?: Request, responseHeaders?: Headers) {
-  const password = formData.get("password") as string;
-  const customerForm = {
-    email: formData.get("email") as string,
-    first_name: formData.get("first_name") as string,
-    last_name: formData.get("last_name") as string,
-    phone: formData.get("phone") as string,
-  };
+export async function signup(
+  request: Request,
+  data: { email: string; password: string; first_name: string; last_name: string; phone?: string },
+  responseHeaders?: Headers
+) {
+  const { password, ...customerForm } = data;
 
   try {
     const token = await sdk.auth.register("customer", "emailpass", {
@@ -60,14 +58,10 @@ export async function signup(formData: FormData, request?: Request, responseHead
       setAuthToken(token as string, responseHeaders);
     }
 
-    const headers = {
-      ...getAuthHeaders(request),
-    };
-
     const { customer: createdCustomer } = await sdk.store.customer.create(
       customerForm,
       {},
-      headers
+      { authorization: `Bearer ${token}` }
     );
 
     const loginToken = await sdk.auth.login("customer", "emailpass", {
@@ -79,32 +73,35 @@ export async function signup(formData: FormData, request?: Request, responseHead
       setAuthToken(loginToken as string, responseHeaders);
     }
 
-    await transferCart(request);
+    await transferCart(request, { authorization: `Bearer ${loginToken}` });
 
     return createdCustomer;
-  } catch (error: any) {
-    return error.toString();
+  } catch (error) {
+    return medusaError(error);
   }
 }
 
-export async function login(formData: FormData, request?: Request, responseHeaders?: Headers) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
+export async function login(
+  request: Request,
+  data: { email: string; password: string },
+  responseHeaders?: Headers
+) {
+  let loginToken = "";
   try {
-    await sdk.auth.login("customer", "emailpass", { email, password }).then((token) => {
+    await sdk.auth.login("customer", "emailpass", data).then((token) => {
+      loginToken = token as string;
       if (responseHeaders) {
         setAuthToken(token as string, responseHeaders);
       }
     });
   } catch (error: any) {
-    return error.toString();
+    return medusaError(error);
   }
 
   try {
-    await transferCart(request);
-  } catch (error: any) {
-    return error.toString();
+    await transferCart(request, { authorization: `Bearer ${loginToken}` });
+  } catch (error) {
+    return medusaError(error);
   }
 }
 
@@ -119,14 +116,14 @@ export async function signout(countryCode: string, responseHeaders?: Headers) {
   return { redirectTo: `/${countryCode}/account` };
 }
 
-export async function transferCart(request?: Request) {
+export async function transferCart(request: Request, authHeaders?: object) {
   const cartId = getCartId(request);
 
   if (!cartId) {
     return;
   }
 
-  const headers = getAuthHeaders(request);
+  const headers = authHeaders ?? getAuthHeaders(request);
 
   await sdk.store.cart.transferCart(cartId, {}, headers);
 }

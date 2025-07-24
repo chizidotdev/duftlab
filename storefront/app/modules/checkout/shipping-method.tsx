@@ -44,7 +44,7 @@ export function ShippingMethod({
                 {shippingOptions?.map((option) => (
                   <FormLabel
                     key={option.id}
-                    className="has-data-[state=checked]:bg-muted flex min-h-10 items-center gap-2 px-3 py-3 not-last:border-b"
+                    className="has-data-[state=checked]:bg-muted flex min-h-12 items-center gap-2 px-3 py-3 not-last:border-b"
                   >
                     <FormControl>
                       <RadioGroupItem value={option.id} id={option.id} />
