@@ -1,70 +1,197 @@
-import { data } from "react-router";
+import { redirect } from "react-router";
 
+import { Building2, Mail, MapPin, Phone, UserRound } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Heading, Paragraph } from "@/components/ui/text";
+
+import { CACHE_HEADERS } from "@/lib/constants";
 import { retrieveCustomer } from "@/lib/data/customer";
+import { formatDate } from "@/lib/utils/date";
 
 import type { Route } from "./+types/account";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const customer = await retrieveCustomer(request);
-  
+
   if (!customer) {
-    throw new Response("Unauthorized", { status: 401 });
+    throw redirect("/auth/login");
   }
 
-  return data({ customer });
+  return { customer };
+}
+
+export function headers() {
+  return CACHE_HEADERS;
 }
 
 export default function Account({ loaderData }: Route.ComponentProps) {
   const { customer } = loaderData;
 
-  return (
-    <div className="container max-w-2xl py-12">
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold">My Account</h1>
-          <p className="text-muted-foreground">
-            Manage your account information and view your order history.
-          </p>
-        </div>
+  const profileInfo = [
+    {
+      title: "Full Name",
+      value:
+        customer.first_name && customer.last_name
+          ? `${customer.first_name} ${customer.last_name}`
+          : "-",
+      icon: UserRound,
+    },
+    {
+      title: "Email Address",
+      value: customer.email,
+      icon: Mail,
+    },
+    {
+      title: "Phone Number",
+      value: customer.phone ? customer.phone : "-",
+      icon: Phone,
+    },
+    {
+      title: "Company",
+      value: customer.company_name,
+      icon: Building2,
+      hidden: !customer.phone,
+    },
+  ];
 
-        <div className="rounded-lg border p-6">
-          <h2 className="mb-4 text-lg font-semibold">Account Information</h2>
-          <div className="space-y-2">
-            <p>
-              <span className="font-medium">Name:</span> {customer.first_name} {customer.last_name}
-            </p>
-            <p>
-              <span className="font-medium">Email:</span> {customer.email}
-            </p>
-            {customer.phone && (
-              <p>
-                <span className="font-medium">Phone:</span> {customer.phone}
-              </p>
+  const accountDetails = [
+    {
+      title: "Customer ID",
+      value: customer.id,
+      className: "font-mono text-sm",
+    },
+    {
+      title: "Member Since",
+      value: customer.created_at ? formatDate(customer.created_at) : "Unknown",
+      className: "text-sm",
+    },
+  ];
+
+  return (
+    <div className="mx-auto max-w-screen-xl space-y-10">
+      <div>
+        <Heading variant="h2">Hello {customer.first_name || customer.email}</Heading>
+        <Paragraph className="text-muted-foreground">
+          Manage your account information and view your order history.
+        </Paragraph>
+      </div>
+
+      <div className="grid gap-10 lg:grid-cols-2">
+        {/* Personal Information */}
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <Heading variant="h3">Personal Information</Heading>
+            <Button variant="outline" size="sm">
+              Edit
+            </Button>
+          </div>
+
+          <div className="space-y-4">
+            {profileInfo.map(
+              (info) =>
+                !info.hidden && (
+                  <div key={info.title} className="flex items-center gap-3">
+                    <info.icon className="text-muted-foreground size-5" />
+                    <div>
+                      <Paragraph>{info.value}</Paragraph>
+                      <Paragraph className="text-muted-foreground text-sm">{info.title}</Paragraph>
+                    </div>
+                  </div>
+                )
             )}
           </div>
         </div>
 
-        {customer.orders && customer.orders.length > 0 && (
-          <div className="rounded-lg border p-6">
-            <h2 className="mb-4 text-lg font-semibold">Recent Orders</h2>
+        {/* Addresses */}
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <Heading variant="h3">Addresses</Heading>
+            <Button variant="outline" size="sm">
+              Add Address
+            </Button>
+          </div>
+
+          {!!customer.addresses?.length ? (
             <div className="space-y-4">
-              {customer.orders.slice(0, 5).map((order: any) => (
-                <div key={order.id} className="flex justify-between border-b pb-2">
-                  <div>
-                    <p className="font-medium">Order #{order.display_id}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">${(order.total / 100).toFixed(2)}</p>
-                    <p className="text-sm capitalize text-muted-foreground">{order.status}</p>
+              {customer.addresses.map((address: any) => (
+                <div key={address.id} className="flex items-start gap-3">
+                  <MapPin className="text-muted-foreground mt-1 size-4" />
+                  <div className="flex-1">
+                    <Paragraph className="font-medium">
+                      {address.first_name} {address.last_name}
+                    </Paragraph>
+                    <Paragraph className="text-muted-foreground text-sm">
+                      {address.address_1}
+                      {address.address_2 && `, ${address.address_2}`}
+                    </Paragraph>
+                    <Paragraph className="text-muted-foreground text-sm">
+                      {address.city}, {address.province} {address.postal_code}
+                    </Paragraph>
+                    <Paragraph className="text-muted-foreground text-sm">
+                      {address.country_code?.toUpperCase()}
+                    </Paragraph>
+                    {(address.id === customer.default_billing_address_id ||
+                      address.id === customer.default_shipping_address_id) && (
+                      <div className="mt-1 flex gap-1">
+                        {address.id === customer.default_billing_address_id && (
+                          <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
+                            Default Billing
+                          </span>
+                        )}
+                        {address.id === customer.default_shipping_address_id && (
+                          <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">
+                            Default Shipping
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="text-muted-foreground flex items-center gap-3">
+              <MapPin className="size-4" />
+              <Paragraph className="text-sm">No addresses saved yet</Paragraph>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Account Details */}
+      <div>
+        <Heading variant="h3" className="mb-4">
+          Account Details
+        </Heading>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {accountDetails.map((detail) => (
+            <div key={detail.title}>
+              <Paragraph className="text-muted-foreground text-sm font-medium">
+                {detail.title}
+              </Paragraph>
+              <Paragraph className={detail.className}>{detail.value}</Paragraph>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Account Actions */}
+      <div>
+        <Heading variant="h3" className="mb-4">
+          Account Actions
+        </Heading>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button variant="outline">Change Password</Button>
+          {/* <Button variant="destructive">Delete Account</Button> */}
+        </div>
       </div>
     </div>
   );

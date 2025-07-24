@@ -17,7 +17,7 @@ import type { Route } from "./+types/root";
 export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Shop" }, { name: "description", content: "Welcome to Shop!" }];
+  return [{ title: "Duftlab" }, { name: "description", content: "Welcome to Duftlab" }];
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

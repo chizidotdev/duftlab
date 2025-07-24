@@ -63,10 +63,12 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
       </SheetHeader>
 
       {isEmpty ? (
-        <div className="flex h-1/2 flex-col justify-end p-6">
+        <div className="flex h-1/2 flex-col justify-end gap-2 p-6">
           <Heading>Not sure where to start?</Heading>
           <SheetClose asChild>
-            <Link to="/collections/popular">Shop popular</Link>
+            <Link to="/collections/popular" className="link">
+              Browse popular scents
+            </Link>
           </SheetClose>
         </div>
       ) : (

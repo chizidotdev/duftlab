@@ -45,10 +45,6 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Checkout - Duftlab" }];
 }
 
-export function headers() {
-  return CACHE_HEADERS;
-}
-
 export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
   const { data } = useGetCart(loaderData.cart as HttpTypes.StoreCart);
 

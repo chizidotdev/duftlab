@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import type { HttpTypes } from "@medusajs/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ky from "ky";
@@ -98,18 +100,22 @@ export function useShippingMethod() {
 
 // Auth
 export function useAuthLogin() {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) =>
       api.post("/api/login", { json: data }),
     onSuccess: () => {
       successToast("Login successfully");
-      // window.location.href = "/account";
+      navigate("/account");
     },
     onError: errorToast,
   });
 }
 
 export function useAuthRegister() {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: async (data: {
       email: string;
@@ -119,7 +125,7 @@ export function useAuthRegister() {
     }) => api.post("/api/register", { json: data }),
     onSuccess: () => {
       successToast("Account created successfully");
-      // window.location.href = "/account";
+      navigate("/account");
     },
     onError: (err) => errorToast(err),
   });

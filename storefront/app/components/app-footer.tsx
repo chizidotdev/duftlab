@@ -44,7 +44,7 @@ export function AppFooter() {
                   <Heading variant="h4">{section.title}</Heading>
                   <nav className="space-y-2">
                     {section.links.map((link) => (
-                      <Link key={link.title} to={link.href} className="link block text-sm">
+                      <Link key={link.title} to={link.href} className="link flex! text-sm">
                         {link.title}
                       </Link>
                     ))}
