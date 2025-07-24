@@ -25,6 +25,7 @@ ARG S3_ENDPOINT
 ARG S3_REGION
 ARG S3_ACCESS_KEY_ID
 ARG S3_SECRET_ACCESS_KEY
+ARG PAYSTACK_SECRET_KEY
 
 # Build the Medusa application (creates .medusa directory)
 RUN yarn build
