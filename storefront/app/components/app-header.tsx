@@ -9,6 +9,7 @@ import {
   SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -16,58 +17,59 @@ import {
 
 import { CartSheet } from "@/modules/cart/cart-sheet";
 
+import { AnnouncementBar } from "./app-announcements";
 import { AppLogo } from "./app-logo";
 import { Search } from "./search";
+import { Paragraph } from "./ui/text";
 
 export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
   return (
-    <Collapsible>
-      <div className="bg-background sticky top-0 z-50">
-        <header className="container grid grid-cols-3 items-center justify-between py-6">
-          <nav className="hidden items-center gap-6 font-medium lg:flex">
-            {navItems.map((item) => (
-              <NavLink key={item.title} to={item.href} className="text-sm uppercase">
-                {item.title}
-              </NavLink>
-            ))}
-          </nav>
-
-          {/* Mobile nav */}
-          <div className="flex items-center gap-4 lg:hidden [&_svg]:size-5">
-            <MobileNav>
-              <Menu />
-            </MobileNav>
-            <CollapsibleTrigger className="text-sm uppercase lg:hidden">
-              <SearchIcon />
-            </CollapsibleTrigger>
-          </div>
-
-          <NavLink to="/" className="flex justify-center">
-            <AppLogo />
-          </NavLink>
-
-          <div className="flex items-center justify-end gap-4 font-medium lg:gap-6 [&_svg]:size-5">
-            <CollapsibleTrigger className="hidden text-sm uppercase lg:flex">
-              Search
-            </CollapsibleTrigger>
-            <NavLink className="text-sm uppercase" to="/account">
-              <span className="hidden lg:inline">Account</span>
-              <span className="lg:hidden">
-                <UserRound />
-              </span>
+    <Collapsible className="bg-background sticky top-0 z-50">
+      <AnnouncementBar />
+      <header className="container grid grid-cols-3 items-center justify-between py-3 sm:py-5">
+        <nav className="hidden items-center gap-6 font-medium lg:flex">
+          {navItems.map((item) => (
+            <NavLink key={item.title} to={item.href} className="text-sm uppercase">
+              {item.title}
             </NavLink>
-            <CartSheet cart={cart}>
-              <span className="hidden lg:inline">Cart</span>
-              <span className="lg:hidden">
-                <ShoppingCart />
-              </span>
-            </CartSheet>
-          </div>
-        </header>
-        <CollapsibleContent>
-          <Search />
-        </CollapsibleContent>
-      </div>
+          ))}
+        </nav>
+
+        {/* Mobile nav */}
+        <div className="flex items-center gap-4 lg:hidden [&_svg]:size-5">
+          <MobileNav>
+            <Menu />
+          </MobileNav>
+          <CollapsibleTrigger className="text-sm uppercase lg:hidden">
+            <SearchIcon />
+          </CollapsibleTrigger>
+        </div>
+
+        <NavLink to="/" className="flex justify-center">
+          <AppLogo />
+        </NavLink>
+
+        <div className="flex items-center justify-end gap-4 font-medium lg:gap-6 [&_svg]:size-5">
+          <CollapsibleTrigger className="hidden text-sm uppercase lg:flex">
+            Search
+          </CollapsibleTrigger>
+          <NavLink className="text-sm uppercase" to="/account">
+            <span className="hidden lg:inline">Account</span>
+            <span className="lg:hidden">
+              <UserRound />
+            </span>
+          </NavLink>
+          <CartSheet cart={cart}>
+            <span className="hidden lg:inline">Cart</span>
+            <span className="lg:hidden">
+              <ShoppingCart />
+            </span>
+          </CartSheet>
+        </div>
+      </header>
+      <CollapsibleContent>
+        <Search />
+      </CollapsibleContent>
     </Collapsible>
   );
 }
@@ -92,6 +94,15 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
             </SheetClose>
           ))}
         </nav>
+
+        <SheetFooter className="text-sm">
+          <Paragraph className="flex gap-2">
+            <span>Shipping to: </span>
+            <img src="/assets/ng-flag.svg" className="size-5" />
+            Nigeria
+          </Paragraph>
+          <Paragraph>&copy; {new Date().getFullYear()} Duftlab. All rights reserved.</Paragraph>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

@@ -11,7 +11,7 @@ import { Form } from "@/components/ui/form";
 import { Paragraph } from "@/components/ui/text";
 
 import { useGetCart, useShippingAddress } from "@/hooks/data";
-import { CACHE_HEADERS, DEFAULT_COUNTRY_CODE } from "@/lib/constants";
+import { DEFAULT_COUNTRY_CODE } from "@/lib/constants";
 import { retrieveCart } from "@/lib/data/cart";
 import { getCartId } from "@/lib/data/cookies";
 import { listCartShippingMethods } from "@/lib/data/fulfillment";

@@ -58,7 +58,7 @@ export function AppFooter() {
 
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <Paragraph className="text-muted-foreground text-sm">
-              © {currentYear} Store. All rights reserved.
+              © {currentYear} Duftlab. All rights reserved.
             </Paragraph>
             <div className="flex space-x-6">
               {bottomLinks.map((link) => (

@@ -22,7 +22,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
   const isNavigating = state === "loading";
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col">
       {isNavigating && (
         <div className="bg-background/60 fixed inset-0 z-[999] h-dvh cursor-progress" />
       )}

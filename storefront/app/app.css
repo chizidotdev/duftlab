@@ -119,4 +119,26 @@
   .box-reflect {
     /* -webkit-box-reflect: below -200px linear-gradient(rgba(0, 3, 0, 0.1)); */
   }
+
+  .animate-marquee {
+    animation: marquee linear infinite;
+    animation-duration: 10s;
+
+    @media (width >= 48rem) {
+      animation-duration: 30s;
+    }
+
+    @media (width >= 64rem) {
+      animation-duration: 50s;
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
