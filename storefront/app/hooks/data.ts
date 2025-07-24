@@ -106,7 +106,7 @@ export function useAuthLogin() {
     mutationFn: async (data: { email: string; password: string }) =>
       api.post("/api/login", { json: data }),
     onSuccess: () => {
-      successToast("Login successfully");
+      successToast("Logged in successfully");
       navigate("/account");
     },
     onError: errorToast,

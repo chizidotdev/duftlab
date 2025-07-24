@@ -1,4 +1,5 @@
 import { Link, NavLink, redirect } from "react-router";
+import type { MetaFunction } from "react-router";
 
 import { Undo } from "lucide-react";
 
@@ -24,9 +25,19 @@ export function headers() {
   return CACHE_HEADERS;
 }
 
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Order History - Duftlab" },
+    {
+      name: "description",
+      content:
+        "View your fragrance orders, track delivery status, and manage returns or exchanges.",
+    },
+  ];
+};
+
 export default function AccountOrders({ loaderData }: Route.ComponentProps) {
   const { orders } = loaderData;
-  console.log(orders);
 
   return (
     <div className="mx-auto max-w-screen-xl space-y-10">

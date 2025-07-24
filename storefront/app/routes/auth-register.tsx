@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import type { MetaFunction } from "react-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,6 +25,17 @@ const registerSchema = z.object({
   first_name: z.string().optional(),
   last_name: z.string().optional(),
 });
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Create Account - Duftlab" },
+    {
+      name: "description",
+      content:
+        "Join Duftlab to enjoy faster checkout, order tracking, and personalized fragrance recommendations.",
+    },
+  ];
+};
 
 export default function Register() {
   const { mutate: register, isPending: isRegistering } = useAuthRegister();

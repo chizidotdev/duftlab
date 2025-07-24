@@ -13,11 +13,12 @@ import { Toaster } from "@/components/ui/sonner";
 import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
+import { siteConfig } from "./lib/site-config";
 
 export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Duftlab" }, { name: "description", content: "Welcome to Duftlab" }];
+  return [{ title: siteConfig.title }, { name: "description", content: siteConfig.description }];
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

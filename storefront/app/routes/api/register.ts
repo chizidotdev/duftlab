@@ -10,4 +10,3 @@ export async function action({ request }: Route.ActionArgs) {
 
   return Response.json({ message: "Success" }, { headers });
 }
-

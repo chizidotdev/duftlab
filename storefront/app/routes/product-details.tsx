@@ -17,10 +17,23 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 }
 
 export function meta({ data }: Route.MetaArgs): Route.MetaDescriptors {
+  if (!data?.product) {
+    return [
+      { title: "Product Not Found - Duftlab" },
+      { name: "description", content: "The fragrance you're looking for could not be found." },
+    ];
+  }
+
+  const { product } = data;
   return [
-    { title: data.product.title },
-    { name: "description", content: data.product.description },
-    { name: "og:image", content: data.product.thumbnail },
+    { title: `${product.title} - Duftlab` },
+    {
+      name: "description",
+      content:
+        product.description ||
+        `Shop ${product.title} authentic fragrance at Duftlab. Premium quality with fast shipping across Nigeria.`,
+    },
+    { name: "og:image", content: product.thumbnail },
   ];
 }
 
@@ -43,7 +56,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
 
   return (
     <div className="flex flex-col gap-10 lg:flex-row">
-      <div className="bg-muted relative h-[50dvh] flex-1 rounded">
+      <div className="bg-muted relative h-[calc(100dvh-10rem)] flex-1 rounded">
         <img
           src={product?.thumbnail ?? "/placeholder.svg"}
           className="size-full object-cover transition-opacity"

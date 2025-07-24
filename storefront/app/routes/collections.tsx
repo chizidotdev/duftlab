@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import type { MetaFunction } from "react-router";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/text";
@@ -22,6 +23,17 @@ export async function loader({ request }: Route.LoaderArgs) {
 export function headers() {
   return CACHE_HEADERS;
 }
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Shop All Fragrances - Duftlab" },
+    {
+      name: "description",
+      content:
+        "Browse our complete collection of authentic designer fragrances, niche perfumes, and luxury cologne from top brands.",
+    },
+  ];
+};
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
   const { productsResponse, collectionsResponse } = loaderData;

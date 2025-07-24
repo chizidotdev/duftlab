@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import type { MetaFunction } from "react-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,6 +20,17 @@ import { Heading, Paragraph } from "@/components/ui/text";
 import { useAuthLogin } from "@/hooks/data";
 
 const loginSchema = z.object({ email: z.email(), password: z.string() });
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Sign In - Duftlab" },
+    {
+      name: "description",
+      content:
+        "Sign in to your Duftlab account to track orders and manage your fragrance preferences.",
+    },
+  ];
+};
 
 export default function Login() {
   const { mutate, isPending } = useAuthLogin();

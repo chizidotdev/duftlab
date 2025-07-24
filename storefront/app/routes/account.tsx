@@ -1,4 +1,5 @@
 import { NavLink, redirect } from "react-router";
+import type { MetaFunction } from "react-router";
 
 import { Building2, ExternalLink, Mail, MapPin, Phone, UserRound } from "lucide-react";
 
@@ -25,6 +26,16 @@ export async function loader({ request }: Route.LoaderArgs) {
 export function headers() {
   return CACHE_HEADERS;
 }
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "My Account - Duftlab" },
+    {
+      name: "description",
+      content: "Manage your account, view order history, and update your fragrance preferences.",
+    },
+  ];
+};
 
 export default function Account({ loaderData }: Route.ComponentProps) {
   const { customer } = loaderData;
