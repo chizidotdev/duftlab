@@ -7,7 +7,7 @@ import type { Route } from "./+types/auth";
 
 export function loader({ request }: Route.LoaderArgs) {
   const authHeaders = getAuthHeaders(request);
-  if (!!authHeaders || !!Object.keys(authHeaders).length) throw redirect("/account");
+  if (!!authHeaders && !!Object.keys(authHeaders).length) throw redirect("/account");
 
   return {};
 }

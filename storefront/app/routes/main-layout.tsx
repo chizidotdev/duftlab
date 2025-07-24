@@ -24,7 +24,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
   return (
     <div className="relative flex min-h-screen flex-col">
       {isNavigating && (
-        <div className="bg-background/60 fixed inset-0 z-[999] h-dvh cursor-progress" />
+        <div className="bg-background/60 fixed inset-0 z-[999] h-dvh animate-pulse cursor-progress" />
       )}
 
       <AppHeader cart={loaderData.cart as HttpTypes.StoreCart} />
