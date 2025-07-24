@@ -113,7 +113,7 @@
   }
 
   .link {
-    @apply text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm transition-all;
+    @apply text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-all;
   }
 
   .box-reflect {
@@ -139,6 +139,24 @@
     }
     100% {
       transform: translateX(-50%);
+    }
+  }
+
+  .animate-progress-bar {
+    animation: progress-bar 1s ease-in-out infinite;
+  }
+
+  @keyframes progress-bar {
+    0% {
+      width: 0%;
+      transform: translateX(0%);
+    }
+    50% {
+      width: 70%;
+    }
+    100% {
+      width: 100%;
+      transform: translateX(100%);
     }
   }
 }

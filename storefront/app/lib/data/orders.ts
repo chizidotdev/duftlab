@@ -24,10 +24,10 @@ export const retrieveOrder = async (id: string, request?: Request) => {
 };
 
 export const listOrders = async (
+  request: Request,
   limit: number = 10,
   offset: number = 0,
-  filters?: Record<string, any>,
-  request?: Request
+  filters?: Record<string, any>
 ) => {
   const headers = {
     ...getAuthHeaders(request),

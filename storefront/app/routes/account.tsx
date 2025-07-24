@@ -1,6 +1,6 @@
-import { redirect } from "react-router";
+import { NavLink, redirect } from "react-router";
 
-import { Building2, Mail, MapPin, Phone, UserRound } from "lucide-react";
+import { Building2, ExternalLink, Mail, MapPin, Phone, UserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -71,14 +71,21 @@ export default function Account({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="mx-auto max-w-screen-xl space-y-10">
-      <div>
-        <Heading variant="h2">Hello {customer.first_name || customer.email}</Heading>
-        <Paragraph className="text-muted-foreground">
-          Manage your account information and view your order history.
-        </Paragraph>
-      </div>
+      <hgroup className="flex flex-wrap justify-between gap-6">
+        <div>
+          <Heading variant="h2">Hello {customer.first_name || customer.email}</Heading>
+          <Paragraph className="text-muted-foreground">
+            Manage your account information and view your order history.
+          </Paragraph>
+        </div>
 
-      <div className="grid gap-10 lg:grid-cols-2">
+        <NavLink to="/account/orders" className="link">
+          <ExternalLink className="size-3.5" />
+          View Order History
+        </NavLink>
+      </hgroup>
+
+      <section className="grid gap-10 lg:grid-cols-2">
         {/* Personal Information */}
         <div>
           <div className="mb-4 flex items-center justify-between">
@@ -158,12 +165,12 @@ export default function Account({ loaderData }: Route.ComponentProps) {
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       <Separator />
 
       {/* Account Details */}
-      <div>
+      <section>
         <Heading variant="h3" className="mb-4">
           Account Details
         </Heading>
@@ -178,12 +185,12 @@ export default function Account({ loaderData }: Route.ComponentProps) {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       <Separator />
 
       {/* Account Actions */}
-      <div>
+      <section>
         <Heading variant="h3" className="mb-4">
           Account Actions
         </Heading>
@@ -192,7 +199,7 @@ export default function Account({ loaderData }: Route.ComponentProps) {
           <Button variant="outline">Change Password</Button>
           {/* <Button variant="destructive">Delete Account</Button> */}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
