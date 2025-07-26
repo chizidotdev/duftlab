@@ -12,7 +12,7 @@ import { Form } from "@/components/ui/form";
 import { Paragraph } from "@/components/ui/text";
 
 import { useGetCart } from "@/hooks/data";
-import { useShippingAddress } from "@/hooks/data";
+import { useCheckout } from "@/hooks/data";
 import { DEFAULT_COUNTRY_CODE } from "@/lib/constants";
 import { retrieveCart } from "@/lib/data/cart";
 import { getCartId } from "@/lib/data/cookies";
@@ -21,9 +21,9 @@ import {
   type CheckoutFormSchemaType,
   checkoutFormSchema,
 } from "@/modules/checkout/checkout-form-schema";
+import { CustomerInfo } from "@/modules/checkout/customer-info";
 import { Payment } from "@/modules/checkout/payment";
 import { PaymentProviders } from "@/modules/checkout/payment-providers";
-import { ShippingAddress } from "@/modules/checkout/shipping-address";
 import { ShippingMethod } from "@/modules/checkout/shipping-method";
 import { Summary } from "@/modules/checkout/summary";
 
@@ -51,32 +51,44 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Checkout - Duftlab" }];
 }
 
+function getDefaultAddress(
+  cart: HttpTypes.StoreCart | null,
+  addressType: "shipping_address" | "billing_address"
+) {
+  return {
+    first_name: cart?.[addressType]?.first_name ?? "",
+    last_name: cart?.[addressType]?.last_name ?? "",
+    address_1: cart?.[addressType]?.address_1 ?? "",
+    postal_code: cart?.[addressType]?.postal_code ?? "",
+    city: cart?.[addressType]?.city ?? "",
+    province: cart?.[addressType]?.province ?? "",
+    country_code: cart?.[addressType]?.country_code ?? DEFAULT_COUNTRY_CODE,
+    phone: cart?.[addressType]?.phone ?? "",
+  };
+}
+
 export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
   const { data: cart } = useGetCart(loaderData.cart as HttpTypes.StoreCart);
 
-  const { mutate, isPending } = useShippingAddress();
+  const { mutate, isPending } = useCheckout();
   const form = useForm<CheckoutFormSchemaType>({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
       email: cart?.email,
-      first_name: cart?.shipping_address?.first_name,
-      last_name: cart?.shipping_address?.last_name,
-      address_1: cart?.shipping_address?.address_1,
-      postal_code: cart?.shipping_address?.postal_code,
-      city: cart?.shipping_address?.city,
-      province: cart?.shipping_address?.province,
-      country_code: DEFAULT_COUNTRY_CODE,
-      phone: cart?.shipping_address?.phone,
+      shipping_address: getDefaultAddress(cart, "shipping_address"),
+      // billing_address: getDefaultAddress(cart, "billing_address"),
       same_as_billing: true,
       shipping_method: cart?.shipping_methods?.[0]?.shipping_option_id,
     },
   });
 
+  console.log(form.formState.errors);
+
   function onSubmit(values: CheckoutFormSchemaType) {
-    const { same_as_billing, shipping_method, email, ...shipping_address } = values;
+    const { same_as_billing, email, shipping_address, billing_address } = values;
 
     mutate(
-      { email, shipping_address, same_as_billing },
+      { email, shipping_address, same_as_billing, billing_address },
       {
         onSuccess: async (response) => {
           const cart = (await response.json()) as HttpTypes.StoreCart;
@@ -102,7 +114,7 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-              <ShippingAddress form={form} />
+              <CustomerInfo form={form} />
               <ShippingMethod
                 form={form}
                 cart={cart}

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 import type { CheckoutFormSchemaType } from "./checkout-form-schema";
 
-export function ShippingAddress({ form }: { form: UseFormReturn<CheckoutFormSchemaType> }) {
+export function CustomerInfo({ form }: { form: UseFormReturn<CheckoutFormSchemaType> }) {
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -36,7 +36,7 @@ export function ShippingAddress({ form }: { form: UseFormReturn<CheckoutFormSche
           <FormField
             key={item.key}
             control={form.control}
-            name={item.key}
+            name={`shipping_address.${item.key}` as const}
             render={({ field }) => (
               <FormItem className={cn(item.className)}>
                 <FormLabel>{item.label}</FormLabel>
@@ -56,7 +56,7 @@ export function ShippingAddress({ form }: { form: UseFormReturn<CheckoutFormSche
 const addressFormFields: {
   label: string;
   placeholder: string;
-  key: keyof Omit<CheckoutFormSchemaType, "same_as_billing">;
+  key: keyof CheckoutFormSchemaType["shipping_address"];
   className?: string;
 }[] = [
   { label: "First name", placeholder: "Enter your first name", key: "first_name" },
@@ -71,4 +71,4 @@ const addressFormFields: {
   { label: "City", placeholder: "Enter city", key: "city" },
   { label: "State", placeholder: "Enter state", key: "province" },
   { label: "Phone", placeholder: "Enter phone number", key: "phone" },
-] as const;
+];

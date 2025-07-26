@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Heading } from "@/components/ui/text";
 
 import { useShippingMethod } from "@/hooks/data";
+import { cn } from "@/lib/utils";
 import { convertToLocale } from "@/lib/utils/money";
 
 import type { CheckoutFormSchemaType } from "./checkout-form-schema";
@@ -19,7 +20,7 @@ export function ShippingMethod({
   cart: HttpTypes.StoreCart | null;
   shippingOptions: HttpTypes.StoreCartShippingOption[] | null;
 }) {
-  const { mutate } = useShippingMethod();
+  const { mutate, isPending } = useShippingMethod();
 
   if (!cart || !shippingOptions) return null;
 
@@ -31,32 +32,28 @@ export function ShippingMethod({
         control={form.control}
         name="shipping_method"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className={cn(isPending && "pointer-events-none animate-pulse")}>
             <FormControl>
               <RadioGroup
                 onValueChange={(v) => {
-                  field.onChange(v);
-                  mutate(v);
+                  mutate(v, { onSuccess: () => field.onChange(v) });
                 }}
                 defaultValue={field.value}
                 className="gap-0 rounded border"
               >
                 {shippingOptions?.map((option) => (
-                  <FormLabel
-                    key={option.id}
-                    className="has-data-[state=checked]:bg-muted flex min-h-12 items-center gap-2 px-3 py-3 not-last:border-b"
-                  >
-                    <FormControl>
+                  <FormControl key={option.id}>
+                    <FormLabel className="has-data-[state=checked]:bg-muted flex min-h-12 items-center gap-2 px-3 py-3 not-last:border-b">
                       <RadioGroupItem value={option.id} id={option.id} />
-                    </FormControl>
-                    <span>{option.name} </span>
-                    <span className="ml-auto flex">
-                      {convertToLocale({
-                        amount: option.prices[0].amount,
-                        currency_code: cart.currency_code,
-                      })}
-                    </span>
-                  </FormLabel>
+                      <span>{option.name} </span>
+                      <span className="ml-auto flex">
+                        {convertToLocale({
+                          amount: option.prices[0].amount,
+                          currency_code: cart.currency_code,
+                        })}
+                      </span>
+                    </FormLabel>
+                  </FormControl>
                 ))}
               </RadioGroup>
             </FormControl>

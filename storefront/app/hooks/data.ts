@@ -71,7 +71,7 @@ export function useUpdateCartItem() {
 }
 
 // Checkout
-export function useShippingAddress() {
+export function useCheckout() {
   const qc = useQueryClient();
 
   return useMutation({
