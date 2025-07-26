@@ -82,8 +82,6 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
     },
   });
 
-  console.log(form.formState.errors);
-
   function onSubmit(values: CheckoutFormSchemaType) {
     const { same_as_billing, email, shipping_address, billing_address } = values;
 
