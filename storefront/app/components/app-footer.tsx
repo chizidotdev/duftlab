@@ -38,7 +38,7 @@ export function AppFooter() {
               </Paragraph>
             </section>
 
-            <section className="ml-auto grid w-full max-w-screen-md gap-6 sm:grid-cols-3">
+            <section className="grid w-full max-w-screen-md gap-6 sm:grid-cols-3 lg:ml-auto">
               {footerSections.map((section) => (
                 <div key={section.title} className="space-y-4">
                   <Heading variant="h4">{section.title}</Heading>
