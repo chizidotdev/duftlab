@@ -20,7 +20,8 @@ export default function Home({}: Route.ComponentProps) {
     <>
       <Link
         to="/collections/all"
-        className="bg-hero-background relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md transition-all sm:h-[calc(100dvh-10rem)]"
+        className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md transition-all sm:h-[calc(100dvh-10rem)]"
+        style={{ backgroundColor: "hsl(220 10% 65%)" }}
       >
         <img
           src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png"
