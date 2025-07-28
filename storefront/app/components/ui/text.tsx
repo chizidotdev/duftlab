@@ -33,7 +33,7 @@ const Paragraph = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-  return <p className={cn("leading-5", className)} {...props} ref={ref} />;
+  return <p className={cn("", className)} {...props} ref={ref} />;
 });
 
 Paragraph.displayName = "Paragraph";
