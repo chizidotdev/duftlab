@@ -40,7 +40,7 @@ COPY --from=builder /app/.medusa/server ./server
 
 # Copy only production dependencies
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install && npx medusa db:migrate
 
 WORKDIR /app/server
 
@@ -48,4 +48,4 @@ WORKDIR /app/server
 EXPOSE 9000
 
 # Start the Medusa server in production mode
-CMD ["npx", "medusa", "db:migrate", "&&", "npx", "medusa", "start"]
+CMD ["npx", "medusa", "start"]
