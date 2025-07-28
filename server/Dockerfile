@@ -27,6 +27,9 @@ ARG S3_ACCESS_KEY_ID
 ARG S3_SECRET_ACCESS_KEY
 ARG PAYSTACK_SECRET_KEY
 
+# Run database migrations
+RUN npx medusa db:migrate
+
 # Build the Medusa application (creates .medusa directory)
 RUN yarn build
 
@@ -40,7 +43,7 @@ COPY --from=builder /app/.medusa/server ./server
 
 # Copy only production dependencies
 COPY package.json yarn.lock ./
-RUN yarn install && npx medusa db:migrate
+RUN yarn install
 
 WORKDIR /app/server
 
