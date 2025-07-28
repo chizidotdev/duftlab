@@ -40,7 +40,7 @@ COPY --from=builder /app/.medusa/server ./server
 
 # Copy only production dependencies
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install && yarn predeploy
 
 WORKDIR /app/server
 
