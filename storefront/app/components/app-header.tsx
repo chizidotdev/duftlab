@@ -39,6 +39,7 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
         <div className="flex items-center gap-4 lg:hidden [&_svg]:size-5">
           <MobileNav>
             <Menu />
+            <span className="sr-only">Sidebar menu</span>
           </MobileNav>
           <CollapsibleTrigger className="text-sm uppercase lg:hidden">
             <SearchIcon />
@@ -47,22 +48,26 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
 
         <NavLink to="/" className="flex justify-center">
           <AppLogo />
+          <span className="sr-only">Home</span>
         </NavLink>
 
         <div className="flex items-center justify-end gap-4 font-medium lg:gap-6 [&_svg]:size-5">
           <CollapsibleTrigger className="hidden text-sm uppercase lg:flex">
             Search
+            <span className="sr-only">Search</span>
           </CollapsibleTrigger>
           <NavLink className="text-sm uppercase" to="/account">
             <span className="hidden lg:inline">Account</span>
             <span className="lg:hidden">
               <UserRound />
+              <span className="sr-only">Account</span>
             </span>
           </NavLink>
           <CartSheet cart={cart}>
             <span className="hidden lg:inline">Cart</span>
             <span className="lg:hidden">
               <ShoppingCart />
+              <span className="sr-only">Cart</span>
             </span>
           </CartSheet>
         </div>
