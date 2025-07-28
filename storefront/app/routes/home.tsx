@@ -2,7 +2,6 @@ import { Link } from "react-router";
 
 import { ChevronRight } from "lucide-react";
 
-import { heroImage } from "@/components/hero-image-base64";
 import { Button } from "@/components/ui/button";
 import { Heading, Paragraph } from "@/components/ui/text";
 
@@ -24,7 +23,7 @@ export default function Home({}: Route.ComponentProps) {
         className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md bg-[#A0A5B1] transition-all sm:h-[calc(100dvh-10rem)]"
       >
         <img
-          src={heroImage}
+          src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png"
           alt="Hero Image"
           className="size-full object-cover object-[75%_13dvh] lg:scale-110 lg:object-center"
         />
