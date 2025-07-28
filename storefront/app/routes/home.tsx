@@ -20,7 +20,7 @@ export default function Home({}: Route.ComponentProps) {
     <>
       <Link
         to="/collections/all"
-        className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md bg-[#A0A5B1] transition-all sm:h-[calc(100dvh-10rem)]"
+        className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md bg-[hsl(220,10%,65%)] transition-all sm:h-[calc(100dvh-10rem)]"
       >
         <img
           src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png"
