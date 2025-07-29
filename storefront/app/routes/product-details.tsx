@@ -56,19 +56,24 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
 
   return (
     <div className="flex flex-col gap-10 lg:flex-row">
-      <div className="bg-muted relative h-[calc(100dvh-10rem)] flex-1 rounded">
+      <div className="bg-muted relative flex h-[calc(100dvh-10rem)] flex-1 flex-col items-center justify-center overflow-hidden rounded-sm">
         <img
           src={product?.thumbnail ?? "/placeholder.svg"}
-          className="size-full object-cover transition-opacity"
+          className="size-full object-contain transition-opacity"
         />
       </div>
 
-      <div className="flex flex-col justify-center gap-2 lg:max-w-lg">
-        <Paragraph className="text-muted-foreground">{product.collection?.title}</Paragraph>
-        <Heading variant="h3">{product.title}</Heading>
-        <Paragraph>{product.description}</Paragraph>
+      <div className="flex flex-col justify-center gap-4 lg:max-w-md 2xl:max-w-lg">
+        <div>
+          <Paragraph className="text-muted-foreground">{product.collection?.title}</Paragraph>
+          <Heading variant="h3">{product.title}</Heading>
+        </div>
 
         <ProductActions product={product} />
+
+        <div className="">
+          <Paragraph className="whitespace-pre-wrap">{product.description}</Paragraph>
+        </div>
       </div>
     </div>
   );

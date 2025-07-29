@@ -21,10 +21,10 @@ export function ProductActions({
   } = useProductActions(product);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="space-y-2">
-        {(product.variants?.length || 0) > 1 &&
-          options.map((option) => (
+    <div className="flex flex-col gap-2">
+      {(product.variants?.length || 0) > 1 && (
+        <div className="space-y-2">
+          {options.map((option) => (
             <div key={option.id}>
               <Paragraph>{option.title}</Paragraph>
               <ToggleGroup
@@ -43,9 +43,10 @@ export function ProductActions({
               </ToggleGroup>
             </div>
           ))}
-      </div>
+        </div>
+      )}
 
-      <Heading variant="h4">
+      <Heading variant="h3">
         <ProductPrice product={product} />
       </Heading>
 

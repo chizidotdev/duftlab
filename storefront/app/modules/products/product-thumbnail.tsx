@@ -18,7 +18,7 @@ export function ProductThumbnail({
       />
       <img
         src={product?.images?.[1].url ?? "/placeholder.svg"}
-        className="absolute inset-[15%] size-[70%] object-cover opacity-0 transition-opacity group-hover:opacity-100"
+        className="absolute inset-[15%] size-[80%] object-cover opacity-0 transition-opacity group-hover:opacity-100"
       />
     </div>
   );
