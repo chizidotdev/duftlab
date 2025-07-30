@@ -9,17 +9,25 @@ export function ProductThumbnail({
 }: React.ComponentProps<"div"> & { product?: HttpTypes.StoreProduct }) {
   return (
     <div
-      className={cn("bg-muted group relative aspect-[9/10] w-full rounded border", className)}
+      className={cn(
+        "bg-muted group relative flex aspect-[9/10] w-full items-center justify-center rounded border",
+        className
+      )}
       {...props}
     >
       <img
         src={product?.thumbnail ?? "/placeholder.svg"}
-        className="size-full object-contain transition-opacity group-hover:opacity-0"
+        className={cn(
+          "size-5/6 object-contain transition-opacity duration-300",
+          !!product?.images?.[1] && "group-hover:opacity-0"
+        )}
       />
-      <img
-        src={product?.images?.[1].url ?? "/placeholder.svg"}
-        className="absolute inset-[15%] size-[80%] object-cover opacity-0 transition-opacity group-hover:opacity-100"
-      />
+      {!!product?.images?.[1] && (
+        <img
+          src={product.images[1].url}
+          className="absolute inset-[10%] size-[80%] object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        />
+      )}
     </div>
   );
 }

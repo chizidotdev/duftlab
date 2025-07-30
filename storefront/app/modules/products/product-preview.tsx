@@ -44,7 +44,7 @@ export function ProductPreview({ product }: { product: HttpTypes.StoreProduct })
           <PlusIcon />
         </Button>
       </div>
-      <div className="flex flex-col justify-between text-sm sm:flex-row sm:items-center sm:text-base">
+      <div className="flex flex-col justify-between px-2 text-sm sm:flex-row sm:items-center sm:text-base">
         <Paragraph data-testid="product-title">{product.title}</Paragraph>
         <ProductPrice product={product} />
       </div>
