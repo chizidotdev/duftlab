@@ -3,23 +3,30 @@ import type { HttpTypes } from "@medusajs/types";
 import { cn } from "@/lib/utils";
 import { getProductPrice } from "@/lib/utils/get-product-price";
 
-export function ProductPrice({ product }: { product: HttpTypes.StoreProduct }) {
-  const { cheapestPrice } = getProductPrice({ product });
+export function ProductPrice({
+  product,
+  variant,
+}: {
+  product: HttpTypes.StoreProduct;
+  variant?: HttpTypes.StoreProductVariant;
+}) {
+  const { cheapestPrice, variantPrice } = getProductPrice({ product, variantId: variant?.id });
+  const selectedPrice = variant ? variantPrice : cheapestPrice;
 
-  if (!cheapestPrice) return null;
+  if (!selectedPrice) return null;
 
   return (
     <>
-      {cheapestPrice.price_type === "sale" && (
+      {selectedPrice.price_type === "sale" && (
         <span className="line-through" data-testid="original-price">
-          {cheapestPrice.original_price}
+          {selectedPrice.original_price}
         </span>
       )}
       <span
-        className={cn(cheapestPrice.price_type === "sale" && "text-muted-foreground")}
+        className={cn(selectedPrice.price_type === "sale" && "text-muted-foreground")}
         data-testid="price"
       >
-        {cheapestPrice.calculated_price}
+        {selectedPrice.calculated_price}
       </span>
     </>
   );

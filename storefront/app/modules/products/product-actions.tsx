@@ -11,6 +11,7 @@ export function ProductActions({
   product,
 }: React.ComponentProps<"button"> & { product: HttpTypes.StoreProduct }) {
   const {
+    selectedVariant,
     options,
     selectedOptions,
     setSelectedOptions,
@@ -47,7 +48,7 @@ export function ProductActions({
       )}
 
       <Heading variant="h3">
-        <ProductPrice product={product} />
+        <ProductPrice product={product} variant={selectedVariant} />
       </Heading>
 
       <Button disabled={!inStock || !isValidVariant} isLoading={isPending} onClick={addToCart}>
