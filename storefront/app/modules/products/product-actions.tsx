@@ -23,29 +23,27 @@ export function ProductActions({
 
   return (
     <div className="flex flex-col gap-2">
-      {(product.variants?.length || 0) > 1 && (
-        <div className="space-y-2">
-          {options.map((option) => (
-            <div key={option.id}>
-              <Paragraph>{option.title}</Paragraph>
-              <ToggleGroup
-                type="single"
-                variant="outline"
-                value={selectedOptions[option.id]}
-                onValueChange={(value) =>
-                  setSelectedOptions((prev) => ({ ...prev, [option.id]: value }))
-                }
-              >
-                {option.values?.map((v) => (
-                  <ToggleGroupItem key={v.id} value={v.value}>
-                    {v.value}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="space-y-2">
+        {options.map((option) => (
+          <div key={option.id} className="flex items-center gap-2">
+            <Paragraph>{option.title}</Paragraph>
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              value={selectedOptions[option.id]}
+              onValueChange={(value) =>
+                setSelectedOptions((prev) => ({ ...prev, [option.id]: value }))
+              }
+            >
+              {option.values?.map((v) => (
+                <ToggleGroupItem key={v.id} value={v.value}>
+                  {v.value}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+        ))}
+      </div>
 
       <Heading variant="h3">
         <ProductPrice product={product} variant={selectedVariant} />
