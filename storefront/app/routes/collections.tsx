@@ -1,20 +1,40 @@
-import { NavLink } from "react-router";
+import { NavLink, redirect } from "react-router";
 import type { MetaFunction } from "react-router";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
-import { listCollections } from "@/lib/data/collections";
+import { getCollectionByHandle, listCollections } from "@/lib/data/collections";
 import { listProductsWithSort } from "@/lib/data/products";
 import { cn } from "@/lib/utils";
 import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/collections";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, params }: Route.LoaderArgs) {
+  const collection = await getCollectionByHandle(params.handle);
+
+  if (!collection && params.handle !== "all") {
+    throw redirect("/collections/all");
+  }
+
+  const queryParams: {
+    limit: number;
+    collection_id?: string[];
+    category_id?: string[];
+    id?: string[];
+    order?: string;
+  } = {
+    limit: 12,
+  };
+
+  if (collection?.id) {
+    queryParams["collection_id"] = [collection.id];
+  }
+
   const [{ response }, collectionsResponse] = await Promise.all([
-    listProductsWithSort(request),
+    listProductsWithSort(request, { queryParams }),
     listCollections(),
   ]);
   return { productsResponse: response, collectionsResponse };
@@ -24,9 +44,13 @@ export function headers() {
   return CACHE_HEADERS;
 }
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = ({ params }) => {
+  const title = params.handle
+    ? `Shop ${params.handle} collection - Duftlab`
+    : "Shop All Fragrances - Duftlab";
+
   return [
-    { title: "Shop All Fragrances - Duftlab" },
+    { title },
     {
       name: "description",
       content:
