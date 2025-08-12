@@ -7,6 +7,9 @@ export function ProductThumbnail({
   className,
   ...props
 }: React.ComponentProps<"div"> & { product?: HttpTypes.StoreProduct }) {
+  const thumbnail = product?.thumbnail ?? product?.images?.[0]?.url ?? "/placeholder.svg";
+  const packedThumbnail = product?.images?.[1];
+
   return (
     <div
       className={cn(
@@ -16,15 +19,15 @@ export function ProductThumbnail({
       {...props}
     >
       <img
-        src={product?.thumbnail ?? "/placeholder.svg"}
+        src={thumbnail}
         className={cn(
-          "size-5/6 object-contain transition-opacity duration-300",
-          !!product?.images?.[1] && "group-hover:opacity-0"
+          "size-5/6 rounded-md object-contain transition-opacity duration-300",
+          !!packedThumbnail && "group-hover:opacity-0"
         )}
       />
-      {!!product?.images?.[1] && (
+      {!!packedThumbnail && (
         <img
-          src={product.images[1].url}
+          src={packedThumbnail.url}
           className="absolute inset-[10%] size-[80%] object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
       )}

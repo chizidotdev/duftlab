@@ -130,3 +130,11 @@ export function useAuthRegister() {
     onError: (err) => errorToast(err),
   });
 }
+
+// Search
+export function useSearch() {
+  return useMutation({
+    mutationFn: (data: { query: string }) => api.post("/api/search", { json: data }).json(),
+    onError: (err) => errorToast(err),
+  });
+}

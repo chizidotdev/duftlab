@@ -55,17 +55,27 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
   if (!product) return <>{/*404 product component*/}Not found</>;
 
   return (
-    <div className="flex flex-col gap-10 lg:flex-row">
-      <div className="bg-muted relative flex h-[calc(100dvh-10rem)] flex-1 flex-col items-center justify-center overflow-hidden rounded-sm">
-        <img
-          src={product?.thumbnail ?? "/placeholder.svg"}
-          className="size-full object-contain transition-opacity"
-        />
-      </div>
+    <div className="relative flex flex-col gap-10 lg:flex-row">
+      <ul className="flex-1 space-y-4">
+        <li className="bg-muted overflow-hidden rounded-sm lg:h-[calc(100dvh-9rem)]">
+          <img
+            src={product?.thumbnail ?? "/placeholder.svg"}
+            className="size-full object-contain transition-opacity"
+          />
+        </li>
+        {!!product.images?.[1] && (
+          <li className="bg-muted hidden overflow-hidden rounded-sm lg:block lg:h-[calc(100dvh-10rem)]">
+            <img
+              src={product.images[1].url}
+              className="size-full object-contain transition-opacity"
+            />
+          </li>
+        )}
+      </ul>
 
-      <div className="flex flex-col justify-center gap-4 lg:max-w-md 2xl:max-w-lg">
+      <div className="sticky top-32 flex w-full flex-col justify-center gap-8 lg:h-[calc(100dvh-9rem)] lg:max-w-md 2xl:max-w-lg">
         <div>
-          <Paragraph className="text-muted-foreground">{product.collection?.title}</Paragraph>
+          <Paragraph className="text-muted-foreground">{product.categories?.[0]?.name}</Paragraph>
           <Heading variant="h3">{product.title}</Heading>
         </div>
 
