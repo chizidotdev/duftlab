@@ -9,4 +9,7 @@ export default defineConfig({
   ssr: {
     noExternal: ["@medusajs/js-sdk"],
   },
+  optimizeDeps: {
+    exclude: ["motion"],
+  },
 });

@@ -26,7 +26,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     id?: string[];
     order?: string;
   } = {
-    limit: 100,
+    limit: 20,
   };
 
   if (collection?.id) {

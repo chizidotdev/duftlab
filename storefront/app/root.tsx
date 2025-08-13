@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
+import { SplashScreenProvider } from "./components/app-splash-screen";
 import { siteConfig } from "./lib/site-config";
 
 export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
@@ -43,7 +44,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <QueryProvider>
-      <Outlet />
+      <SplashScreenProvider>
+        <Outlet />
+      </SplashScreenProvider>
     </QueryProvider>
   );
 }

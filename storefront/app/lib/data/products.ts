@@ -96,8 +96,8 @@ export const listProductsWithSort = async (
   nextPage: number | null;
   queryParams?: QueryParams;
 }> => {
-  const { page = 1, queryParams, sortBy = "created_at", countryCode } = data ?? {};
-  const limit = queryParams?.limit || 12;
+  const { page = 1, queryParams, sortBy = "-created_at", countryCode } = data ?? {};
+  const limit = queryParams?.limit || 20;
 
   const {
     response: { products, count },
