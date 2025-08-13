@@ -50,7 +50,7 @@ export function ProductActions({
       </Heading>
 
       <Button disabled={!inStock || !isValidVariant} isLoading={isPending} onClick={addToCart}>
-        {!inStock ? "Out of stock" : "Add to cart"}
+        {!inStock ? "Sold out" : "Add to cart"}
       </Button>
     </div>
   );
