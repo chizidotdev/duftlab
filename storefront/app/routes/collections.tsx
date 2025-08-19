@@ -1,6 +1,14 @@
 import { NavLink, redirect } from "react-router";
 import type { MetaFunction } from "react-router";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/text";
 
@@ -12,7 +20,13 @@ import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/collections";
 
+const PRODUCT_LIMIT = 20;
+
 export async function loader({ request, params }: Route.LoaderArgs) {
+  const searchParams = new URL(request.url).searchParams;
+  const pageParam = searchParams.get("page");
+  const page = !pageParam ? 1 : Number(pageParam);
+
   const collection = await getCollectionByHandle(params.handle);
 
   if (!collection && params.handle !== "all") {
@@ -26,7 +40,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     id?: string[];
     order?: string;
   } = {
-    limit: 20,
+    limit: PRODUCT_LIMIT,
   };
 
   if (collection?.id) {
@@ -34,10 +48,10 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   }
 
   const [{ response }, collectionsResponse] = await Promise.all([
-    listProductsWithSort(request, { queryParams }),
+    listProductsWithSort(request, { page, queryParams }),
     listCollections(),
   ]);
-  return { productsResponse: response, collectionsResponse };
+  return { productsResponse: response, collectionsResponse, page };
 }
 
 export function headers() {
@@ -60,9 +74,15 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
-  const { productsResponse, collectionsResponse } = loaderData;
+  const { productsResponse, collectionsResponse, page } = loaderData;
   const products = productsResponse?.products ?? [];
   const collections = collectionsResponse?.collections ?? [];
+
+  const totalPages = productsResponse.count;
+  const numOfPages = Math.ceil(totalPages / PRODUCT_LIMIT);
+
+  // const showLeftEllipsis = page - 1 > paginationItemsToDisplay / 2;
+  // const showRightEllipsis = totalPages - page + 1 > paginationItemsToDisplay / 2;
 
   return (
     <div className="space-y-10">
@@ -97,6 +117,30 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
           <ProductPreview key={product.id} product={product} />
         ))}
       </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              to={page === 1 ? `?page=${page}` : `?page=${page - 1}`}
+              aria-disabled={page === 1 ? true : undefined}
+            />
+          </PaginationItem>
+          {Array.from({ length: numOfPages }).map((_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink isActive={i + 1 === page} to={`?page=${i + 1}`}>
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              to={page === numOfPages ? `?page=${page}` : `?page=${page + 1}`}
+              aria-disabled={page === numOfPages ? true : undefined}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

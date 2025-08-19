@@ -24,11 +24,11 @@ export default function Home({}: Route.ComponentProps) {
         style={{ backgroundColor: "hsl(220 10% 66%)" }}
       >
         <img
-          src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png"
+          src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1755561418664"
           alt="Hero Image"
           className="size-full object-cover object-[75%_bottom] lg:scale-110 lg:object-[center_95%]"
         />
-        <div className="absolute inset-x-8 top-[6dvh] space-y-2 text-white sm:inset-x-16 sm:top-[14dvh] xl:inset-x-[10dvw] xl:top-[20dvh]">
+        <div className="absolute inset-x-8 top-[6dvh] space-y-3 text-white sm:inset-x-16 sm:top-[14dvh] xl:inset-x-[10dvw] xl:top-[20dvh]">
           <Heading className="sm:text-5xl">
             Elevate your style <br className="hidden sm:inline" />
             with the perfect scent
@@ -37,7 +37,7 @@ export default function Home({}: Route.ComponentProps) {
             Join countless satisfied customers who trust us to deliver timeless fragrances that
             enhance their confidence and personal style.
           </Paragraph>
-          <Button className="mt-2">
+          <Button className="mt-4">
             Shop now <ChevronRight />
           </Button>
         </div>

@@ -14,6 +14,7 @@
     "@fontsource-variable/dm-sans": "^5.2.6",
     "@hookform/resolvers": "^5.1.1",
     "@medusajs/js-sdk": "^2.8.6",
+    "@radix-ui/react-slot": "^1.2.3",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
     "@tanstack/react-query": "^5.81.5",
