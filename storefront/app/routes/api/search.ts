@@ -18,4 +18,3 @@ export async function action({ request }: Route.LoaderArgs) {
 
   return Response.json(result.response);
 }
-

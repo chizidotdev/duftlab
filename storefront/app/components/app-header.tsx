@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
@@ -23,8 +24,14 @@ import { Search } from "./search";
 import { Paragraph } from "./ui/text";
 
 export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
-    <Collapsible className="bg-background sticky top-0 z-50">
+    <Collapsible
+      open={searchOpen}
+      onOpenChange={setSearchOpen}
+      className="bg-background sticky top-0 z-50"
+    >
       <AnnouncementBar />
       <header className="container grid grid-cols-3 items-center justify-between py-3 sm:py-5">
         <nav className="hidden items-center gap-6 font-medium lg:flex">
@@ -73,7 +80,7 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
         </div>
       </header>
       <CollapsibleContent>
-        <Search />
+        <Search setOpen={setSearchOpen} />
       </CollapsibleContent>
     </Collapsible>
   );

@@ -1,6 +1,7 @@
-import { NavLink, redirect } from "react-router";
+import { Link, NavLink, redirect } from "react-router";
 import type { MetaFunction } from "react-router";
 
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -10,7 +11,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import { Heading } from "@/components/ui/text";
+import { Heading, Paragraph } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
 import { getCollectionByHandle, listCollections } from "@/lib/data/collections";
@@ -24,6 +25,7 @@ const PRODUCT_LIMIT = 16;
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   const url = new URL(request.url);
+  const searchQuery = url.searchParams.get("q");
   const pageParam = url.searchParams.get("page");
   const page = !pageParam ? 1 : Number(pageParam);
 
@@ -39,8 +41,10 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     category_id?: string[];
     id?: string[];
     order?: string;
+    q?: string;
   } = {
     limit: PRODUCT_LIMIT,
+    q: searchQuery || undefined,
   };
 
   if (collection?.id) {
@@ -51,7 +55,8 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     listProductsWithSort(request, { page, queryParams }),
     listCollections(),
   ]);
-  return { productsResponse: response, collectionsResponse, page };
+
+  return { productsResponse: response, collectionsResponse, page, query: searchQuery };
 }
 
 export function headers() {
@@ -74,7 +79,7 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
-  const { productsResponse, collectionsResponse, page } = loaderData;
+  const { productsResponse, collectionsResponse, page, query } = loaderData;
   const products = productsResponse?.products ?? [];
   const collections = collectionsResponse?.collections ?? [];
 
@@ -88,7 +93,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
     <div className="space-y-10">
       <div className="space-y-3">
         <Heading className="capitalize" variant="h2">
-          Shop {params.handle}
+          {!query ? `Shop ${params.handle}` : `Search results for "${query}"`}
         </Heading>
 
         <Separator />
@@ -112,13 +117,31 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
         </nav>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(20rem,auto))] lg:gap-x-6 2xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductPreview key={product.id} product={product} />
-        ))}
-      </div>
+      {!products.length ? (
+        <div className="flex min-h-96 flex-col items-center justify-center space-y-4 rounded-lg text-center">
+          <div className="bg-muted mx-auto flex size-20 items-center justify-center rounded-full">
+            <img src="/logo.png" className="text-muted-foreground size-12 rounded-full" />
+          </div>
+          <div className="space-y-2">
+            <Heading variant="h3">No products found</Heading>
+            <Paragraph className="text-muted-foreground max-w-sm">
+              We couldn't find any products in this collection. Try browsing other collections,
+              modifying your search or check back later.
+            </Paragraph>
+          </div>
+          <Button asChild>
+            <Link to="/collections/all">Browse all products</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-x-1 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(20rem,auto))] 2xl:grid-cols-4">
+          {products.map((product) => (
+            <ProductPreview key={product.id} product={product} />
+          ))}
+        </div>
+      )}
 
-      <Pagination>
+      <Pagination className={cn("mt-6", numOfPages <= 1 && "hidden")}>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious

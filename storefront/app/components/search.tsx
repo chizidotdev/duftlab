@@ -1,9 +1,10 @@
+import { useNavigate } from "react-router";
+
 import { SearchIcon } from "lucide-react";
 
-import { useSearch } from "@/hooks/data";
-
-export function Search() {
-  const { mutate } = useSearch();
+export function Search({ setOpen }: { setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+  // const { mutate } = useSearch();
+  const navigate = useNavigate();
 
   function searchProducts(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -12,14 +13,10 @@ export function Search() {
     const query = formData.get("query")?.toString() || "";
     if (!query) return;
 
-    mutate(
-      { query },
-      {
-        onSuccess: (data) => {
-          console.log("Search results:", data);
-        },
-      }
-    );
+    navigate(`/collections/all?q=${encodeURIComponent(query)}`);
+    setOpen(false);
+
+    // mutate({ query });
   }
 
   return (
