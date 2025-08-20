@@ -20,11 +20,11 @@ import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/collections";
 
-const PRODUCT_LIMIT = 20;
+const PRODUCT_LIMIT = 16;
 
 export async function loader({ request, params }: Route.LoaderArgs) {
-  const searchParams = new URL(request.url).searchParams;
-  const pageParam = searchParams.get("page");
+  const url = new URL(request.url);
+  const pageParam = url.searchParams.get("page");
   const page = !pageParam ? 1 : Number(pageParam);
 
   const collection = await getCollectionByHandle(params.handle);
@@ -112,7 +112,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
         </nav>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-1 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(16rem,auto))] 2xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(20rem,auto))] lg:gap-x-6 2xl:grid-cols-4">
         {products.map((product) => (
           <ProductPreview key={product.id} product={product} />
         ))}

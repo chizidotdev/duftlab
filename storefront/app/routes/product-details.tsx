@@ -71,6 +71,14 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
             />
           </li>
         )}
+        {!!product.images?.[2] && (
+          <li className="bg-muted hidden overflow-hidden rounded-sm lg:block lg:h-[calc(100dvh-10rem)]">
+            <img
+              src={product.images[2].url}
+              className="size-full object-contain transition-opacity"
+            />
+          </li>
+        )}
       </ul>
 
       <div className="sticky top-32 flex w-full flex-col justify-center gap-8 lg:h-[calc(100dvh-9rem)] lg:max-w-md 2xl:max-w-lg">

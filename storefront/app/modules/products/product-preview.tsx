@@ -12,8 +12,7 @@ import { ProductThumbnail } from "./product-thumbnail";
 import { useProductActions } from "./use-product-actions";
 
 export function ProductPreview({ product }: { product: HttpTypes.StoreProduct }) {
-  const category = product.categories?.[0];
-
+  const collection = product.collection;
   const { isValidVariant, inStock, addToCart, isPending } = useProductActions(product);
 
   return (
@@ -24,9 +23,9 @@ export function ProductPreview({ product }: { product: HttpTypes.StoreProduct })
       className="flex w-full flex-col gap-2"
     >
       <div className="relative">
-        {!!category && (
+        {!!collection?.title && (
           <Badge variant="outline" className="absolute top-2 left-2 z-10 sm:top-3 sm:left-3">
-            {category.name}
+            {collection.title}
           </Badge>
         )}
         <ProductThumbnail product={product} />
