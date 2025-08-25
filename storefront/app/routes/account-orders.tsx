@@ -1,11 +1,10 @@
 import { Link, NavLink, redirect } from "react-router";
 import type { MetaFunction } from "react-router";
 
-import { ChevronRight, Undo } from "lucide-react";
+import { Undo } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Heading, Paragraph } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";

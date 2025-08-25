@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 import { ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { Heading, Paragraph } from "@/components/ui/text";
@@ -23,10 +24,11 @@ export default function Home({}: Route.ComponentProps) {
         className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md transition-all sm:h-[calc(100dvh-10rem)]"
         style={{ backgroundColor: "hsl(220 10% 66%)" }}
       >
-        <img
+        <motion.img
           src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1755561418664"
           alt="Hero Image"
-          className="size-full object-cover object-[75%_bottom] lg:scale-110 lg:object-[center_95%]"
+          className="hero-image size-full object-cover object-[75%_bottom] lg:scale-110 lg:object-[center_95%]"
+          initial={{ scale: 1.1 }}
         />
         <div className="absolute inset-x-8 top-[6dvh] space-y-3 text-white sm:inset-x-16 sm:top-[14dvh] xl:inset-x-[10dvw] xl:top-[20dvh]">
           <Heading className="sm:text-5xl">

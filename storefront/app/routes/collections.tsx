@@ -119,14 +119,14 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
 
       {!products.length ? (
         <div className="flex min-h-96 flex-col items-center justify-center space-y-4 rounded-lg text-center">
-          <div className="bg-muted mx-auto flex size-20 items-center justify-center rounded-full">
-            <img src="/logo.png" className="text-muted-foreground size-12 rounded-full" />
+          <div className="mx-auto flex size-32">
+            <img src="/assets/empty-state.svg" className="text-muted-foreground size-full" />
           </div>
           <div className="space-y-2">
             <Heading variant="h3">No products found</Heading>
-            <Paragraph className="text-muted-foreground max-w-sm">
-              We couldn't find any products in this collection. Try browsing other collections,
-              modifying your search or check back later.
+            <Paragraph className="text-muted-foreground max-w-md">
+              We couldn't find any products in this collection. Try modifying your search or
+              browsing other collections.
             </Paragraph>
           </div>
           <Button asChild>

@@ -32,6 +32,7 @@ export function SplashScreenProvider({ children }: { children: React.ReactNode }
         ],
         [".intro", { opacity: "0%", y: "-20%" }, { duration: 0.3, ease: "easeInOut" }],
         [".intro", { display: ["grid", "none"] }, { duration: 0.4, ease: "easeInOut" }],
+        [".hero-image", { scale: 1 }, { duration: 0.7, ease: "easeOut", at: "<-0.5" }],
       ],
       {
         defaultTransition: {
