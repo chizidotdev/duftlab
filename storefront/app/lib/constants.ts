@@ -2,6 +2,8 @@ import { CreditCard, type LucideIcon } from "lucide-react";
 
 export const DEFAULT_COUNTRY_CODE = "ng";
 
+export const PRODUCT_LIMIT = 16;
+
 export const CACHE_HEADERS = {
   "Cache-Control": "public, max-age=10, stale-while-revalidate=604800",
   "Cloudflare-CDN-Cache-Control": "max-age=10, stale-while-revalidate=604800",

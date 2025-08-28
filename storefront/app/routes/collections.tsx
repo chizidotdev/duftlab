@@ -1,30 +1,24 @@
-import { Link, NavLink, redirect } from "react-router";
+import { Link, NavLink, redirect, useNavigate } from "react-router";
 import type { MetaFunction } from "react-router";
 
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import * as Pagination from "@/components/ui/pagination";
+import * as Select from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Heading, Paragraph } from "@/components/ui/text";
 
-import { CACHE_HEADERS } from "@/lib/constants";
+import { CACHE_HEADERS, PRODUCT_LIMIT } from "@/lib/constants";
 import { getCollectionByHandle, listCollections } from "@/lib/data/collections";
 import { listProductsWithSort } from "@/lib/data/products";
 import { cn } from "@/lib/utils";
+import type { SortOptions } from "@/lib/utils/sort-products";
 import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/collections";
 
-const PRODUCT_LIMIT = 16;
-
 export async function loader({ request, params }: Route.LoaderArgs) {
   const url = new URL(request.url);
+  const sortBy = (url.searchParams.get("sortBy") || "created_at") as SortOptions;
   const searchQuery = url.searchParams.get("q");
   const pageParam = url.searchParams.get("page");
   const page = !pageParam ? 1 : Number(pageParam);
@@ -51,12 +45,16 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     queryParams["collection_id"] = [collection.id];
   }
 
+  if (sortBy === "created_at") {
+    queryParams["order"] = "created_at";
+  }
+
   const [{ response }, collectionsResponse] = await Promise.all([
-    listProductsWithSort(request, { page, queryParams }),
+    listProductsWithSort(request, { page, queryParams, sortBy }),
     listCollections(),
   ]);
 
-  return { productsResponse: response, collectionsResponse, page, query: searchQuery };
+  return { url, productsResponse: response, collectionsResponse, page, query: searchQuery, sortBy };
 }
 
 export function headers() {
@@ -79,15 +77,25 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
-  const { productsResponse, collectionsResponse, page, query } = loaderData;
+  const navigate = useNavigate();
+
+  const { url, productsResponse, collectionsResponse, page, query, sortBy } = loaderData;
   const products = productsResponse?.products ?? [];
   const collections = collectionsResponse?.collections ?? [];
 
   const totalPages = productsResponse.count;
   const numOfPages = Math.ceil(totalPages / PRODUCT_LIMIT);
 
-  // const showLeftEllipsis = page - 1 > paginationItemsToDisplay / 2;
-  // const showRightEllipsis = totalPages - page + 1 > paginationItemsToDisplay / 2;
+  function getPageLink(page: number) {
+    url.searchParams.set("page", page.toString());
+    return url.pathname + url.search;
+  }
+
+  function handleSort(value: SortOptions) {
+    url.searchParams.set("sortBy", value);
+    url.searchParams.delete("page"); // Reset to first page on sort change
+    navigate(url.pathname + url.search);
+  }
 
   return (
     <div className="space-y-10">
@@ -98,23 +106,36 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
 
         <Separator />
 
-        <nav className="flex items-center gap-6">
-          <NavLink
-            className={({ isActive }) => cn("link", isActive && "text-foreground")}
-            to={`/collections/all`}
-          >
-            Shop all
-          </NavLink>
-          {collections.map((collection) => (
+        <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4">
+          <nav className="flex items-center gap-6 overflow-x-auto">
             <NavLink
-              key={collection.id}
               className={({ isActive }) => cn("link", isActive && "text-foreground")}
-              to={`/collections/${collection.handle}`}
+              to={`/collections/all`}
             >
-              {collection.title}
+              Shop all
             </NavLink>
-          ))}
-        </nav>
+            {collections.map((collection) => (
+              <NavLink
+                key={collection.id}
+                className={({ isActive }) => cn("link", isActive && "text-foreground")}
+                to={`/collections/${collection.handle}`}
+              >
+                {collection.title}
+              </NavLink>
+            ))}
+          </nav>
+
+          <Select.Select defaultValue={sortBy} onValueChange={handleSort}>
+            <Select.SelectTrigger className="w-fit">
+              <Select.SelectValue placeholder="Sort by" />
+            </Select.SelectTrigger>
+            <Select.SelectContent collisionPadding={24}>
+              <Select.SelectItem value="created_at">Latest</Select.SelectItem>
+              <Select.SelectItem value="price_asc">Price: Low to High</Select.SelectItem>
+              <Select.SelectItem value="price_desc">Price: High to Low</Select.SelectItem>
+            </Select.SelectContent>
+          </Select.Select>
+        </div>
       </div>
 
       {!products.length ? (
@@ -141,29 +162,29 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
         </div>
       )}
 
-      <Pagination className={cn("mt-6", numOfPages <= 1 && "hidden")}>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              to={page === 1 ? `?page=${page}` : `?page=${page - 1}`}
+      <Pagination.Pagination className={cn("mt-6", numOfPages <= 1 && "hidden")}>
+        <Pagination.PaginationContent>
+          <Pagination.PaginationItem>
+            <Pagination.PaginationPrevious
+              to={getPageLink(page === 1 ? page : page - 1)}
               aria-disabled={page === 1 ? true : undefined}
             />
-          </PaginationItem>
+          </Pagination.PaginationItem>
           {Array.from({ length: numOfPages }).map((_, i) => (
-            <PaginationItem key={i}>
-              <PaginationLink isActive={i + 1 === page} to={`?page=${i + 1}`}>
+            <Pagination.PaginationItem key={i}>
+              <Pagination.PaginationLink isActive={i + 1 === page} to={getPageLink(i + 1)}>
                 {i + 1}
-              </PaginationLink>
-            </PaginationItem>
+              </Pagination.PaginationLink>
+            </Pagination.PaginationItem>
           ))}
-          <PaginationItem>
-            <PaginationNext
-              to={page === numOfPages ? `?page=${page}` : `?page=${page + 1}`}
+          <Pagination.PaginationItem>
+            <Pagination.PaginationNext
+              to={getPageLink(page === numOfPages ? page : page + 1)}
               aria-disabled={page === numOfPages ? true : undefined}
             />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+          </Pagination.PaginationItem>
+        </Pagination.PaginationContent>
+      </Pagination.Pagination>
     </div>
   );
 }

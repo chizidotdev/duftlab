@@ -13,7 +13,7 @@ export function ProductThumbnail({
   return (
     <div
       className={cn(
-        "bg-muted group relative flex aspect-[9/10] w-full items-center justify-center rounded border",
+        "bg-muted group hover:border-primary/20 relative flex aspect-[9/10] w-full items-center justify-center rounded border transition-colors",
         className
       )}
       {...props}
@@ -21,7 +21,7 @@ export function ProductThumbnail({
       <img
         src={thumbnail}
         className={cn(
-          "size-5/6 rounded-md object-contain transition-opacity duration-300",
+          "size-5/6 rounded object-contain transition-opacity duration-300",
           !!packedThumbnail && "group-hover:opacity-0"
         )}
       />
@@ -31,6 +31,13 @@ export function ProductThumbnail({
           className="absolute inset-[10%] size-[80%] object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
       )}
+
+      <div
+        className={cn(
+          "box-reflect transition-opacity duration-300",
+          !!packedThumbnail && "group-hover:opacity-0"
+        )}
+      />
     </div>
   );
 }
