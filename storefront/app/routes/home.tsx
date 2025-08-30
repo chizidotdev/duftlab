@@ -7,18 +7,43 @@ import { Button } from "@/components/ui/button";
 import { Heading, Paragraph } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
+import { listCollections } from "@/lib/data/collections";
+import { listProductsWithSort } from "@/lib/data/products";
+import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/home";
 
-export async function loader() {}
+export async function loader({ request }: Route.LoaderArgs) {
+  const collectionsResponse = await listCollections();
+  const collections = collectionsResponse?.collections;
+
+  const collectionProducts = await Promise.all(
+    collections.map(async (collection) => {
+      const products = await listProductsWithSort(request, {
+        page: 1,
+        queryParams: {
+          limit: 8,
+          collection_id: [collection.id],
+        },
+        sortBy: "-created_at",
+      });
+      return { collection, products: products.response.products };
+    })
+  );
+
+  return { collectionProducts };
+}
 
 export function headers() {
   return CACHE_HEADERS;
 }
 
-export default function Home({}: Route.ComponentProps) {
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { collectionProducts } = loaderData;
+  console.log(collectionProducts);
+
   return (
-    <>
+    <div className="space-y-10">
       <Link
         to="/collections/all"
         className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md transition-all sm:h-[calc(100dvh-10rem)]"
@@ -44,6 +69,25 @@ export default function Home({}: Route.ComponentProps) {
           </Button>
         </div>
       </Link>
-    </>
+
+      <div className="space-y-10 pb-10">
+        {collectionProducts.map(({ collection, products }) => (
+          <section key={collection.id} className="space-y-6">
+            <hgroup className="flex items-center justify-between">
+              <Heading variant="h2">{collection.title}</Heading>
+              <Link to={`/collections/${collection.handle}`} className="link">
+                View all
+              </Link>
+            </hgroup>
+
+            <div className="products-grid">
+              {products.map((product) => (
+                <ProductPreview key={product.id} product={product} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
   );
 }

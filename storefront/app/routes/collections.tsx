@@ -155,7 +155,7 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-x-1 gap-y-6 md:grid-cols-[repeat(auto-fill,minmax(20rem,auto))] 2xl:grid-cols-4">
+        <div className="products-grid">
           {products.map((product) => (
             <ProductPreview key={product.id} product={product} />
           ))}
