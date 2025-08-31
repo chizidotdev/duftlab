@@ -75,4 +75,10 @@ module.exports = defineConfig({
       },
     },
   ],
+  plugins: [
+    {
+      resolve: "@medusajs/draft-order",
+      options: {},
+    },
+  ],
 });
