@@ -9,6 +9,7 @@ export default async function orderShippedHandler({
         event.data.id,
       {
         method: "POST",
+        // @ts-ignore
         headers: {
           "Content-Type": "application/json",
           "x-publishable-api-key": process.env.MEDUSA_PUBLISHABLE_KEY,

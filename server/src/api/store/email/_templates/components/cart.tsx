@@ -9,7 +9,7 @@ export default function Cart({
   currency_code,
 }: {
   date?: string;
-  items: OrderLineItemDTO[];
+  items?: OrderLineItemDTO[];
   currency_code: string;
   details?: {
     subtotal: string;
@@ -26,7 +26,7 @@ export default function Cart({
           Order summary
         </Text>
       </Section>
-      {items.map((item) => {
+      {items?.map((item) => {
         return (
           <CartLine line={item} key={item.id} currency_code={currency_code} />
         );
@@ -61,14 +61,16 @@ function CartLine({
       <Row>
         <Column className="mx-0 w-[100px] h-[100px]  ">
           <Section className="w-fit rounded-lg">
-            <Img
-              src={line.thumbnail}
-              width="100"
-              height="100px"
-              style={{ border: "1px solid" }}
-              alt="Product image"
-              className="rounded-lg border-accent"
-            />
+            {!!line.thumbnail && (
+              <Img
+                src={line.thumbnail}
+                width="100"
+                height="100px"
+                style={{ border: "1px solid" }}
+                alt="Product image"
+                className="rounded-lg border-accent"
+              />
+            )}
           </Section>
         </Column>
         <Column className="pl-2 align-top ">

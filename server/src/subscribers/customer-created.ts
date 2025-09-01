@@ -27,6 +27,7 @@ export default async function subscribeNewsletterHandler({
       "https://server.duftlab.com/store/email/welcome/" + event.data.id,
       {
         method: "POST",
+        // @ts-ignore
         headers: {
           "Content-Type": "application/json",
           "x-publishable-api-key": process.env.MEDUSA_PUBLISHABLE_KEY,
