@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Heading, Paragraph } from "@/components/ui/text";
 
-import { CACHE_HEADERS } from "@/lib/constants";
 import { retrieveCustomer } from "@/lib/data/customer";
 import { formatDate } from "@/lib/utils/date";
 
@@ -21,10 +20,6 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   return { customer };
-}
-
-export function headers() {
-  return CACHE_HEADERS;
 }
 
 export const meta: MetaFunction = () => {

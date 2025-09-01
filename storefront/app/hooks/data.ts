@@ -7,14 +7,13 @@ import { toast } from "sonner";
 
 import type { SetAddressesData } from "@/lib/data/cart";
 
-const api = ky.extend({ timeout: 1000 * 30 });
+const api = ky.extend({ timeout: 1000 * 60 });
 
 function successToast(description: string) {
   toast.success("Success", { description });
 }
 
 async function errorToast(err: any) {
-  // const description =  "Something went wrong. Please try again";
   const description = (await err.response.text()) ?? "Something went wrong. Please try again";
   toast.error("Error", { description });
 }
