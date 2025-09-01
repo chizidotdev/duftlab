@@ -19,7 +19,19 @@ import { siteConfig } from "./lib/site-config";
 export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: siteConfig.title }, { name: "description", content: siteConfig.description }];
+  return [
+    { title: siteConfig.title },
+    { name: "description", content: siteConfig.description },
+    { property: "og:title", content: siteConfig.title },
+    { property: "og:description", content: siteConfig.description },
+    { property: "og:image", content: siteConfig.ogImage },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:image:type", content: "image/png" },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:image", content: siteConfig.ogImage },
+  ];
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
