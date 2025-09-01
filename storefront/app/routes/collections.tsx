@@ -10,7 +10,13 @@ import { Heading, Paragraph } from "@/components/ui/text";
 import { CACHE_HEADERS, PRODUCT_LIMIT } from "@/lib/constants";
 import { getCollectionByHandle, listCollections } from "@/lib/data/collections";
 import { listProductsWithSort } from "@/lib/data/products";
+import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import {
+  StructuredDataScript,
+  createBreadcrumbSchema,
+  createCollectionSchema,
+} from "@/lib/utils/seo";
 import type { SortOptions } from "@/lib/utils/sort-products";
 import { ProductPreview } from "@/modules/products/product-preview";
 
@@ -54,7 +60,15 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     listCollections(),
   ]);
 
-  return { url, productsResponse: response, collectionsResponse, page, query: searchQuery, sortBy };
+  return {
+    url,
+    productsResponse: response,
+    collectionsResponse,
+    page,
+    query: searchQuery,
+    sortBy,
+    collection,
+  };
 }
 
 export function headers() {
@@ -65,21 +79,17 @@ export const meta: MetaFunction = ({ params }) => {
   const title = params.handle
     ? `Shop ${params.handle} collection - Duftlab`
     : "Shop All Fragrances - Duftlab";
+  const description =
+    "Browse our complete collection of authentic designer fragrances, niche perfumes, and luxury cologne from top brands.";
 
-  return [
-    { title },
-    {
-      name: "description",
-      content:
-        "Browse our complete collection of authentic designer fragrances, niche perfumes, and luxury cologne from top brands.",
-    },
-  ];
+  return [{ title }, { name: "description", content: description }];
 };
 
 export default function Collections({ loaderData, params }: Route.ComponentProps) {
   const navigate = useNavigate();
 
-  const { url, productsResponse, collectionsResponse, page, query, sortBy } = loaderData;
+  const { url, productsResponse, collectionsResponse, page, query, sortBy, collection } =
+    loaderData;
   const products = productsResponse?.products ?? [];
   const collections = collectionsResponse?.collections ?? [];
 
@@ -97,94 +107,111 @@ export default function Collections({ loaderData, params }: Route.ComponentProps
     navigate(url.pathname + url.search);
   }
 
+  const collectionData = collection || {
+    title: params.handle === "all" ? "All Fragrances" : params.handle || "Collection",
+    handle: params.handle || "all",
+    description: "Premium fragrance collection",
+  };
+
   return (
-    <div className="space-y-10">
-      <div className="space-y-3">
-        <Heading className="capitalize" variant="h2">
-          {!query ? `Shop ${params.handle}` : `Search results for "${query}"`}
-        </Heading>
+    <>
+      <StructuredDataScript
+        data={[
+          createCollectionSchema(collectionData, products),
+          createBreadcrumbSchema([
+            { name: "Home", url: siteConfig.url },
+            { name: collectionData.title, url: `${siteConfig.url}/collections/${params.handle}` },
+          ]),
+        ]}
+      />
+      <div className="space-y-10">
+        <div className="space-y-3">
+          <Heading className="capitalize" variant="h2">
+            {!query ? `Shop ${params.handle}` : `Search results for "${query}"`}
+          </Heading>
 
-        <Separator />
+          <Separator />
 
-        <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4">
-          <nav className="flex items-center gap-6 overflow-x-auto">
-            <NavLink
-              className={({ isActive }) => cn("link", isActive && "text-foreground")}
-              to={`/collections/all`}
-            >
-              Shop all
-            </NavLink>
-            {collections.map((collection) => (
+          <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-4">
+            <nav className="flex items-center gap-6 overflow-x-auto">
               <NavLink
-                key={collection.id}
                 className={({ isActive }) => cn("link", isActive && "text-foreground")}
-                to={`/collections/${collection.handle}`}
+                to={`/collections/all`}
               >
-                {collection.title}
+                Shop all
               </NavLink>
+              {collections.map((collection) => (
+                <NavLink
+                  key={collection.id}
+                  className={({ isActive }) => cn("link", isActive && "text-foreground")}
+                  to={`/collections/${collection.handle}`}
+                >
+                  {collection.title}
+                </NavLink>
+              ))}
+            </nav>
+
+            <Select.Select defaultValue={sortBy} onValueChange={handleSort}>
+              <Select.SelectTrigger className="w-fit">
+                <Select.SelectValue placeholder="Sort by" />
+              </Select.SelectTrigger>
+              <Select.SelectContent collisionPadding={24}>
+                <Select.SelectItem value="created_at">Latest</Select.SelectItem>
+                <Select.SelectItem value="price_asc">Price: Low to High</Select.SelectItem>
+                <Select.SelectItem value="price_desc">Price: High to Low</Select.SelectItem>
+              </Select.SelectContent>
+            </Select.Select>
+          </div>
+        </div>
+
+        {!products.length ? (
+          <div className="flex min-h-96 flex-col items-center justify-center space-y-4 rounded-lg text-center">
+            <div className="mx-auto flex size-32">
+              <img src="/assets/empty-state.svg" className="text-muted-foreground size-full" />
+            </div>
+            <div className="space-y-2">
+              <Heading variant="h3">No products found</Heading>
+              <Paragraph className="text-muted-foreground max-w-md">
+                We couldn't find any products in this collection. Try modifying your search or
+                browsing other collections.
+              </Paragraph>
+            </div>
+            <Button asChild>
+              <Link to="/collections/all">Browse all products</Link>
+            </Button>
+          </div>
+        ) : (
+          <div className="products-grid">
+            {products.map((product) => (
+              <ProductPreview key={product.id} product={product} />
             ))}
-          </nav>
-
-          <Select.Select defaultValue={sortBy} onValueChange={handleSort}>
-            <Select.SelectTrigger className="w-fit">
-              <Select.SelectValue placeholder="Sort by" />
-            </Select.SelectTrigger>
-            <Select.SelectContent collisionPadding={24}>
-              <Select.SelectItem value="created_at">Latest</Select.SelectItem>
-              <Select.SelectItem value="price_asc">Price: Low to High</Select.SelectItem>
-              <Select.SelectItem value="price_desc">Price: High to Low</Select.SelectItem>
-            </Select.SelectContent>
-          </Select.Select>
-        </div>
-      </div>
-
-      {!products.length ? (
-        <div className="flex min-h-96 flex-col items-center justify-center space-y-4 rounded-lg text-center">
-          <div className="mx-auto flex size-32">
-            <img src="/assets/empty-state.svg" className="text-muted-foreground size-full" />
           </div>
-          <div className="space-y-2">
-            <Heading variant="h3">No products found</Heading>
-            <Paragraph className="text-muted-foreground max-w-md">
-              We couldn't find any products in this collection. Try modifying your search or
-              browsing other collections.
-            </Paragraph>
-          </div>
-          <Button asChild>
-            <Link to="/collections/all">Browse all products</Link>
-          </Button>
-        </div>
-      ) : (
-        <div className="products-grid">
-          {products.map((product) => (
-            <ProductPreview key={product.id} product={product} />
-          ))}
-        </div>
-      )}
+        )}
 
-      <Pagination.Pagination className={cn("mt-6", numOfPages <= 1 && "hidden")}>
-        <Pagination.PaginationContent>
-          <Pagination.PaginationItem>
-            <Pagination.PaginationPrevious
-              to={getPageLink(page === 1 ? page : page - 1)}
-              aria-disabled={page === 1 ? true : undefined}
-            />
-          </Pagination.PaginationItem>
-          {Array.from({ length: numOfPages }).map((_, i) => (
-            <Pagination.PaginationItem key={i}>
-              <Pagination.PaginationLink isActive={i + 1 === page} to={getPageLink(i + 1)}>
-                {i + 1}
-              </Pagination.PaginationLink>
+        <Pagination.Pagination className={cn("mt-6", numOfPages <= 1 && "hidden")}>
+          <Pagination.PaginationContent>
+            <Pagination.PaginationItem>
+              <Pagination.PaginationPrevious
+                to={getPageLink(page === 1 ? page : page - 1)}
+                aria-disabled={page === 1 ? true : undefined}
+              />
             </Pagination.PaginationItem>
-          ))}
-          <Pagination.PaginationItem>
-            <Pagination.PaginationNext
-              to={getPageLink(page === numOfPages ? page : page + 1)}
-              aria-disabled={page === numOfPages ? true : undefined}
-            />
-          </Pagination.PaginationItem>
-        </Pagination.PaginationContent>
-      </Pagination.Pagination>
-    </div>
+            {Array.from({ length: numOfPages }).map((_, i) => (
+              <Pagination.PaginationItem key={i}>
+                <Pagination.PaginationLink isActive={i + 1 === page} to={getPageLink(i + 1)}>
+                  {i + 1}
+                </Pagination.PaginationLink>
+              </Pagination.PaginationItem>
+            ))}
+            <Pagination.PaginationItem>
+              <Pagination.PaginationNext
+                to={getPageLink(page === numOfPages ? page : page + 1)}
+                aria-disabled={page === numOfPages ? true : undefined}
+              />
+            </Pagination.PaginationItem>
+          </Pagination.PaginationContent>
+        </Pagination.Pagination>
+      </div>
+    </>
   );
 }

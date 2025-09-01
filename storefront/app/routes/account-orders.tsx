@@ -40,7 +40,6 @@ export const meta: MetaFunction = () => {
 
 export default function AccountOrders({ loaderData }: Route.ComponentProps) {
   const { orders } = loaderData;
-  console.log("Orders:", orders);
 
   return (
     <div className="mx-auto max-w-screen-xl space-y-10">
@@ -104,7 +103,7 @@ export default function AccountOrders({ loaderData }: Route.ComponentProps) {
                       {item.thumbnail && (
                         <img
                           src={item.thumbnail}
-                          alt={item.title}
+                          alt={`${item.title} fragrance product image`}
                           className="size-full object-cover"
                         />
                       )}

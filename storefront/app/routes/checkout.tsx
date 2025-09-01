@@ -48,7 +48,14 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Checkout - Duftlab" }];
+  return [
+    { title: "Checkout - Duftlab" },
+    {
+      name: "description",
+      content:
+        "Complete your fragrance order with secure checkout and fast shipping across Nigeria.",
+    },
+  ];
 }
 
 function getDefaultAddress(

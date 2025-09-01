@@ -7,11 +7,24 @@ import { Heading, Paragraph } from "@/components/ui/text";
 
 import { removeCartId } from "@/lib/data/cookies";
 
+import type { Route } from "./+types/checkout-confirm";
+
 export function loader() {
   const headers = new Headers();
   removeCartId(headers);
 
   return data({}, { headers });
+}
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Order Confirmation - Duftlab" },
+    {
+      name: "description",
+      content:
+        "Your fragrance order has been successfully placed. Thank you for shopping with Duftlab.",
+    },
+  ];
 }
 
 export default function VerifyPaymentPage() {

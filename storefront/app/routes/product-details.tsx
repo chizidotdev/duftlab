@@ -4,6 +4,8 @@ import { Heading, Paragraph } from "@/components/ui/text";
 
 import { CACHE_HEADERS } from "@/lib/constants";
 import { listProducts } from "@/lib/data/products";
+import { siteConfig } from "@/lib/site-config";
+import { StructuredDataScript, createBreadcrumbSchema, createProductSchema } from "@/lib/utils/seo";
 import { ProductActions } from "@/modules/products/product-actions";
 
 import type { Route } from "./+types/product-details";
@@ -25,15 +27,15 @@ export function meta({ data }: Route.MetaArgs): Route.MetaDescriptors {
   }
 
   const { product } = data;
+  const description =
+    product.description ||
+    `Shop ${product.title} authentic fragrance at Duftlab. Premium quality with fast shipping across Nigeria.`;
+
   return [
     { title: `${product.title} - Duftlab` },
-    {
-      name: "description",
-      content:
-        product.description ||
-        `Shop ${product.title} authentic fragrance at Duftlab. Premium quality with fast shipping across Nigeria.`,
-    },
-    { name: "og:image", content: product.thumbnail },
+    { name: "description", content: description },
+    { property: "og:type", content: "product" },
+    { property: "og:image", content: product.thumbnail || siteConfig.ogImage },
   ];
 }
 
@@ -41,13 +43,27 @@ export function headers() {
   return CACHE_HEADERS;
 }
 
-export default function ProductDetails({ loaderData }: Route.ComponentProps) {
+export default function ProductDetails({ loaderData, params }: Route.ComponentProps) {
   const { product } = loaderData;
 
   return (
-    <div className="space-y-6">
-      <ProductInfo product={product} />
-    </div>
+    <>
+      {product && (
+        <StructuredDataScript
+          data={[
+            createProductSchema(product, `${siteConfig.url}/products/${params.handle}`),
+            createBreadcrumbSchema([
+              { name: "Home", url: siteConfig.url },
+              { name: "Shop", url: `${siteConfig.url}/collections/all` },
+              { name: product.title, url: `${siteConfig.url}/products/${params.handle}` },
+            ]),
+          ]}
+        />
+      )}
+      <div className="space-y-6">
+        <ProductInfo product={product} />
+      </div>
+    </>
   );
 }
 
@@ -60,6 +76,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
         <li className="bg-muted overflow-hidden rounded-sm lg:h-[calc(100dvh-9rem)]">
           <img
             src={product?.thumbnail ?? "/placeholder.svg"}
+            alt={`${product.title} fragrance main image`}
             className="size-full object-contain transition-opacity"
           />
         </li>
@@ -67,6 +84,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
           <li className="bg-muted hidden overflow-hidden rounded-sm lg:block lg:h-[calc(100dvh-10rem)]">
             <img
               src={product.images[1].url}
+              alt={`${product.title} fragrance alternate view`}
               className="size-full object-contain transition-opacity"
             />
           </li>
@@ -75,6 +93,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
           <li className="bg-muted hidden overflow-hidden rounded-sm lg:block lg:h-[calc(100dvh-10rem)]">
             <img
               src={product.images[2].url}
+              alt={`${product.title} fragrance additional view`}
               className="size-full object-contain transition-opacity"
             />
           </li>

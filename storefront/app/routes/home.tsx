@@ -40,7 +40,6 @@ export function headers() {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { collectionProducts } = loaderData;
-  console.log(collectionProducts);
 
   return (
     <div className="space-y-10">
@@ -51,7 +50,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       >
         <motion.img
           src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1755561418664"
-          alt="Hero Image"
+          alt="Elegant fragrance bottles collection showcasing premium designer fragrances at Duftlab"
           className="hero-image size-full object-cover object-[75%_bottom] lg:scale-110 lg:object-[center_95%]"
           initial={{ scale: 1.1 }}
         />

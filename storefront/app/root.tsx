@@ -15,13 +15,21 @@ import styles from "@/app.css?url";
 import type { Route } from "./+types/root";
 import { SplashScreenProvider } from "./components/app-splash-screen";
 import { siteConfig } from "./lib/site-config";
+import {
+  StructuredDataScript,
+  createOrganizationSchema,
+  createWebSiteSchema,
+} from "./lib/utils/seo";
 
 export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ location }: Route.MetaArgs) {
+  const canonicalUrl = `${siteConfig.url}${location.pathname}`;
+
   return [
     { title: siteConfig.title },
     { name: "description", content: siteConfig.description },
+    { rel: "canonical", href: canonicalUrl },
     { property: "og:title", content: siteConfig.title },
     { property: "og:description", content: siteConfig.description },
     { property: "og:image", content: siteConfig.ogImage },
@@ -29,8 +37,12 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:image:height", content: "630" },
     { property: "og:image:type", content: "image/png" },
     { property: "og:type", content: "website" },
+    { property: "og:url", content: canonicalUrl },
+    { property: "og:site_name", content: siteConfig.siteName },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:image", content: siteConfig.ogImage },
+    { name: "twitter:title", content: siteConfig.title },
+    { name: "twitter:description", content: siteConfig.description },
   ];
 }
 
@@ -42,6 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <StructuredDataScript data={[createOrganizationSchema(), createWebSiteSchema()]} />
       </head>
       <body>
         {children}

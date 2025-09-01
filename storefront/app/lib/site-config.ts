@@ -3,4 +3,6 @@ export const siteConfig = {
   description:
     "Discover your signature scent at Duftlab. Shop authentic designer fragrances, niche perfumes, and luxury cologne from top brands. Fast shipping across Nigeria with expert fragrance recommendations.",
   ogImage: "https://ik.imagekit.io/chizidotdev/duftlab/og-image.png",
+  url: "https://duftlab.com",
+  siteName: "Duftlab",
 };

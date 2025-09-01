@@ -20,6 +20,7 @@ export function ProductThumbnail({
     >
       <img
         src={thumbnail}
+        alt={product?.title ? `${product.title} fragrance bottle` : "Product image"}
         className={cn(
           "size-5/6 rounded object-contain transition-opacity duration-300",
           !!packedThumbnail && "group-hover:opacity-0"
@@ -28,6 +29,7 @@ export function ProductThumbnail({
       {!!packedThumbnail && (
         <img
           src={packedThumbnail.url}
+          alt={product?.title ? `${product.title} fragrance packaging` : "Product packaging"}
           className="absolute inset-[10%] size-[80%] object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
       )}
