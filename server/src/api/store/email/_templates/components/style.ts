@@ -7,7 +7,7 @@ export const times_font = {
 
 export const title = {
   ...times_font,
-  fontSize: "44px",
+  fontSize: "40px",
   fontStyle: "normal",
   fontWeight: "400",
   lineHeight: "140%",
@@ -17,7 +17,7 @@ export const title = {
 
 export const titleSmall = {
   ...arial_font,
-  fontSize: "40px",
+  fontSize: "28px",
   fontStyle: "normal",
   fontWeight: "400",
   lineHeight: "120%",

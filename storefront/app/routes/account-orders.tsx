@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heading, Paragraph } from "@/components/ui/text";
 
-import { CACHE_HEADERS } from "@/lib/constants";
 import { listOrders } from "@/lib/data/orders";
 import { formatDate } from "@/lib/utils/date";
 import { convertToLocale } from "@/lib/utils/money";
@@ -22,10 +21,6 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   return { orders };
-}
-
-export function headers() {
-  return CACHE_HEADERS;
 }
 
 export const meta: MetaFunction = () => {

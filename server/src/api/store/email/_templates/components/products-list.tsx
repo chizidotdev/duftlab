@@ -7,7 +7,7 @@ export default function ProductsList({ products }: { products: ProductDTO[] }) {
   return (
     <Section className="mt-12">
       <Text style={titleSmall} className="">
-        Freshly baked
+        Popular Products
       </Text>
       <Section className="mb-6 mt-2">
         <Row>
@@ -35,7 +35,7 @@ export default function ProductsList({ products }: { products: ProductDTO[] }) {
           })}
         </Row>
       </Section>
-      <CtaButton href="https://munchies-tinloof.vercel.app" label="Shop now" />
+      <CtaButton href="https://duftlab.com" label="Shop now" />
     </Section>
   );
 }
