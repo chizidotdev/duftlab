@@ -10,7 +10,7 @@ export default function Welcome({ products }: { products: ProductDTO[] }) {
     <Layout preview="Welcome to Duftlab!">
       <Section className="w-full px-5 my-20" align="left">
         <Img
-          src="https://duftlab.com/logo.svg"
+          src="https://duftlab.com/logo-mark.png"
           className="rounded-lg mb-8 w-full max-w-[560px]"
         />
         <Heading className="pb-3" style={title}>

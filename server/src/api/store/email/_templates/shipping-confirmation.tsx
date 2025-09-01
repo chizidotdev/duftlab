@@ -7,7 +7,10 @@ export default function ShippingConfirmation() {
   return (
     <Layout preview="Your drops have shipped - Duftlab">
       <Section className="w-full max-w-[565px] mb-16 px-5" align="left">
-        <Img className="max-w-[200px]" src="https://duftlab.com/logo.svg" />
+        <Img
+          className="max-w-[200px]"
+          src="https://duftlab.com/logo-mark.png"
+        />
         <Heading className="mb-3 mt-16" style={title}>
           Your fragrances are on their way! 🚚
         </Heading>

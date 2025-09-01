@@ -21,7 +21,7 @@ export default function OrderConfirmation({ order }: { order: OrderDTO }) {
       <Section className="w-full px-5 mt-5 mb-12" align="left">
         <Img
           className="max-w-[200px] mb-20"
-          src="https://duftlab.com/logo.svg"
+          src="https://duftlab.com/logo-mark.png"
         />
         <Heading className="pb-3" style={title}>
           Thank you for your fragrance order!
