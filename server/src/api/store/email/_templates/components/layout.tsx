@@ -18,42 +18,42 @@ export default function Layout({
   preview: string;
 }) {
   return (
-    <Section>
-      <Head>
-        <Font
-          fontFamily="Arial"
-          fallbackFontFamily="Helvetica"
-          fontWeight={400}
-          fontStyle="normal"
-        />
-        <Font
-          fontFamily="Times"
-          fallbackFontFamily="serif"
-          fontWeight={400}
-          fontStyle="normal"
-        />
-      </Head>
-      <Preview>{preview}</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                background: "#F8F9FA",
-                accent: "#1F1F1F",
-                secondary: "#6B7280",
-              },
+    <Tailwind
+      config={{
+        theme: {
+          extend: {
+            colors: {
+              background: "#F8F9FA",
+              accent: "#1F1F1F",
+              secondary: "#6B7280",
             },
           },
-        }}
-      >
+        },
+      }}
+    >
+      <Section>
+        <Head>
+          <Font
+            fontFamily="Arial"
+            fallbackFontFamily="Helvetica"
+            fontWeight={400}
+            fontStyle="normal"
+          />
+          <Font
+            fontFamily="Times"
+            fallbackFontFamily="serif"
+            fontWeight={400}
+            fontStyle="normal"
+          />
+        </Head>
+        <Preview>{preview}</Preview>
         <Section className="bg-white" style={arial_font}>
           <Container className="bg-background h-full w-full max-w-[640px]">
             <Section className=" text-accent">{children}</Section>
             <Footer />
           </Container>
         </Section>
-      </Tailwind>
-    </Section>
+      </Section>
+    </Tailwind>
   );
 }

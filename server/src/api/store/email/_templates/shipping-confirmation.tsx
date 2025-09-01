@@ -5,7 +5,7 @@ import { title } from "./components/style";
 
 export default function ShippingConfirmation() {
   return (
-    <Layout preview="Your fragrances have shipped - Duftlab">
+    <Layout preview="Your drops have shipped - Duftlab">
       <Section className="w-full max-w-[565px] mb-16 px-5" align="left">
         <Img className="max-w-[200px]" src="https://duftlab.com/logo.svg" />
         <Heading className="mb-3 mt-16" style={title}>
