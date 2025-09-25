@@ -9,6 +9,11 @@ export const CACHE_HEADERS = {
   "Cloudflare-CDN-Cache-Control": "max-age=10, stale-while-revalidate=604800",
 };
 
+export const siteLinks = {
+  whatsapp: "https://wa.me/+2347077792097",
+  instagram: "https://www.instagram.com/duftlabdrops",
+};
+
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
 export const paymentInfoMap: Record<string, { title: string; icon: LucideIcon }> = {
   pp_stripe_stripe: {

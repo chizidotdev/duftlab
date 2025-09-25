@@ -4,6 +4,8 @@ import { BadgeCheck, Package, RotateCw } from "lucide-react";
 
 import { Heading, Paragraph } from "@/components/ui/text";
 
+import { siteLinks } from "@/lib/constants";
+
 import { AppLogo } from "./app-logo";
 import { Separator } from "./ui/separator";
 
@@ -44,7 +46,12 @@ export function AppFooter() {
                   <Heading variant="h4">{section.title}</Heading>
                   <nav className="space-y-2">
                     {section.links.map((link) => (
-                      <Link key={link.title} to={link.href} className="link flex! text-sm">
+                      <Link
+                        key={link.title}
+                        to={link.href}
+                        target="_blank"
+                        className="link text-sm"
+                      >
                         {link.title}
                       </Link>
                     ))}
@@ -112,8 +119,9 @@ const footerSections = [
   {
     title: "Customer Service",
     links: [
-      { title: "Contact Us", href: "/contact" },
-      { title: "Shipping Info", href: "/shipping" },
+      { title: "Whatsapp", href: siteLinks.whatsapp },
+      { title: "Instagram", href: siteLinks.instagram },
+      // { title: "Shipping Info", href: "/shipping" },
       { title: "Returns & Exchanges", href: "/returns" },
       { title: "FAQ", href: "/faq" },
     ],

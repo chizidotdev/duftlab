@@ -14,6 +14,7 @@ import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
 import { SplashScreenProvider } from "./components/app-splash-screen";
+import { WhatsappChat } from "./components/whatsapp-chat";
 import { siteConfig } from "./lib/site-config";
 import {
   StructuredDataScript,
@@ -70,6 +71,7 @@ export default function App() {
   return (
     <QueryProvider>
       <SplashScreenProvider>
+        <WhatsappChat />
         <Outlet />
       </SplashScreenProvider>
     </QueryProvider>
