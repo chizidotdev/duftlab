@@ -32,9 +32,9 @@ export default function Footer() {
       >
         <Section className="mx-auto my-10 w-fit text-background ">
           <Row>
-            <Column className="pr-12" align="center">
+            <Column className="pr-0" align="center">
               <Link
-                href="/"
+                href="https://www.instagram.com/duftlabdrops"
                 className="text-background uppercase"
                 style={footer}
               >
@@ -42,7 +42,7 @@ export default function Footer() {
               </Link>
             </Column>
 
-            <Column className="pr-12" align="center">
+            {/* <Column className="pr-12" align="center">
               <Link
                 href="/"
                 className="text-background uppercase"
@@ -59,7 +59,7 @@ export default function Footer() {
               >
                 LINKEDIN
               </Link>
-            </Column>
+            </Column> */}
           </Row>
         </Section>
 
