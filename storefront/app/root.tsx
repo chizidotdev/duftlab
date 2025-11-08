@@ -13,8 +13,8 @@ import { Toaster } from "@/components/ui/sonner";
 import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
-import { GoogleAnalytics } from "./components/google-analytics";
 import { SplashScreenProvider } from "./components/app-splash-screen";
+import { PostHogProvider } from "./components/posthog-provider";
 import { WhatsappChat } from "./components/whatsapp-chat";
 import { siteConfig } from "./lib/site-config";
 import {
@@ -83,9 +83,10 @@ export default function App() {
   return (
     <QueryProvider>
       <SplashScreenProvider>
-        <GoogleAnalytics />
-        <WhatsappChat />
-        <Outlet />
+        <PostHogProvider>
+          <WhatsappChat />
+          <Outlet />
+        </PostHogProvider>
       </SplashScreenProvider>
     </QueryProvider>
   );

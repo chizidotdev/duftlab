@@ -3,6 +3,7 @@ import { Link, redirect } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { HttpTypes } from "@medusajs/types";
 import { LockIcon } from "lucide-react";
+import posthog from "posthog-js";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -90,6 +91,7 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
   });
 
   function onSubmit(values: CheckoutFormSchemaType) {
+    posthog.capture("checkout", { email: values.email });
     const { same_as_billing, email, shipping_address, billing_address } = values;
 
     mutate(

@@ -130,13 +130,13 @@ const footerSections = [
     title: "Legal",
     links: [
       { title: "Privacy Policy", href: "/privacy" },
-      { title: "Terms of Service", href: "/terms" },
-      { title: "Cookie Policy", href: "/cookies" },
+      { title: "Terms of Service", href: "#" },
+      { title: "Cookie Policy", href: "#" },
     ],
   },
 ];
 
 const bottomLinks = [
-  { title: "Accessibility", href: "/accessibility" },
-  { title: "Sitemap", href: "/sitemap" },
+  { title: "Accessibility", href: "#" },
+  { title: "Sitemap", href: "#" },
 ];
