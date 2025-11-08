@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
+import { GoogleAnalytics } from "./components/google-analytics";
 import { SplashScreenProvider } from "./components/app-splash-screen";
 import { WhatsappChat } from "./components/whatsapp-chat";
 import { siteConfig } from "./lib/site-config";
@@ -22,7 +23,18 @@ import {
   createWebSiteSchema,
 } from "./lib/utils/seo";
 
-export const links: Route.LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+  {
+    rel: "preconnect",
+    href: "https://www.googletagmanager.com",
+  },
+  {
+    rel: "preload",
+    href: "https://www.googletagmanager.com/gtag/js?id=G-9FXXSKK3VD",
+    as: "script",
+  },
+];
 
 export function meta({ location }: Route.MetaArgs) {
   const canonicalUrl = `${siteConfig.url}${location.pathname}`;
@@ -71,6 +83,7 @@ export default function App() {
   return (
     <QueryProvider>
       <SplashScreenProvider>
+        <GoogleAnalytics />
         <WhatsappChat />
         <Outlet />
       </SplashScreenProvider>
