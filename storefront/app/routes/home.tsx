@@ -74,7 +74,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <section key={collection.id} className="space-y-6">
             <hgroup className="flex items-center justify-between">
               <Heading variant="h2">{collection.title}</Heading>
-              <Link to={`/collections/${collection.handle}`} className="link">
+              <Link to="/collections/all" className="link">
                 View all
               </Link>
             </hgroup>
@@ -83,6 +83,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               {products.map((product) => (
                 <ProductPreview key={product.id} product={product} />
               ))}
+            </div>
+
+            <div className="flex justify-center pt-6">
+              <Button asChild variant="outline">
+                <Link to="/collections/all">View all</Link>
+              </Button>
             </div>
           </section>
         ))}
