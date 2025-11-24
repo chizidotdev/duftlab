@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import type { HttpTypes } from "@medusajs/types";
 import lodash from "lodash";
-import posthog from "posthog-js";
 
+import { trackAddToCart } from "@/lib/analytics";
 import { useAddtoCart } from "@/hooks/data";
 
 const { isEqual } = lodash;
@@ -69,7 +69,7 @@ export function useProductActions(product: HttpTypes.StoreProduct) {
 
   function addToCart() {
     if (!selectedVariant) return;
-    posthog.capture("add to cart", { productId: product.id, productTitle: product.title });
+    trackAddToCart(product.id, product.title);
     mutate({ variantId: selectedVariant.id, quantity: 1 });
   }
 

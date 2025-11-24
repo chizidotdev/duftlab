@@ -14,8 +14,8 @@ import styles from "@/app.css?url";
 
 import type { Route } from "./+types/root";
 import { SplashScreenProvider } from "./components/app-splash-screen";
-import { PostHogProvider } from "./components/posthog-provider";
 import { WhatsappChat } from "./components/whatsapp-chat";
+import { initializeGoogleAnalytics } from "./lib/analytics";
 import { siteConfig } from "./lib/site-config";
 import {
   StructuredDataScript,
@@ -31,7 +31,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "preload",
-    href: "https://www.googletagmanager.com/gtag/js?id=G-9FXXSKK3VD",
+    href: "https://www.googletagmanager.com/gtag/js?id=G-9W1TR1MPGF",
     as: "script",
   },
 ];
@@ -68,6 +68,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
         <StructuredDataScript data={[createOrganizationSchema(), createWebSiteSchema()]} />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9W1TR1MPGF"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9W1TR1MPGF');
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -80,13 +92,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  // Initialize Google Analytics on client side
+  if (typeof window !== "undefined") {
+    initializeGoogleAnalytics();
+  }
+
   return (
     <QueryProvider>
       <SplashScreenProvider>
-        <PostHogProvider>
-          <WhatsappChat />
-          <Outlet />
-        </PostHogProvider>
+        <WhatsappChat />
+        <Outlet />
       </SplashScreenProvider>
     </QueryProvider>
   );
