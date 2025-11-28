@@ -42,16 +42,16 @@ export default function Footer() {
               </Link>
             </Column>
 
-            {/* <Column className="pr-12" align="center">
+            <Column className="pr-12" align="center">
               <Link
-                href="/"
+                href="https://duftlab.com"
                 className="text-background uppercase"
                 style={footer}
               >
-                FACEBOOK
+                WEBSITE
               </Link>
             </Column>
-            <Column className="pr-0" align="center">
+            {/* <Column className="pr-0" align="center">
               <Link
                 href="/"
                 className="text-background uppercase"

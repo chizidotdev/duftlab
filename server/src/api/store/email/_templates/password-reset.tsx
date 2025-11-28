@@ -13,10 +13,12 @@ export const ResetPasswordEmail = ({
 }: ResetPasswordEmailProps) => {
   return (
     <Layout preview="Reset your Duftlab password">
-      <Img src="https://duftlab.com/logo-mark.png" width="150" alt="Duftlab" />
-      <br />
-      <br />
-      <Section>
+      <Section className="w-full px-5 mt-5 mb-12" align="left">
+        <Img
+          className="max-w-[200px] mb-20"
+          src="https://duftlab.com/logo-mark.png"
+          alt="Duftlab"
+        />
         <EmailBody
           paragraphs={[
             "Someone recently requested a password change for your Duftlab account. If this was you, you can set a new password here:",
