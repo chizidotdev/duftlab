@@ -22,6 +22,7 @@ import {
   createOrganizationSchema,
   createWebSiteSchema,
 } from "./lib/utils/seo";
+import { CartSheetProvider } from "./modules/cart/use-cart-sheet";
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -101,7 +102,9 @@ export default function App() {
     <QueryProvider>
       <SplashScreenProvider>
         <WhatsappChat />
-        <Outlet />
+        <CartSheetProvider>
+          <Outlet />
+        </CartSheetProvider>
       </SplashScreenProvider>
     </QueryProvider>
   );

@@ -21,6 +21,7 @@ import { convertToLocale } from "@/lib/utils/money";
 
 import { PaymentProviders } from "../checkout/payment-providers";
 import { CartItem } from "./cart-item";
+import { useCartSheet } from "./use-cart-sheet";
 
 export function CartSheet({
   cart,
@@ -29,10 +30,11 @@ export function CartSheet({
   cart: HttpTypes.StoreCart | null;
   children: React.ReactNode;
 }) {
+  const { open, setOpen } = useCartSheet();
   const { data } = useGetCart(cart);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger className="inline-flex items-center text-sm uppercase">
         {children}
         <CartCount cart={data} />

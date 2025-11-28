@@ -3,8 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import type { HttpTypes } from "@medusajs/types";
 import lodash from "lodash";
 
-import { trackAddToCart } from "@/lib/analytics";
 import { useAddtoCart } from "@/hooks/data";
+import { trackAddToCart } from "@/lib/analytics";
+import { useCartSheet } from "@/modules/cart/use-cart-sheet";
 
 const { isEqual } = lodash;
 
@@ -16,6 +17,7 @@ const optionsAsKeymap = (variantOptions: HttpTypes.StoreProductVariant["options"
 };
 
 export function useProductActions(product: HttpTypes.StoreProduct) {
+  const { setOpen } = useCartSheet();
   const { mutate, isPending } = useAddtoCart();
 
   const options = product.options ?? [];
@@ -70,7 +72,7 @@ export function useProductActions(product: HttpTypes.StoreProduct) {
   function addToCart() {
     if (!selectedVariant) return;
     trackAddToCart(product.id, product.title);
-    mutate({ variantId: selectedVariant.id, quantity: 1 });
+    mutate({ variantId: selectedVariant.id, quantity: 1 }, { onSuccess: () => setOpen(true) });
   }
 
   return {

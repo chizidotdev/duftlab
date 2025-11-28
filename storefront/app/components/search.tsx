@@ -20,12 +20,12 @@ export function Search({ setOpen }: { setOpen: React.Dispatch<React.SetStateActi
   }
 
   return (
-    <form onSubmit={searchProducts} className="container flex items-center gap-4 pb-3">
+    <form onSubmit={searchProducts} className="container flex items-center gap-4 border-y py-3">
       <SearchIcon className="size-5" />
       <input
         autoFocus
         className="w-full text-lg focus-visible:outline-none"
-        placeholder="Search..."
+        placeholder="Search by title, brand or notes..."
         name="query"
       />
     </form>
