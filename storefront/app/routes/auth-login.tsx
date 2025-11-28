@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 import type { MetaFunction } from "react-router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,7 +76,7 @@ export default function Login() {
                 <FormItem>
                   <div className="flex items-center justify-between gap-2">
                     <FormLabel>Password</FormLabel>
-                    <Link className="link" to="/auth/forgot-password">
+                    <Link className="link" to={href("/auth/reset-password")}>
                       Forgot password?
                     </Link>
                   </div>
@@ -98,7 +98,7 @@ export default function Login() {
       <div className="text-center">
         <Paragraph className="text-muted-foreground text-sm">
           Don't have an account?{" "}
-          <Link className="link" to="/auth/register">
+          <Link className="link inline-flex!" to={href("/auth/register")}>
             Register
           </Link>
         </Paragraph>

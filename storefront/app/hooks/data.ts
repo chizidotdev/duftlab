@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { href, useNavigate } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -127,6 +127,33 @@ export function useAuthRegister() {
       navigate("/account");
     },
     onError: (err) => errorToast(err),
+  });
+}
+
+export function usePasswordResetRequest() {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (data: { email: string }) => api.post("/api/password-reset", { json: data }),
+    onSuccess: () => {
+      successToast("Password reset email sent. Please check your inbox.");
+      navigate(href("/auth/login"));
+    },
+    onError: errorToast,
+  });
+}
+
+export function usePasswordResetConfirm() {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (data: { email: string; password: string; token: string }) =>
+      api.post("/api/password-reset", { json: data }),
+    onSuccess: () => {
+      successToast("Password reset successfully. Please log in with your new password.");
+      navigate("/auth/login");
+    },
+    onError: errorToast,
   });
 }
 

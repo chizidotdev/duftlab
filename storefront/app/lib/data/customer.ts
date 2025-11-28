@@ -177,6 +177,26 @@ export const deleteCustomerAddress = async (addressId: string, request?: Request
     });
 };
 
+export async function resetPassword(email: string) {
+  try {
+    await sdk.auth.resetPassword("customer", "emailpass", {
+      identifier: email,
+    });
+    return { success: true };
+  } catch (error: any) {
+    return medusaError(error);
+  }
+}
+
+export async function confirmPasswordReset(_email: string, password: string, token: string) {
+  try {
+    await sdk.auth.updateProvider("customer", "emailpass", { password }, token);
+    return { success: true };
+  } catch (error: any) {
+    return medusaError(error);
+  }
+}
+
 export const updateCustomerAddress = async (
   formData: FormData,
   request?: Request

@@ -128,7 +128,7 @@ export default function Register() {
       <div className="text-center">
         <Paragraph className="text-muted-foreground text-sm">
           Already have an account?{" "}
-          <Link className="link" to="/auth/login">
+          <Link className="link inline-flex!" to="/auth/login">
             Sign in
           </Link>
         </Paragraph>

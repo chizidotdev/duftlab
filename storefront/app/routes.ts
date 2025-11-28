@@ -10,6 +10,7 @@ export default [
     layout("./routes/auth.tsx", [
       route("/auth/login", "./routes/auth-login.tsx"),
       route("/auth/register", "./routes/auth-register.tsx"),
+      route("/auth/reset-password", "./routes/auth-reset-password.tsx"),
     ]),
     route("/account", "./routes/account.tsx"),
     route("/account/orders", "./routes/account-orders.tsx"),
@@ -23,4 +24,5 @@ export default [
   route("/api/checkout", "./routes/api/checkout.ts"),
   route("/api/login", "./routes/api/login.ts"),
   route("/api/register", "./routes/api/register.ts"),
+  route("/api/password-reset", "./routes/api/password-reset.ts"),
 ] satisfies RouteConfig;
