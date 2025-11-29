@@ -69,10 +69,7 @@ export const listProducts = async (
       const nextPage = count > offset + limit ? pageParam + 1 : null;
 
       return {
-        response: {
-          products,
-          count,
-        },
+        response: { products, count },
         nextPage: nextPage,
         queryParams,
       };

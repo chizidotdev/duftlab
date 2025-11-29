@@ -10,14 +10,16 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
   if (!cart) return null;
   const cartItems = cart.items ?? [];
 
+  console.log("cart", cart);
+
   const summaryData = [
     { title: "Subtotal", value: cart.item_subtotal },
     { title: "Shipping", value: cart.shipping_total },
-    { title: "Discount", value: cart.discount_total, alt: true },
+    { title: "Discount", value: cart.discount_total, alt: true, hidden: cart.discount_total === 0 },
   ];
 
   return (
-    <div className="mx-auto w-full max-w-sm space-y-6 py-8 lg:ml-0">
+    <div className="mx-auto w-full max-w-sm space-y-6 py-20 pt-8 lg:ml-0">
       <div className="space-y-4">
         {cartItems.map((item) => (
           <div key={item.id} className="flex gap-3">
@@ -42,7 +44,7 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
               </div>
 
               <Paragraph className="text-muted-foreground">
-                {item.product_collection},&nbsp;{item.variant_title}
+                {item.product?.categories?.[0].name},&nbsp;{item.variant_title}
               </Paragraph>
             </div>
           </div>
@@ -55,9 +57,15 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
         {summaryData.map((data) => (
           <div
             key={data.title}
-            className={cn("flex items-center justify-between gap-4", data.alt && "text-success")}
+            className={cn(
+              "flex items-center justify-between gap-4",
+              data.alt && "text-success",
+              data.hidden && "hidden"
+            )}
           >
-            <Heading variant="h4">{data.title}</Heading>
+            <Heading variant="h4">
+              {data.alt && cart.promotions?.[0].code} {data.title}
+            </Heading>
             <Heading variant="h4">
               {data.alt && "-"}
               {convertToLocale({ amount: data.value, currency_code: cart.currency_code })}

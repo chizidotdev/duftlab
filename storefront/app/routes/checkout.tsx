@@ -6,8 +6,6 @@ import { LockIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { trackCheckout } from "@/lib/analytics";
-
 import { AppLogo } from "@/components/app-logo";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -15,9 +13,11 @@ import { Paragraph } from "@/components/ui/text";
 
 import { useGetCart } from "@/hooks/data";
 import { useCheckout } from "@/hooks/data";
+import { trackCheckout } from "@/lib/analytics";
 import { DEFAULT_COUNTRY_CODE } from "@/lib/constants";
 import { retrieveCart } from "@/lib/data/cart";
 import { getCartId } from "@/lib/data/cookies";
+import { retrieveCustomer } from "@/lib/data/customer";
 import { listCartShippingMethods } from "@/lib/data/fulfillment";
 import {
   type CheckoutFormSchemaType,
@@ -37,16 +37,17 @@ export async function loader({ request }: Route.LoaderArgs) {
     throw redirect("/");
   }
 
-  const [cart, shippingMethods] = await Promise.all([
+  const [cart, shippingMethods, customer] = await Promise.all([
     retrieveCart(request, cartId),
     listCartShippingMethods(request, cartId),
+    retrieveCustomer(request),
   ]);
 
   if (!cart?.region?.id) {
     throw redirect("/");
   }
 
-  return { cart, shippingMethods };
+  return { cart, shippingMethods, customer };
 }
 
 export function meta({}: Route.MetaArgs) {

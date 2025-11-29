@@ -14,7 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Heading } from "@/components/ui/text";
+import { Heading, Paragraph } from "@/components/ui/text";
 
 import { useGetCart } from "@/hooks/data";
 import { convertToLocale } from "@/lib/utils/money";
@@ -84,11 +84,21 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
 
             <Separator />
 
-            <div className="flex items-center justify-between gap-4">
-              <Heading variant="h3">Subtotal</Heading>
-              <Heading variant="h3">
-                {convertToLocale({ amount: cart.item_subtotal, currency_code: cart.currency_code })}
-              </Heading>
+            <div className="mt-auto space-y-2">
+              <div className="flex items-center justify-between gap-4">
+                <Heading variant="h3">Subtotal</Heading>
+                <Heading variant="h3">
+                  {convertToLocale({
+                    amount: cart.item_subtotal,
+                    currency_code: cart.currency_code,
+                  })}
+                </Heading>
+              </div>
+              <div>
+                <Paragraph className="text-muted-foreground">
+                  Discounts and shipping calculated at checkout.
+                </Paragraph>
+              </div>
             </div>
           </div>
 
