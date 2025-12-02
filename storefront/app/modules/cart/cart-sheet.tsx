@@ -75,7 +75,7 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
         </div>
       ) : (
         <>
-          <div className="flex h-full flex-col gap-6 px-6 pb-6">
+          <div className="flex h-full flex-col gap-6 overflow-y-auto px-6 pb-6">
             <div className="space-y-4">
               {cartItems.map((item) => (
                 <CartItem key={item.id} cart={cart} item={item} />

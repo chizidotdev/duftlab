@@ -10,8 +10,6 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
   if (!cart) return null;
   const cartItems = cart.items ?? [];
 
-  console.log("cart", cart);
-
   const summaryData = [
     { title: "Subtotal", value: cart.item_subtotal },
     { title: "Shipping", value: cart.shipping_total },

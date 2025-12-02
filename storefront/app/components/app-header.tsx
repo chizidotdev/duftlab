@@ -122,7 +122,7 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
 
 const navItems = [
   { title: "Shop", href: "/collections/all" },
-  { title: "Brands", href: "/collections/brands" },
+  { title: "Brands", href: "/brands" },
   { title: "Scents", href: "/collections/scents" },
   { title: "Unboxed", href: "/collections/unboxed" },
   { title: "Sets", href: "/collections/sets" },
