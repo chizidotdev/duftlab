@@ -1,4 +1,6 @@
-import type { MetaFunction } from "react-router";
+import { Link, type MetaFunction, href } from "react-router";
+
+import { SquareArrowOutUpRight } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading, Paragraph } from "@/components/ui/text";
@@ -26,7 +28,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     order?: string;
     q?: string;
   } = {
-    limit: 8,
+    limit: 4,
     q: searchQuery || undefined,
   };
 
@@ -112,6 +114,13 @@ export default function Categories({ loaderData }: Route.ComponentProps) {
                   <hgroup>
                     <Heading variant="h3">{category.name}</Heading>
                     <Paragraph className="text-muted-foreground">{category.description}</Paragraph>
+                    <Link
+                      to={href("/brands/:handle", { handle: category.handle })}
+                      className="link mt-4"
+                    >
+                      <SquareArrowOutUpRight className="size-3.5" />
+                      View all
+                    </Link>
                   </hgroup>
 
                   <div className="products-grid">
