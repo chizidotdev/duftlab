@@ -62,7 +62,7 @@ export function Summary({ cart }: { cart: HttpTypes.StoreCart | null }) {
             )}
           >
             <Heading variant="h4">
-              {data.alt && cart.promotions?.[0].code} {data.title}
+              {data.alt && cart.promotions?.[0]?.code} {data.title}
             </Heading>
             <Heading variant="h4">
               {data.alt && "-"}

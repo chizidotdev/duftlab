@@ -21,20 +21,12 @@ export function AnnouncementBar() {
 }
 
 const announcements = [
-  "Black Friday Sale: Up to 25% off select drops",
-  "-",
-  "Black Friday Sale: Up to 25% off select drops",
-  "-",
-  "Black Friday Sale: Up to 25% off select drops",
-  "-",
-  "Black Friday Sale: Up to 25% off select drops",
-  "-",
-  "Black Friday Sale: Up to 25% off select drops",
-  "-",
-  /* "Free shipping on orders ₦200,000.00+",
+  "Free shipping on orders ₦200,000.00+",
   "-",
   "Sign in to save 10%",
   "-",
-  "Free gift on orders ₦500,000.00+",
-  "-", */
+  "Free shipping on orders ₦200,000.00+",
+  "-",
+  "Sign in to save 10%",
+  "-",
 ];

@@ -75,7 +75,7 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
         </div>
       ) : (
         <>
-          <div className="flex h-full flex-col gap-6 overflow-y-auto px-6 pb-6">
+          <div className="flex h-full flex-col gap-6 overflow-y-auto px-6">
             <div className="space-y-4">
               {cartItems.map((item) => (
                 <CartItem key={item.id} cart={cart} item={item} />
@@ -84,7 +84,7 @@ function CartContent({ cart }: { cart: HttpTypes.StoreCart | null }) {
 
             <Separator />
 
-            <div className="mt-auto space-y-2">
+            <div className="mt-auto">
               <div className="flex items-center justify-between gap-4">
                 <Heading variant="h3">Subtotal</Heading>
                 <Heading variant="h3">

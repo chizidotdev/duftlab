@@ -1,6 +1,6 @@
 export function PaymentProviders() {
   return (
-    <ul className="flex justify-center gap-4">
+    <ul className="flex justify-center gap-2">
       {Object.entries(paymentProviders).map(([name, href]) => (
         <img key={name} src={href} className="h-6 rounded border" alt={name} />
       ))}
