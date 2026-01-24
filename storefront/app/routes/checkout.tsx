@@ -78,7 +78,8 @@ function getDefaultAddress(
 }
 
 export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
-  const { data: cart } = useGetCart(loaderData.cart as HttpTypes.StoreCart);
+  const { cart: _cart, customer: _customer } = loaderData;
+  const { data: cart } = useGetCart(_cart as HttpTypes.StoreCart);
 
   const { mutate, isPending } = useCheckout();
   const form = useForm<CheckoutFormSchemaType>({
@@ -123,7 +124,7 @@ export default function CheckoutPage({ loaderData }: Route.ComponentProps) {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-              <CustomerInfo form={form} />
+              <CustomerInfo customer={_customer} form={form} />
               <ShippingMethod
                 form={form}
                 cart={cart}

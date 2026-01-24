@@ -45,7 +45,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <div className="space-y-10">
       <Link
         to="/collections/all"
-        className="relative block h-[calc(100dvh-8rem)] overflow-hidden rounded-md transition-all sm:h-[calc(100dvh-10rem)]"
+        className="relative -mx-4 block h-[calc(100dvh-6rem)] overflow-hidden transition-all sm:-mx-6 sm:h-[calc(100dvh-7rem)]"
         style={{ backgroundColor: "hsl(220 10% 66%)" }}
       >
         <motion.img

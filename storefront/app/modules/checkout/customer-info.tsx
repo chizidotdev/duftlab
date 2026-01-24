@@ -1,3 +1,4 @@
+import type { HttpTypes } from "@medusajs/types";
 import { type UseFormReturn } from "react-hook-form";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -5,13 +6,20 @@ import { Input } from "@/components/ui/input";
 import { Heading } from "@/components/ui/text";
 
 import { cn } from "@/lib/utils";
+import { QuickLogin } from "@/modules/customer/quick-login";
 
 import type { CheckoutFormSchemaType } from "./checkout-form-schema";
 
-export function CustomerInfo({ form }: { form: UseFormReturn<CheckoutFormSchemaType> }) {
+export function CustomerInfo({
+  form,
+  customer,
+}: {
+  form: UseFormReturn<CheckoutFormSchemaType>;
+  customer: HttpTypes.StoreCustomer | null;
+}) {
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <Heading variant="h3">Customer Info</Heading>
         <FormField
           control={form.control}
@@ -26,6 +34,8 @@ export function CustomerInfo({ form }: { form: UseFormReturn<CheckoutFormSchemaT
             </FormItem>
           )}
         />
+
+        {!customer?.email && <QuickLogin />}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">

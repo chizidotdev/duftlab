@@ -30,7 +30,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
       )}
 
       <AppHeader cart={loaderData.cart as HttpTypes.StoreCart} />
-      <main className="container flex-1 pt-6">
+      <main className="container flex-1 pt-2">
         <Outlet />
       </main>
       <AppFooter />

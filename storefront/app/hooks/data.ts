@@ -99,22 +99,17 @@ export function useShippingMethod() {
 
 // Auth
 export function useAuthLogin() {
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) =>
       api.post("/api/login", { json: data }),
     onSuccess: () => {
       successToast("Logged in successfully");
-      navigate("/account");
     },
     onError: errorToast,
   });
 }
 
 export function useAuthRegister() {
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: async (data: {
       email: string;
@@ -124,7 +119,6 @@ export function useAuthRegister() {
     }) => api.post("/api/register", { json: data }),
     onSuccess: () => {
       successToast("Account created successfully");
-      navigate("/account");
     },
     onError: (err) => errorToast(err),
   });
