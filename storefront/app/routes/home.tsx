@@ -49,9 +49,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         style={{ backgroundColor: "hsl(220 10% 66%)" }}
       >
         <motion.img
-          src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1755561418664"
+          src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1770395487213"
           alt="Elegant fragrance bottles collection showcasing premium designer fragrances at Duftlab"
-          className="hero-image size-full object-cover object-[75%_bottom] lg:scale-110 lg:object-[center_95%]"
+          className="hero-image size-full object-cover object-[75%_bottom] lg:object-[center_95%]"
           initial={{ scale: 1.1 }}
         />
         <div className="absolute inset-x-8 top-[6dvh] space-y-3 text-white sm:inset-x-16 sm:top-[14dvh] xl:inset-x-[10dvw] xl:top-[20dvh]">

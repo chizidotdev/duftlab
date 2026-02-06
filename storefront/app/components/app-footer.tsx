@@ -50,7 +50,7 @@ export function AppFooter() {
                         key={link.title}
                         to={link.href}
                         target="_blank"
-                        className="link text-sm"
+                        className="link w-fit text-sm"
                       >
                         {link.title}
                       </Link>
