@@ -122,8 +122,10 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
 
 const navItems = [
   { title: "Shop", href: "/collections/all" },
-  { title: "Brands", href: "/brands" },
-  { title: "Scents", href: "/collections/scents" },
-  { title: "Unboxed", href: "/collections/unboxed" },
-  { title: "Sets", href: "/collections/sets" },
+  { title: "Body Mist", href: "/categories/body-mist" },
+  { title: "Body Spray", href: "/categories/body-spray" },
+  { title: "Niche", href: "/categories/niche" },
+  // { title: "Scents", href: "/collections/scents" },
+  // { title: "Brands", href: "/brands" },
+  // { title: "Sets", href: "/collections/sets" },
 ];

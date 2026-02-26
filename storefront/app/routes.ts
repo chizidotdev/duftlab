@@ -6,6 +6,7 @@ export default [
 
     route("/products/:handle", "./routes/product-details.tsx"),
     route("/collections/:handle", "./routes/collections.tsx"),
+    route("/categories/:handle", "./routes/categories.tsx"),
 
     route("/brands", "./routes/brands.tsx"),
     route("/brands/:handle", "./routes/brand-products.tsx"),

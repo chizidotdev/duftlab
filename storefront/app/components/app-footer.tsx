@@ -110,10 +110,10 @@ const footerSections = [
   {
     title: "Shop",
     links: [
-      { title: "All Products", href: "/collections" },
-      { title: "New Arrivals", href: "/collections" },
-      { title: "Best Sellers", href: "/collections" },
-      { title: "Sale", href: "/collections" },
+      { title: "All Products", href: "/collections/alll" },
+      { title: "Body Mist", href: "/categories/body-mist" },
+      { title: "Body Spray", href: "/categories/body-spray" },
+      { title: "Niche", href: "/categories/niche" },
     ],
   },
   {
@@ -122,8 +122,8 @@ const footerSections = [
       { title: "Whatsapp", href: siteLinks.whatsapp },
       { title: "Instagram", href: siteLinks.instagram },
       // { title: "Shipping Info", href: "/shipping" },
-      { title: "Returns & Exchanges", href: "/returns" },
-      { title: "FAQ", href: "/faq" },
+      { title: "Returns & Exchanges", href: "#" },
+      { title: "FAQ", href: "#" },
     ],
   },
   {
