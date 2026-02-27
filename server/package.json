@@ -34,6 +34,7 @@
     "@react-email/components": "0.5.1",
     "awilix": "^8.0.1",
     "medusa-payment-paystack": "^2.1.0",
+    "meilisearch": "^0.55.0",
     "pg": "^8.13.0",
     "resend": "^6.0.2"
   },

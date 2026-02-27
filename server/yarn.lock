@@ -8960,6 +8960,11 @@ medusa-payment-paystack@^2.1.0:
     axios "^1.7.7"
     axios-retry "^4.1.0"
 
+meilisearch@^0.55.0:
+  version "0.55.0"
+  resolved "https://registry.yarnpkg.com/meilisearch/-/meilisearch-0.55.0.tgz#c88a9d0bdac22e1e7ec648685a5f0c4c47c2f29e"
+  integrity sha512-qSMeiezfDgIqciIeYzh5E4pXDZZD7CtHeWDCs43kN3trLgl5FtfmBAIkljL3huFaOx08feYtC8FfIFUpVwq6rg==
+
 merge-descriptors@1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.3.tgz"
