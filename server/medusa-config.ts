@@ -24,6 +24,14 @@ module.exports = defineConfig({
   },
   modules: [
     {
+      resolve: "./src/modules/meilisearch",
+      options: {
+        host: process.env.MEILISEARCH_HOST,
+        apiKey: process.env.MEILISEARCH_API_KEY,
+        productIndexName: process.env.MEILISEARCH_PRODUCT_INDEX || "products",
+      },
+    },
+    {
       resolve: "@medusajs/medusa/file",
       options: {
         providers: [

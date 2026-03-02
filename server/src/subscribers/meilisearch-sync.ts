@@ -14,18 +14,25 @@ export default async function meilisearchSyncHandler({
   logger.info("Starting product indexing...");
 
   while (hasMore) {
-    const {
-      result: { products, metadata },
-    } = await syncProductsWorkflow(container).run({
-      input: {
-        limit,
-        offset,
-      },
-    });
+    try {
+      const {
+        result: { products, metadata },
+      } = await syncProductsWorkflow(container).run({
+        input: {
+          limit,
+          offset,
+        },
+      });
 
-    hasMore = offset + limit < (metadata?.count ?? 0);
-    offset += limit;
-    totalIndexed += products.length;
+      hasMore = offset + limit < (metadata?.count ?? 0);
+      offset += limit;
+      totalIndexed += products.length;
+    } catch (error) {
+      logger.error(
+        `[meilisearch-sync] Error in batch at offset ${offset}: ${error}`,
+      );
+      throw error;
+    }
   }
 
   logger.info(`Successfully indexed ${totalIndexed} products`);
