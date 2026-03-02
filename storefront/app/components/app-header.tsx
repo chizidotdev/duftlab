@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { NavLink } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
 import { Menu, SearchIcon, ShoppingCart, UserRound } from "lucide-react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Sheet,
   SheetClose,
@@ -24,14 +22,8 @@ import { Search } from "./search";
 import { Paragraph } from "./ui/text";
 
 export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
-  const [searchOpen, setSearchOpen] = useState(false);
-
   return (
-    <Collapsible
-      open={searchOpen}
-      onOpenChange={setSearchOpen}
-      className="bg-background sticky top-0 z-50"
-    >
+    <div className="bg-background sticky top-0 z-50">
       <AnnouncementBar />
       <header className="container grid grid-cols-3 items-center justify-between py-3 sm:py-5">
         <nav className="hidden items-center gap-6 font-medium lg:flex">
@@ -48,9 +40,9 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
             <Menu />
             <span className="sr-only">Sidebar menu</span>
           </MobileNav>
-          <CollapsibleTrigger className="text-sm uppercase lg:hidden">
+          <Search className="text-sm uppercase lg:hidden">
             <SearchIcon />
-          </CollapsibleTrigger>
+          </Search>
         </div>
 
         <NavLink to="/" className="flex justify-center">
@@ -59,10 +51,10 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
         </NavLink>
 
         <div className="flex items-center justify-end gap-4 font-medium lg:gap-6 [&_svg]:size-5">
-          <CollapsibleTrigger className="hidden text-sm uppercase lg:flex">
+          <Search className="hidden text-sm uppercase lg:flex">
             Search
             <span className="sr-only">Search</span>
-          </CollapsibleTrigger>
+          </Search>
           <NavLink className="text-sm uppercase" to="/account">
             <span className="hidden lg:inline">Account</span>
             <span className="lg:hidden">
@@ -79,10 +71,7 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
           </CartSheet>
         </div>
       </header>
-      <CollapsibleContent>
-        <Search setOpen={setSearchOpen} />
-      </CollapsibleContent>
-    </Collapsible>
+    </div>
   );
 }
 
