@@ -45,16 +45,16 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <div className="space-y-10">
       <Link
         to="/collections/all"
-        className="relative -mx-4 block h-[calc(100dvh-6rem)] overflow-hidden transition-all sm:-mx-6 sm:h-[calc(100dvh-7rem)]"
+        className="relative -mx-4 block h-[calc(100dvh-6rem)] max-h-160 overflow-hidden transition-all sm:-mx-6 sm:h-[calc(100dvh-7rem)] xl:max-h-[40vw]"
         style={{ backgroundColor: "hsl(220 10% 66%)" }}
       >
         <motion.img
           src="https://ik.imagekit.io/chizidotdev/duftlab/hero-image.png?updatedAt=1770395487213"
           alt="Elegant fragrance bottles collection showcasing premium designer fragrances at Duftlab"
-          className="hero-image size-full object-cover object-[75%_bottom] lg:object-[center_95%]"
+          className="hero-image size-full object-cover object-[75%_bottom] lg:object-[center_85%]"
           initial={{ scale: 1.1 }}
         />
-        <div className="absolute inset-x-8 top-[6dvh] space-y-3 text-white sm:inset-x-16 sm:top-[14dvh] xl:inset-x-[10dvw] xl:top-[20dvh]">
+        <div className="absolute inset-x-8 top-16 space-y-3 text-white sm:inset-x-16 sm:top-[8vw] xl:inset-x-[10dvw]">
           <Heading className="sm:text-5xl">
             Elevate your style <br className="hidden sm:inline" />
             with the perfect scent

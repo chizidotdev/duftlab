@@ -63,9 +63,9 @@ function Hit({ hit }: { hit: Hit }) {
         </div>
         <div className="flex flex-col gap-y-1">
           <Heading variant="h3">{hit.title}</Heading>
-          <div className="text-muted-foreground flex flex-wrap gap-x-1 text-sm">
+          <div className="text-muted-foreground text-sm">
             {hit.categories.map((c) => c.name).join(", ")}
-            {hit.tags.length > 0 && ` - ${hit.tags.map((t) => t.value).join(", ")}`}
+            {!!hit.tags.length && ` - ${hit.tags.map((t) => t.value).join(", ")}`}
           </div>
           {/* <ProductPrice product={hit} /> */}
         </div>
