@@ -1,3 +1,5 @@
+import { Link, href } from "react-router";
+
 import type { HttpTypes } from "@medusajs/types";
 
 import { Heading, Paragraph } from "@/components/ui/text";
@@ -102,9 +104,27 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
 
       <div className="sticky top-32 flex w-full flex-col justify-center gap-8 lg:h-[calc(100dvh-9rem)] lg:max-w-md 2xl:max-w-lg">
         <div>
-          <Paragraph className="text-muted-foreground">
-            {product.categories?.map((c) => c.name).join(", ")}
-            {!!product.tags?.length && ` - ${product.tags.map((t) => t.value).join(", ")}`}
+          <Paragraph className="text-muted-foreground flex flex-wrap gap-1.5">
+            {product.categories?.map((c, index) => (
+              <Link className="link" to={href("/categories/:handle", { handle: c.handle })}>
+                {c.name}
+                {index < (product.categories?.length ?? 0) - 1 && ","}
+              </Link>
+            ))}
+            {!!product.tags?.length && (
+              <>
+                -
+                {product.tags.map((t, index) => (
+                  <Link
+                    className="link"
+                    to={href("/collections/:handle", { handle: "all" }) + `?q=${t.value}`}
+                  >
+                    {t.value}
+                    {index < (product.tags?.length ?? 0) - 1 && ","}
+                  </Link>
+                ))}
+              </>
+            )}
           </Paragraph>
           <Heading variant="h3">{product.title}</Heading>
         </div>
