@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 
 import type { HttpTypes } from "@medusajs/types";
-import { Menu, SearchIcon, ShoppingCart, UserRound } from "lucide-react";
+import { Grip, SearchIcon, ShoppingCart, UserRound } from "lucide-react";
 
 import {
   Sheet,
@@ -37,7 +37,7 @@ export function AppHeader({ cart }: { cart: HttpTypes.StoreCart | null }) {
         {/* Mobile nav */}
         <div className="flex items-center gap-4 lg:hidden [&_svg]:size-5">
           <MobileNav>
-            <Menu />
+            <Grip />
             <span className="sr-only">Sidebar menu</span>
           </MobileNav>
           <Search className="text-sm uppercase lg:hidden">

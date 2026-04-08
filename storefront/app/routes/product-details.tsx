@@ -106,7 +106,11 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
         <div>
           <Paragraph className="text-muted-foreground flex flex-wrap gap-1.5">
             {product.categories?.map((c, index) => (
-              <Link className="link" to={href("/categories/:handle", { handle: c.handle })}>
+              <Link
+                className="link"
+                key={index}
+                to={href("/categories/:handle", { handle: c.handle })}
+              >
                 {c.name}
                 {index < (product.categories?.length ?? 0) - 1 && ","}
               </Link>
