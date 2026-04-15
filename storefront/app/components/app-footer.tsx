@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, href } from "react-router";
 
 import { AppLogo } from "@/components/app-logo";
 import { Separator } from "@/components/ui/separator";
@@ -30,7 +30,7 @@ export function AppFooter() {
                     <Link
                       key={link.title}
                       to={link.href}
-                      target="_blank"
+                      target={section.target}
                       className="link w-fit text-sm"
                     >
                       {link.title}
@@ -77,6 +77,7 @@ const footerSections = [
   },
   {
     title: "Customer Service",
+    target: "_blank",
     links: [
       { title: "Whatsapp", href: siteLinks.whatsapp },
       { title: "Instagram", href: siteLinks.instagram },
@@ -88,7 +89,7 @@ const footerSections = [
   {
     title: "Legal",
     links: [
-      { title: "Privacy Policy", href: "/privacy" },
+      { title: "Privacy Policy", href: href("/legal/privacy-policy") },
       { title: "Terms of Service", href: "#" },
       { title: "Cookie Policy", href: "#" },
     ],

@@ -19,6 +19,8 @@ export default [
     route("/account", "./routes/account.tsx"),
     route("/account/orders", "./routes/account-orders.tsx"),
     route("/checkout-confirm", "./routes/checkout-confirm.tsx"),
+
+    route("/legal/privacy-policy", "./routes/legal-privacy-policy.tsx"),
   ]),
   route("/checkout", "./routes/checkout.tsx"),
 

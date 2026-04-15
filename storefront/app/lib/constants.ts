@@ -12,6 +12,7 @@ export const CACHE_HEADERS = {
 export const siteLinks = {
   whatsapp: "https://wa.me/+2347077792097",
   instagram: "https://www.instagram.com/duftlabdrops",
+  email: "mailto:hello@duftlab.com",
 };
 
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
