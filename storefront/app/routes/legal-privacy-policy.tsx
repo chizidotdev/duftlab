@@ -289,20 +289,14 @@ export default function LegalPrivacyPolicy() {
         cannot control certain factors relating to message delivery or guarantee availability or
         performance of this service, including liability for transmission delays or message
         failures. To receive help with Text Messages, you can email{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
-        .
+        <a href={siteLinks.email}>hello@duftlab.com</a>.
       </Paragraph>
 
       <Paragraph>
         You may unsubscribe from receiving our Text Messages any time by texting the word “STOP” in
         response to any of our texts from your device. You may also choose not to receive Text
-        Messages by emailing us at{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>{" "}
-        and specifying that this is your preference.
+        Messages by emailing us at <a href={siteLinks.email}>hello@duftlab.com</a> and specifying
+        that this is your preference.
       </Paragraph>
 
       <Paragraph>
@@ -324,11 +318,7 @@ export default function LegalPrivacyPolicy() {
         You can at any time tell us not to send you marketing communications by email by clicking on
         the unsubscribe link within the marketing emails you receive from us or by contacting us as
         indicated below. You also may opt out of receiving marketing emails from Duftlab emailing us
-        at{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
-        .
+        at <a href={siteLinks.email}>hello@duftlab.com</a>.
       </Paragraph>
 
       <Paragraph>
@@ -344,10 +334,7 @@ export default function LegalPrivacyPolicy() {
       <Paragraph>
         You may opt out of receiving Duftlab emails that are not necessary to provide you with
         Duftlab loyalty or membership services by emailing Duftlab membership at{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
-        .
+        <a href={siteLinks.email}>hello@duftlab.com</a>.
       </Paragraph>
 
       <Heading variant="h3">Postal Mail Opt-Out</Heading>
@@ -371,10 +358,8 @@ export default function LegalPrivacyPolicy() {
 
       <Paragraph>
         You may also choose not to receive text messages by emailing us at{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>{" "}
-        and specifying that you no longer want to receive text messages.
+        <a href={siteLinks.email}>hello@duftlab.com</a> and specifying that you no longer want to
+        receive text messages.
       </Paragraph>
 
       <Heading variant="h3">Social Networking Application Opt-Out</Heading>
@@ -412,10 +397,7 @@ export default function LegalPrivacyPolicy() {
       </Paragraph>
       <Paragraph>
         You may request to review, change or delete your personal information by sending an email to{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
-        .
+        <a href={siteLinks.email}>hello@duftlab.com</a>.
       </Paragraph>
 
       <Heading variant="h2">Data Transfers</Heading>
@@ -480,10 +462,7 @@ export default function LegalPrivacyPolicy() {
       <Paragraph>
         If you have any questions or comments about this Privacy Policy, or if you would like us to
         update information, we have about you or your preferences, please contact us by email at{" "}
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
-        .
+        <a href={siteLinks.email}>hello@duftlab.com</a>.
       </Paragraph>
 
       <Paragraph>
@@ -500,9 +479,7 @@ export default function LegalPrivacyPolicy() {
       <Paragraph>
         Duftlab
         <br />
-        <a href={siteLinks.email} className="link">
-          hello@duftlab.com
-        </a>
+        <a href={siteLinks.email}>hello@duftlab.com</a>
         <br />
         duftlab.com
       </Paragraph>
