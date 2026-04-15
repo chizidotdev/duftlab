@@ -120,6 +120,7 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
                 -
                 {product.tags.map((t, index) => (
                   <Link
+                    key={index}
                     className="link"
                     to={href("/collections/:handle", { handle: "all" }) + `?q=${t.value}`}
                   >

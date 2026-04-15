@@ -4,7 +4,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const headingVariants = cva("scroll-m-20 tracking-tight font-medium", {
+const headingVariants = cva("scroll-m-20 tracking-tight font-medium leading-none", {
   variants: {
     variant: {
       h1: "text-4xl",

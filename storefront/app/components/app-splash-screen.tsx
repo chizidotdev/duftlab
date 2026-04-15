@@ -47,7 +47,7 @@ export function SplashScreenProvider({ children }: { children: React.ReactNode }
     <>
       {children}
 
-      <div className="intro bg-background fixed inset-0 z-[9999] grid h-dvh place-items-center">
+      <div className="intro bg-background pointer-events-none fixed inset-0 z-[9999] grid h-dvh place-items-center">
         <p className="flex justify-center text-7xl leading-none font-semibold tracking-tighter">
           {letters.map((l, index) => (
             <motion.span
