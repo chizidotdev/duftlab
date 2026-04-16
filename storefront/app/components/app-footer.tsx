@@ -48,17 +48,16 @@ export function AppFooter() {
           <Paragraph className="text-muted-foreground text-sm">
             © {currentYear} Duftlab. All rights reserved.
           </Paragraph>
-          <div className="flex space-x-6">
-            {bottomLinks.map((link) => (
-              <Link
-                key={link.title}
-                to={link.href}
-                className="text-muted-foreground hover:text-foreground text-sm"
-              >
-                {link.title}
-              </Link>
-            ))}
-          </div>
+          <Paragraph className="text-sm">
+            Website by&nbsp;
+            <a
+              href="https://chizi.dev?ref=duftlab"
+              target="_blank"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              chizidotdev
+            </a>
+          </Paragraph>
         </div>
       </div>
     </footer>
@@ -76,14 +75,14 @@ const footerSections = [
     ],
   },
   {
-    title: "Customer Service",
+    title: "Connect",
     target: "_blank",
     links: [
       { title: "Whatsapp", href: siteLinks.whatsapp },
       { title: "Instagram", href: siteLinks.instagram },
       // { title: "Shipping Info", href: "/shipping" },
-      { title: "Returns & Exchanges", href: "#" },
-      { title: "FAQ", href: "#" },
+      // { title: "Returns & Exchanges", href: "#" },
+      // { title: "FAQ", href: "#" },
     ],
   },
   {
@@ -91,12 +90,7 @@ const footerSections = [
     links: [
       { title: "Privacy Policy", href: href("/legal/privacy-policy") },
       { title: "Terms of Service", href: "#" },
-      { title: "Cookie Policy", href: "#" },
+      // { title: "Cookie Policy", href: "#" },
     ],
   },
-];
-
-const bottomLinks = [
-  { title: "Accessibility", href: "#" },
-  { title: "Sitemap", href: "#" },
 ];
