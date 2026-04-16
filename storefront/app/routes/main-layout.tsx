@@ -4,6 +4,7 @@ import type { HttpTypes } from "@medusajs/types";
 
 import { AppFooter } from "@/components/app-footer";
 import { AppHeader } from "@/components/app-header";
+import { FooterMediaCarousel } from "@/components/footer-media-carousel";
 import { FooterValueProps } from "@/components/footer-value-props";
 import { FooterWholesaleBanner } from "@/components/footer-wholesale-banner";
 
@@ -35,6 +36,7 @@ export default function MainLayout({ loaderData }: Route.ComponentProps) {
       <main className="container flex-1 pt-2">
         <Outlet />
       </main>
+      <FooterMediaCarousel />
       <FooterWholesaleBanner />
       <FooterValueProps />
       <AppFooter />
