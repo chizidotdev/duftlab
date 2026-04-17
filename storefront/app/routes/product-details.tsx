@@ -1,6 +1,7 @@
 import { Link, href } from "react-router";
 
-import type { HttpTypes } from "@medusajs/types";
+import { HttpTypes } from "@medusajs/types";
+import { useRelatedProducts } from "react-instantsearch";
 
 import { Heading, Paragraph } from "@/components/ui/text";
 
@@ -9,6 +10,7 @@ import { listProducts } from "@/lib/data/products";
 import { siteConfig } from "@/lib/site-config";
 import { StructuredDataScript, createBreadcrumbSchema, createProductSchema } from "@/lib/utils/seo";
 import { ProductActions } from "@/modules/products/product-actions";
+import { ProductPreview } from "@/modules/products/product-preview";
 
 import type { Route } from "./+types/product-details";
 
@@ -64,6 +66,7 @@ export default function ProductDetails({ loaderData, params }: Route.ComponentPr
       )}
       <div className="space-y-6">
         <ProductInfo product={product} />
+        <RelatedProducts product={product} />
       </div>
     </>
   );
@@ -139,6 +142,34 @@ function ProductInfo({ product }: { product: HttpTypes.StoreProduct }) {
         <div className="">
           <Paragraph className="whitespace-pre-wrap">{product.description}</Paragraph>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function RelatedProducts({ product }: { product: HttpTypes.StoreProduct }) {
+  const { items } = useRelatedProducts<HttpTypes.StoreProduct>({
+    objectIDs: [product.id],
+    limit: 10,
+    fallbackParameters: { filters: `categories.id:${product.categories?.[0]?.id}` },
+  });
+
+  // if (!items?.length) return null;
+  return null;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <hgroup>
+        <Heading variant="h2">Related Products</Heading>
+        <Paragraph className="text-muted-foreground">
+          You might also like these fragrances.
+        </Paragraph>
+      </hgroup>
+
+      <div className="products-grid">
+        {items.map((product) => (
+          <ProductPreview key={product.id} product={product} />
+        ))}
       </div>
     </div>
   );

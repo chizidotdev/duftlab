@@ -1,11 +1,9 @@
 import { Link, href } from "react-router";
 
-import { Configure, Hits, InstantSearch, SearchBox } from "react-instantsearch";
+import { Configure, Hits, SearchBox } from "react-instantsearch";
 
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Heading } from "@/components/ui/text";
-
-import { MEILISEARCH_INDEX_NAME, searchClient } from "@/lib/config";
 
 type Hit = {
   id: string;
@@ -32,18 +30,16 @@ export function Search(props: React.ComponentPropsWithoutRef<typeof DialogTrigge
     <Dialog>
       <DialogTrigger {...props} />
       <DialogContent showCloseButton={false} className="gap-0 pt-0">
-        <InstantSearch searchClient={searchClient} indexName={MEILISEARCH_INDEX_NAME}>
-          <SearchBox
-            autoFocus
-            className="bg-background/70 sticky top-0 z-99 -mx-4 w-[calc(100%+2rem)] px-5 py-4 backdrop-blur-md [&_button.ais-SearchBox-reset]:hidden [&_span.ais-SearchBox-loadingIndicator]:hidden [&_svg]:size-4"
-            placeholder="Search by title, brand or notes..."
-            inputProps={{
-              className: "w-[calc(100%-1rem)] h-12 outline-none text-lg",
-            }}
-          />
-          <Configure hitsPerPage={6} />
-          <Hits hitComponent={Hit} />
-        </InstantSearch>
+        <SearchBox
+          autoFocus
+          className="bg-background/70 sticky top-0 z-99 -mx-4 w-[calc(100%+2rem)] px-5 py-4 backdrop-blur-md [&_button.ais-SearchBox-reset]:hidden [&_span.ais-SearchBox-loadingIndicator]:hidden [&_svg]:size-4"
+          placeholder="Search by title, brand or notes..."
+          inputProps={{
+            className: "w-[calc(100%-1rem)] h-12 outline-none text-lg",
+          }}
+        />
+        <Configure hitsPerPage={6} />
+        <Hits hitComponent={Hit} />
       </DialogContent>
     </Dialog>
   );

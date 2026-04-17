@@ -7,10 +7,13 @@ import {
   isRouteErrorResponse,
 } from "react-router";
 
+import { InstantSearch } from "react-instantsearch";
+
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import styles from "@/app.css?url";
+import { MEILISEARCH_INDEX_NAME, searchClient } from "@/lib/config";
 
 import type { Route } from "./+types/root";
 import { SplashScreenProvider } from "./components/app-splash-screen";
@@ -100,12 +103,14 @@ export default function App() {
 
   return (
     <QueryProvider>
-      <SplashScreenProvider>
-        <WhatsappChat />
-        <CartSheetProvider>
-          <Outlet />
-        </CartSheetProvider>
-      </SplashScreenProvider>
+      <InstantSearch searchClient={searchClient} indexName={MEILISEARCH_INDEX_NAME}>
+        <SplashScreenProvider>
+          <WhatsappChat />
+          <CartSheetProvider>
+            <Outlet />
+          </CartSheetProvider>
+        </SplashScreenProvider>
+      </InstantSearch>
     </QueryProvider>
   );
 }
