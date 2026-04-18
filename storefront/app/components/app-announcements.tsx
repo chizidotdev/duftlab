@@ -23,10 +23,10 @@ export function AnnouncementBar() {
 const announcements = [
   "Free shipping on orders ₦200,000.00+",
   "-",
-  "Sign in to save 5%",
+  "Sign in to qualify for a FREE gift",
   "-",
   "Free shipping on orders ₦200,000.00+",
   "-",
-  "Sign in to save 5%",
+  "Sign in to qualify for a FREE gift",
   "-",
 ];
